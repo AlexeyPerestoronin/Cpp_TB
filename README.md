@@ -4,6 +4,8 @@ Trade Bot
 ## Table of contents
 * [Code Style](##Code-Style)  
     - [Modules](###Modules)
+    - [Namespaces](###Namespaces)
+    - [Classes](###Classes)
 
 ## Code Style
 ### Modules
@@ -48,4 +50,71 @@ Example of **module tree directory**:
 |  module_2\
 ...
 |  module_N\
+```
+### Namespaces
+Strictly recommendations  
+```cpp
+namespace TB_NS {
+    namespace InnerSpace_NS {
+        // ...
+
+    } // namespace InnerSpace_NS
+} // namespace TB_NS
+```
+### Classes
+Soft recommendations  
+```cpp
+class Creator
+    : public Interface1
+    , public Interface2
+    // ...
+    , public InterfaceN {
+    
+#pragma region members
+    int m_privateMember;
+    // ...
+
+    protected:
+    int m_protectedMember;
+    // ...
+    
+    public:
+    int m_publicMember1;
+    // ...
+#pragma endregion members
+
+#pragma region methods
+    private:
+    void privateMethods(...);
+    // ...
+
+    protected:
+    void protectedMethods(...);
+    // ...
+
+    public:
+    void publicMethods(...);
+    // ...
+#pragma endregion methods
+
+#pragma region static methods
+    private:
+    void privateStaticMethods(...);
+    // ...
+
+    protected:
+    void protectedStaticMethods(...);
+    // ...
+
+    public:
+    void publicStaticMethods(...);
+    // ...
+#pragma endregion static methods
+
+#pragma region operators
+    public:
+    bool publicMethods(...);
+    // ...
+#pragma endregion methods
+};
 ```

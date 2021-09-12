@@ -8,6 +8,6 @@ xmake project -k vsxmake
 * Add `*.hpp` and `*.md` files into target VS project:
 ```lua
 target(...)
-    --  d
+    --
     add_headerfiles("*.hpp", "*.md")
 ```

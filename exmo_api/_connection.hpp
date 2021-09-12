@@ -2,53 +2,40 @@
 
 #include "./_curl_object.hpp"
 
-#include <stdexcept>
-#include <iostream>
 #include <string>
 #include <map>
 
-using json_data = std::string;
-using headers_t = std::map<std::string, std::string>;
+namespace TB_NS {
+    namespace http {
+        using JsonData = std::string;
+        using Headers = std::map<std::string, std::string>;
 
-namespace http {
+        class Request {
+            public:
+            virtual curl_slist* prepare(const Headers&) const = 0;
+        };
 
-    class request {
-        public:
-        request() {}
-        virtual ~request() {}
+        class Post : public Request {
+            public:
+            Post() = default;
+            virtual ~Post() = default;
 
-        virtual curl_slist* prepare(const headers_t&) const = 0;
-    };
+            curl_slist* prepare(const Headers& headers) const override;
+        };
 
-    class post : public request {
-        public:
-        post() {}
-        virtual ~post() {}
+        class Connection {
+            public:
 
-        virtual curl_slist* prepare(const headers_t& headers) const {
-            curl_slist* list = nullptr;
-            for (auto h : headers) {
-                std::string s{ std::string(h.first + ": " + h.second) };
-                list = curl_slist_append(list, s.c_str());
-            }
-            return list;
-        }
-    };
+            void request(std::string_view i_url, const Request& i_request, std::string_view i_params = "", const Headers& i_headers = Headers());
 
-    class connection {
-        public:
-        connection(const std::string url = "");
-        ~connection() = default;
+            JsonData get_response();
 
-        void request(const std::string url, const request& r, const std::string& params = "", const headers_t& headers = headers_t());
+            private:
+            static std::size_t write_received_data_to_string(char* ptr, std::size_t size, std::size_t nmemb, void* buffer);
 
-        json_data get_response();
-
-        private:
-        static std::size_t write_received_data_to_string(char* ptr, std::size_t size, std::size_t nmemb, void* buffer);
-
-        private:
-        std::string recv_data_;
-        std::string recv_header_;
-    };
-} // namespace http
+            private:
+            std::string recv_data_;
+            std::string recv_header_;
+        };
+    } // namespace http
+} // namespace TB_NS

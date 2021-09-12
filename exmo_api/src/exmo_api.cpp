@@ -6,42 +6,44 @@
 #include <ctime>
 #include <map>
 
-exmo_api::exmo_api(const std::string& key, const std::string& secret) {
-    key_ = key;
-    secret_ = secret;
-    url_ = "api.exmo.com/v1/";
-    connection_ = http::connection();
-    nonce_ = ::time(nullptr);
-}
+using namespace TB_NS;
 
-json_data exmo_api::call(const std::string& method, const std::string& p) {
+ExmoApi::ExmoApi(std::string i_public_key, std::string i_secret_key)
+    : m_public_key(std::move(i_public_key))
+    , m_secret_key(std::move(i_secret_key))
+    , m_url("api.exmo.com/v1/")
+    , m_connection(http::Connection())
+    , m_nonce(std::time(nullptr)) {}
+
+http::JsonData ExmoApi::call(std::string_view i_method, std::string_view i_params) {
     std::string params = "nonce=";
-    nonce_++;
-    params.append(std::to_string(nonce_));
+    m_nonce++;
+    params.append(std::to_string(m_nonce));
 
-    if (p.size() != 0) {
+    if (i_params.size() != 0) {
         params.append("&");
     }
-    params.append(p);
+    params.append(i_params);
 
     std::map<std::string, std::string> headers;
     headers["Content-type"] = "application/x-www-form-urlencoded";
-    headers["Key"] = key_;
+    headers["Key"] = m_public_key;
     headers["Sign"] = this->signature(params);
 
-    connection_.request(url_ + method, http::post(), params, headers);
-    return connection_.get_response();
+    // TODO: there need eliminate coping by using a std::map<COMMAND_ID command_id, std::string target_url>;
+	auto url = std::string(m_url).append(i_method);
+    m_connection.request(url, http::Post(), params, headers);
+    return m_connection.get_response();
 }
 
-std::string exmo_api::build(std::vector<std::string> params_) {
-    std::string params = "";
-    for (auto i : params_) {
-        params += "&" + i;
-    }
-    return params;
+std::string ExmoApi::build(std::vector<std::string> i_params) {
+    std::string r_params = "";
+    for (const auto& param : i_params)
+        r_params += "&" + param;
+    return r_params;
 }
 
-std::string exmo_api::signature(const std::string& params) {
-    HMAC_SHA512 hmac_sha512(secret_, params);
+std::string ExmoApi::signature(const std::string& params) {
+    HMAC_SHA512 hmac_sha512(m_secret_key, params);
     return hmac_sha512.hex_digest();
 }

@@ -2,6 +2,8 @@
 
 #include "../_hmac_sha512.hpp"
 
+using namespace TB_NS;
+
 HMAC_SHA512::HMAC_SHA512(const std::string& key, const std::string& msg) {
     HMAC_CTX* ctx = HMAC_CTX_new();
 

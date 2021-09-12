@@ -3,21 +3,22 @@
 #include "./_hmac_sha512.hpp"
 #include "./_connection.hpp"
 
-class exmo_api {
-public:
-	exmo_api(const std::string& key, const std::string& secret);
+namespace TB_NS {
+    class ExmoApi {
+        ULONG m_nonce;
+        std::string m_url; 
+        std::string m_public_key;
+        std::string m_secret_key;
+        http::Connection m_connection;
+    
+        public:
+        ExmoApi(std::string i_public_key, std::string i_secret_key);
 
-	json_data call(const std::string& method, const std::string& p);
+        http::JsonData call(std::string_view i_method, std::string_view i_params);
 
-	std::string build(std::vector<std::string> params_);
+        std::string build(std::vector<std::string> i_params);
 
-private:
-	std::string signature(const std::string& params);
-
-private:
-	unsigned long nonce_;
-	std::string key_;
-	std::string secret_;
-	std::string url_;
-	http::connection connection_;
-};
+        private:
+        std::string signature(const std::string& params);
+    };
+} // namespace TB_NS

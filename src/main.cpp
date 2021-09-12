@@ -2,11 +2,13 @@
 
 #include <iostream>
 
+using namespace TB_NS;
+
 int main()
 {
-	exmo_api api("your_key", "your_secret");
+	ExmoApi api("your_key", "your_secret");
 
-	json_data response = api.call("user_info", "");
+	http::JsonData response = api.call("user_info", "");
 	std::clog << ">> user_info: " << response << "\n\n";
 	
 	response = api.call("order_book", api.build({ "pair=BTC_USD" }));
