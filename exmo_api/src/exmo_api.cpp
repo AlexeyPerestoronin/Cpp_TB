@@ -36,8 +36,8 @@ http::JsonData ExmoApi::call(std::string_view i_method, std::string_view i_param
     return m_connection.get_response();
 }
 
-std::string ExmoApi::build(std::vector<std::string> i_params) {
-    std::string r_params = "";
+std::string ExmoApi::build(const std::vector<std::string>& i_params) {
+    std::string r_params{};
     for (const auto& param : i_params)
         r_params += "&" + param;
     return r_params;

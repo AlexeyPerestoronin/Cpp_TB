@@ -16,7 +16,7 @@ namespace TB_NS {
 
         http::JsonData call(std::string_view i_method, std::string_view i_params);
 
-        std::string build(std::vector<std::string> i_params);
+        static std::string build(const std::vector<std::string>& i_params);
 
         private:
         std::string signature(const std::string& params);
