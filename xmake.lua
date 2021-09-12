@@ -13,7 +13,7 @@ target("exmo_api")
     add_headerfiles("exmo_api/*.hpp", "exmo_api/*.md")
     add_packages("libcurl", "openssl")
 
-target("main")
+target("TB")
     set_kind("binary")
     add_files("src/*.cpp")
     add_headerfiles("*.hpp", "*.md")

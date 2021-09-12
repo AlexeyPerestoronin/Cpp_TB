@@ -1,7 +1,7 @@
 #pragma once
 
-#include "./hmac_sha512.hpp"
-#include "./connection.hpp"
+#include "./_hmac_sha512.hpp"
+#include "./_connection.hpp"
 
 class exmo_api {
 public:

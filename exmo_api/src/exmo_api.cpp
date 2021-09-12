@@ -1,14 +1,12 @@
-#include "../hmac_sha512.hpp"
-#include "../connection.hpp"
+#include "../_hmac_sha512.hpp"
+#include "../_connection.hpp"
 #include "../exmo_api.hpp"
 
-#include <cassert>
 #include <string>
 #include <ctime>
 #include <map>
 
-exmo_api::exmo_api(const std::string &key, const std::string &secret)
-{
+exmo_api::exmo_api(const std::string& key, const std::string& secret) {
     key_ = key;
     secret_ = secret;
     url_ = "api.exmo.com/v1/";
@@ -16,14 +14,12 @@ exmo_api::exmo_api(const std::string &key, const std::string &secret)
     nonce_ = ::time(nullptr);
 }
 
-json_data exmo_api::call(const std::string &method, const std::string &p)
-{
+json_data exmo_api::call(const std::string& method, const std::string& p) {
     std::string params = "nonce=";
     nonce_++;
     params.append(std::to_string(nonce_));
 
-    if (p.size() != 0)
-    {
+    if (p.size() != 0) {
         params.append("&");
     }
     params.append(p);
@@ -37,19 +33,15 @@ json_data exmo_api::call(const std::string &method, const std::string &p)
     return connection_.get_response();
 }
 
-std::string exmo_api::build(std::vector<std::string> params_)
-{
-
+std::string exmo_api::build(std::vector<std::string> params_) {
     std::string params = "";
-    for (auto i : params_)
-    {
+    for (auto i : params_) {
         params += "&" + i;
     }
     return params;
 }
 
-std::string exmo_api::signature(const std::string &params)
-{
+std::string exmo_api::signature(const std::string& params) {
     HMAC_SHA512 hmac_sha512(secret_, params);
     return hmac_sha512.hex_digest();
 }
