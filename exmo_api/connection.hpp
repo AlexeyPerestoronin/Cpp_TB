@@ -1,6 +1,6 @@
 #pragma once
 
-#include "curl_object.hpp"
+#include "./curl_object.hpp"
 
 #include <stdexcept>
 #include <iostream>

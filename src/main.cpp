@@ -1,4 +1,5 @@
-#include "exmo_api.hpp"
+#include "../exmo_api/exmo_api.hpp"
+
 #include <iostream>
 
 int main()
