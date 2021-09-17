@@ -10,19 +10,14 @@ namespace TB_NS {
         : virtual public boost::exception
         , virtual public std::exception {
         PtrCls(Exception);
-    	
-        std::string d_message{};
-        boost::source_location d_location{};
-        Exception::UniPtr d_suberror{};
 
-    public:
-        Exception() = default;
-        Exception(Exception&&) = default;
-        Exception(const Exception&) = default;
-        Exception(std::string i_message, boost::source_location&& i_location);
-        Exception(std::string i_message, boost::source_location&& i_location, Exception& io_suberror);
-        ~Exception() = default;
-
+        mutable std::string d_errorMessage{};
+         
+        public: // std::exception
     	const char* what() const override;
-    };    
+    };
+
+    using Location = boost::error_info<struct Tag_Location, boost::source_location>;
+    using Description = boost::error_info<struct Tag_Description, std::string>;
+    using Suberror = boost::error_info<struct Tag_Suberror, Exception>;
 } // namespace TB_NS
