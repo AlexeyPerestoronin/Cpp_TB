@@ -4,13 +4,14 @@ Trade Bot
 ## Table of contents
 * [Code Style](##Code-Style)  
     - [Modules](###Modules)
+    - [Functions](###Functions)
     - [Namespaces](###Namespaces)
     - [Classes](###Classes)
 
 ## Code Style
 ### Modules
 Each module is a separate compilation unit - *.lib  
-1. All modules are located in the root directory.  
+1. All modules are located in the root directory and must be named by lower register symbols with sharps, for example: `exmo_api, common`.  
 2. Each module must contain a readme.md file.  
 3. The source code of the module is placed in the subfolder of the SRC module.  
 4. Unit tests (if necessary) are placed in the subfolder of the Unit-Tests module.  
@@ -50,6 +51,16 @@ Example of **module tree directory**:
 |  module_2\
 ...
 |  module_N\
+```
+### Functions
+Soft recommendations
+```cpp
+ReturnType SomeActions(const Type1& i_onlyInputVar, Type2& io_inputOutputVar, Type& o_onlyOutputVar)
+{
+    ReturnType r_result;
+    // ...
+    return r_result;
+}
 ```
 ### Namespaces
 Strictly recommendations  
