@@ -4,9 +4,9 @@
 
 #include <boost/throw_exception.hpp>
 
-using namespace TB_NS;
-
 namespace {
+    using namespace TB_NS::Error_NS;
+	
     void F1() {
         throw Exception() << Description("message: F1(...)") << Location(BOOST_CURRENT_LOCATION);
     }
