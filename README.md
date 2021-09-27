@@ -7,6 +7,7 @@ Trade Bot
     - [Functions](###Functions)
     - [Namespaces](###Namespaces)
     - [Classes](###Classes)
+* [How to build](##How-to-build)  
 
 ## Code Style
 ### Modules
@@ -129,3 +130,8 @@ class Creator
 #pragma endregion methods
 };
 ```
+## How to build
+TB building by [XMake](https://xmake.io/#/) and so most 3th-party-libraries are downloaded and compiled automatically, but next listed libraries must be using by another way:
+1. [**cppcoro**](https://github.com/lewissbaker/cppcoro#generatort)  
+This library usages for using corutines that are possible with 20th C++ standard.  
+This library implemented in TB as git-submodule, automatically compiling from source files and no needed any additional actions for its using.
