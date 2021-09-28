@@ -11,7 +11,7 @@ add_cxxflags("/await")
 add_includedirs(".external/cppcoro/include/")
 target("cppcoro")
     set_kind("static")
-    add_files(".external/cppcoro/lib/*.cpp")
+    add_files(".external/cppcoro/lib/**.cpp")
     add_headerfiles(".external/cppcoro/include/cppcoro/**.hpp")
     --
     set_group("external")

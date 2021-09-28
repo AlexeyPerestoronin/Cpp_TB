@@ -1,0 +1,9 @@
+
+solution 1:
+	[0|0] 1
+	dimension: 2
+	computation type: 127900ns
+	quantity of beautiful: 1
+
+solution 2:
+	isn't consider!

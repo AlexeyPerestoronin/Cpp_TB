@@ -1,0 +1,8 @@
+
+solution 1:
+	isn't consider!
+
+solution 2:
+	dimension: 8
+	computation type: 7665200ns
+	quantity of beautiful: 2088814
