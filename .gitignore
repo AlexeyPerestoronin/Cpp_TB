@@ -1,0 +1,5 @@
+vsxmake20??/
+.external/
+.vscode/
+.xmake/
+build/
