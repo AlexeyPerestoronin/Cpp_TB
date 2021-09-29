@@ -9,7 +9,6 @@
 #include <ranges>
 #include <chrono>
 #include <array>
-#include <future>
 
 namespace {
     constexpr const uint8_t MAX = 0xCui8;
@@ -65,7 +64,7 @@ namespace {
         }
 
         bool isBeautiful() const {
-            return (base_type::operator[](0) == base_type::value_type(0x0)) && (getLSum() == getRSum());
+            return getLSum() == getRSum();
         }
 
         number& operator++() {
@@ -168,27 +167,19 @@ namespace {
         void runSolution_2() {
             *file_ptr << "\nsolution 2:" << std::endl;
 
-            using sum_to_quantity = std::map<uint32_t, size_t>;
             if constexpr (dimension > 3) {
-                auto l_side_computer = std::async(std::launch::async, []() -> sum_to_quantity {
-                    sum_to_quantity result{};
-                    for (auto num : get_next_number<dimension / 2>())
-                        if (num[0] == 0x0)
-                            ++result[num.getSum()];
-                    return result;
-                });
-
-                auto r_side_computer = std::async(std::launch::async, []() -> sum_to_quantity {
+                using sum_to_quantity = std::map<uint32_t, size_t>;
+                auto range_computer = []() -> sum_to_quantity {
                     sum_to_quantity result{};
                     for (auto num : get_next_number<dimension / 2>())
                         ++result[num.getSum()];
                     return result;
-                });
+                };
 
                 auto start = std::chrono::high_resolution_clock::now();
                 uint64_t counter{ 0 };
-                for (auto l_side = l_side_computer.get(), r_side = r_side_computer.get(); auto [sum, quantity] : l_side)
-                    counter += quantity * r_side[sum];
+                for (auto l_side = range_computer(); auto [sum, quantity] : l_side)
+                    counter += quantity * l_side[sum];
                 if constexpr (dimension % 2 != 0)
                     counter *= (MAX + 1);
                 auto stop = std::chrono::high_resolution_clock::now();

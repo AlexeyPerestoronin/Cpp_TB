@@ -4,5 +4,5 @@ solution 1:
 
 solution 2:
 	dimension: 10
-	computation type: 12883100ns
-	quantity of beautiful: 324080718
+	computation type: 14197300ns
+	quantity of beautiful: 4577127763

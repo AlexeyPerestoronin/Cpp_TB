@@ -1,10 +1,10 @@
 
 solution 1:
 	dimension: 7
-	computation type: 1422805000ns
-	quantity of beautiful: 177450
+	computation type: 1285370700ns
+	quantity of beautiful: 2661919
 
 solution 2:
 	dimension: 7
-	computation type: 144300ns
-	quantity of beautiful: 177450
+	computation type: 98400ns
+	quantity of beautiful: 2661919
