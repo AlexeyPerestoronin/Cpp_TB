@@ -92,10 +92,10 @@ solution 1:
 	[0c|b1] 90
 	[0c|c0] 91
 	dimension: 4
-	computation type: 12423400ns
+	computation type: 1017100ns
 	quantity of beautiful: 91
 
 solution 2:
 	dimension: 4
-	computation type: 129900ns
+	computation type: 299800ns
 	quantity of beautiful: 91

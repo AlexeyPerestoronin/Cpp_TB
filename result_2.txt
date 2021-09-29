@@ -2,7 +2,7 @@
 solution 1:
 	[0|0] 1
 	dimension: 2
-	computation type: 127900ns
+	computation type: 92100ns
 	quantity of beautiful: 1
 
 solution 2:

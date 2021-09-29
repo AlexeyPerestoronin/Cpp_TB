@@ -1184,10 +1184,10 @@ solution 1:
 	[0c|c|b1] 1182
 	[0c|c|c0] 1183
 	dimension: 5
-	computation type: 145771600ns
+	computation type: 18959100ns
 	quantity of beautiful: 1183
 
 solution 2:
 	dimension: 5
-	computation type: 161300ns
+	computation type: 56600ns
 	quantity of beautiful: 1183

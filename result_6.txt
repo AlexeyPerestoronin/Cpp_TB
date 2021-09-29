@@ -13651,10 +13651,10 @@ solution 1:
 	[0cc|cb1] 13649
 	[0cc|cc0] 13650
 	dimension: 6
-	computation type: 1407429900ns
+	computation type: 379173900ns
 	quantity of beautiful: 13650
 
 solution 2:
 	dimension: 6
-	computation type: 1486700ns
+	computation type: 227400ns
 	quantity of beautiful: 13650
