@@ -19,5 +19,5 @@ Example of beautiful numbers:
     * VS2019
     * [XMake](https://xmake.io/#/)
 2. Libraries:
-    * [gtest]9https://github.com/google/googletest)
+    * [gtest](https://github.com/google/googletest)
     * [cppcoro](https://github.com/lewissbaker/cppcoro)
