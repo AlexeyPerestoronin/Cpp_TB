@@ -13,7 +13,7 @@ Trade Bot
 ### Modules
 Each module is a separate compilation unit - *.lib  
 1. All modules are located in the root directory and must be named by lower register symbols with sharps, for example: `exmo_api, common`.  
-2. Each module must contain a readme.md file.  
+2. Each module must contain a README.md file.  
 3. The source code of the module is placed in the subfolder of the SRC module.  
 4. Unit tests (if necessary) are placed in the subfolder of the Unit-Tests module.  
 5. Suite tests (if necessary) are placed in the subfolder of the Suit-Tests module.  

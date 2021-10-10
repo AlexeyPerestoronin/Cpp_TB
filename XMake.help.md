@@ -3,6 +3,10 @@
 ```bash
 xmake project -k vsxmake
 ```
+* Observe compiling options related with target library (`boost`, for example)
+```bash
+xmake require --info boost
+```
 
 ## From **xmale.lua**
 * Add `*.hpp` and `*.md` files into target VS project:
