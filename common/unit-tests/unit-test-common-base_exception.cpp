@@ -2,8 +2,6 @@
 
 #include <common/base_exception.hpp>
 
-#include <boost/throw_exception.hpp>
-
 namespace {
     using namespace TB_NS::Error_NS;
 	

@@ -81,7 +81,7 @@ target("UnitTests")
     set_kind("binary")
     add_files("src/UnitTests.cpp")
     add_files("**/unit-tests/*.cpp")
-    add_packages("libcurl", "openssl", "boost", "gtest")
+    add_packages("libcurl", "openssl", "boost", "gtest", "nlohmann_json")
     add_deps("exmo_api", "common")
     --
     set_group("internal/exe")

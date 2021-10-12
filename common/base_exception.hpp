@@ -3,6 +3,7 @@
 #include "ptr.hpp"
 
 #include <exception>
+#include <nlohmann/json.hpp>
 #include <boost/exception/all.hpp>
 
 namespace TB_NS::Error_NS {
