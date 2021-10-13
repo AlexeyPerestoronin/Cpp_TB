@@ -44,7 +44,8 @@ namespace TB_NS::Error_NS {
     template<class Type>
     class RAI : public Type {
         using BaseType = Type;
-        using Deleter = void (*)(BaseType&) noexcept;
+        using Deleter = std::function<void(BaseType&)>;
+        using NoexceptDeleter = void (*)(BaseType&) noexcept;
 
         Deleter m_delter;
 
@@ -52,11 +53,11 @@ namespace TB_NS::Error_NS {
         RAI(RAI&&) noexcept = default;
         RAI(const RAI&) noexcept = default;
 
-        template<class... Args>
-        RAI(Deleter&& i_deleter, Args&&... i_args)
+        template<std::convertible_to<NoexceptDeleter> DeleterT, class... Args>
+        RAI(DeleterT&& i_deleter, Args&&... i_args)
         noexcept
             : BaseType(std::forward<Args>(i_args)...)
-            , m_delter(i_deleter) {}
+            , m_delter(std::move(i_deleter)) {}
 
         ~RAI() noexcept {
             m_delter(*this);
