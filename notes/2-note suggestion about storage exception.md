@@ -10,3 +10,4 @@ class Exception {
     ExceptionPtr d_above; // the pointer to the exception are the above level (sub-exceptions of this exception)
 };
 ```
+**NOTE:** but for to do the code more simply it is possible to use of std-search algorithm fot search of needed exceptions from `ExceptionsStorage`-list

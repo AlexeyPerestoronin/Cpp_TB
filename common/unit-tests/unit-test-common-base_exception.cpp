@@ -2,6 +2,8 @@
 
 #include <common/base_exception.hpp>
 
+#include <nlohmann/json.hpp>
+
 namespace {
     using namespace TB_NS::Error_NS;
 	
@@ -32,5 +34,17 @@ namespace {
         } catch (Exception& error) {
             std::cout << error.what();
         }
+    }
+
+    TEST(Json, Practice_1) {
+        nlohmann::json obj = R"(
+          {
+            "happy": true,
+            "pi": 3.141
+          }
+        )"_json;
+
+        bool is_happy = obj["happy"];
+        double pi = obj["pi"];
     }
 } // namespace

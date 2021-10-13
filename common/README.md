@@ -19,92 +19,78 @@ Is the part of the common-module is containing the classes for using exceptions 
      - the structure of the settings-file with the errors is unlimited in nesting;
     ```json
     {
-        "exceptions" : [
+        "exceptions": [
             {
-                "description" : {
-                    "id" : "0",
-                    "key" : "unregister exception",
-                    "values" : {
-                        "description" : "this exception usages when the attempt of using unregister exception happened",
-                        "what could be doing" : "please register the exception `{}` before using it."
-                    }
+                "id": "0",
+                "key": "unregister exception",
+                "values": {
+                    "description": "this exception usages when the attempt of using unregister exception happened",
+                    "what could be doing": "please register the exception `{}` before using it."
                 }
             },
             {
-                "description" : {
-                    "id" : "1",
-                    "key" : "unexpected exception",
-                    "values" : {
-                        "description" : "this exception usages when an exception happened but unexpected",
-                        "what could be doing" : "please review the program code for errors"
-                    }
+                "id": "1",
+                "key": "unexpected exception",
+                "values": {
+                    "description": "this exception usages when an exception happened but unexpected",
+                    "what could be doing": "please review the program code for errors"
                 }
             },
             {
-                "description" : {
-                    "id" : "2",
-                    "key" : "common",
-                    "values" : {
-                        "description" : "It is the common exception that will happen everywhere in the code"
-                    }
+                "id": "2",
+                "key": "common",
+                "values": {
+                    "description": "It is the common exception that will happen everywhere in the code"
                 },
-                "exceptions" : [
+                "exceptions": [
                     {
-                        "description" : {
-                            "id" : "2.1",
-                            "key" : "zero division",
-                            "values" : {
-                                "description" : "The division by zero was happen",
-                                "what could be doing" : "please eliminate zero division"
-                            }
+                        "id": "2.1",
+                        "key": "zero division",
+                        "values": {
+                            "description": "The division by zero was happen",
+                            "what could be doing": "please eliminate zero division"
                         }
                     },
                     {
-                        "description" : {
-                            "id" : "2.2",
-                            "key" : "NULL pointer",
-                            "values" : {
-                                "description" : "Attempt usage of NULL pointer to the object `{}`",
-                                "what could be doing" : "please don't attempt usage of NULL pointer to object"
+                        "description": {
+                            "id": "2.2",
+                            "key": "NULL pointer",
+                            "values": {
+                                "description": "Attempt usage of NULL pointer to the object `{}`",
+                                "what could be doing": "please don't attempt usage of NULL pointer to object"
                             }
                         }
                     }
                 ]
             },
             {
-                "description" : {
-                    "id" : "3",
-                    "key" : "DB",
-                    "values" : {
-                        "description" : "It is the common exception happened in Data Base"
-                    }
+                "id": "3",
+                "key": "DB",
+                "values": {
+                    "description": "It is the common exception happened in Data Base"
                 },
-                "exceptions" : [
+                "exceptions": [
                     {
-                        "description" : {
-                            "id" : "3.1",
-                            "key" : "connection",
-                            "values" : {
-                                "description" : "the connection with the DB cannot be establish"
-                            }
+                        "id": "3.1",
+                        "key": "connection",
+                        "values": {
+                            "description": "the connection with the DB cannot be establish"
                         },
-                        "exceptions" : [
+                        "exceptions": [
                             {
-                                "description" : {
-                                    "id" : "3.1.1",
-                                    "key" : "incorrect name",
-                                    "values" : {
-                                        "description" : "the name '{}` fo the BD isn't correct",
-                                        "what could be doing" : "please review the target BD's name"
-                                    }
-                                },
-                                "description" : {
-                                    "id" : "3.1.2",
-                                    "key" : "lost",
-                                    "values" : {
-                                        "description" : "the connection with the DB '{}` have lost",
-                                        "what could be doing" : "please retry to reconnect"
-                                    }
+                                "id": "3.1.1",
+                                "key": "incorrect name",
+                                "values": {
+                                    "description": "the name '{}` fo the BD isn't correct",
+                                    "what could be doing": "please review the target BD's name"
+                                }
+                            },
+                            {
+                                "id": "3.1.2",
+                                "key": "lost",
+                                "values": {
+                                    "description": "the connection with the DB '{}` have lost",
+                                    "what could be doing": "please retry to reconnect"
                                 }
                             }
                         ]
