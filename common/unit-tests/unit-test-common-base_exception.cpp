@@ -36,15 +36,7 @@ namespace {
         }
     }
 
-    TEST(Json, Practice_1) {
-        nlohmann::json obj = R"(
-          {
-            "happy": true,
-            "pi": 3.141
-          }
-        )"_json;
-
-        bool is_happy = obj["happy"];
-        double pi = obj["pi"];
+    TEST(BaseException, ParseFromFile) {
+        Exception::LoadSettings(TB_GET_CURRENT_PATH / "test_exceptions.json");
     }
 } // namespace

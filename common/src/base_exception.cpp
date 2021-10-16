@@ -1,24 +1,19 @@
-#include "../base_exception.hpp"
+#include <common/base_exception.hpp>
+#include <common/rai.hpp>
 
 #include <nlohmann/json.hpp>
 
-#include <fstream>
-
 namespace TB_NS::Error_NS {
     namespace {
-        // brief: container to serach exception by its ID
-        using ErrorId = std::vector<uint8_t>;
-        using IdToExceptions = std::map<ErrorId, Exception&>;
-        IdToExceptions ExceptionsById{};
-
-        // brief: container to serach exception by its key
-        using ErrorKey = std::string;
-        using KeyToExceptions = std::map<ErrorKey, Exception&>;
-        KeyToExceptions ExceptionsByKey{};
-
-        // brief: list of all exceptions of the instance of the programm
-        std::list<Exception> Exceptions{};
+        // brief: list of all exceptions of the instance of the program
+        std::list<Exception::ShaPtr> Exceptions{};
     }; // namespace
+
+    std::list<Exception::Ptr> Exception::d_rootExceptions{};
+
+    Exception::Exception(Str i_id, Str i_key) noexcept
+        : d_id(std::move(i_id))
+        , d_key(std::move(i_key)) {}
 
     const char* Exception::what() const {
         using namespace boost;
@@ -33,45 +28,52 @@ namespace TB_NS::Error_NS {
                  });
              suberror; suberror = get_error_info<Suberror>(*suberror)) {
             message << "***" << std::endl;
+            message << "[id]" << d_id << std::endl;
+            message << "[key]" << d_key << std::endl;
             extractor("[location] ", get_error_info<Location>(*suberror));
             extractor("[description] ", get_error_info<Description>(*suberror));
             message << "***" << std::endl;
         }
-        return d_errorMessage.assign(message.str()).data();
+        d_errorMessage = std::make_shared<std::string>(message.str());
+        return d_errorMessage->data();
     }
 
-    // TODO: this class is need to move in separate file
-    template<class Type>
-    class RAI : public Type {
-        using BaseType = Type;
-        using Deleter = std::function<void(BaseType&)>;
-        using NoexceptDeleter = void (*)(BaseType&) noexcept;
-
-        Deleter m_delter;
-
-        public:
-        RAI(RAI&&) noexcept = default;
-        RAI(const RAI&) noexcept = default;
-
-        template<std::convertible_to<NoexceptDeleter> DeleterT, class... Args>
-        RAI(DeleterT&& i_deleter, Args&&... i_args)
-        noexcept
-            : BaseType(std::forward<Args>(i_args)...)
-            , m_delter(std::move(i_deleter)) {}
-
-        ~RAI() noexcept {
-            m_delter(*this);
-        }
-    };
-
-    void LoadSettings(const fs::path& i_settigsFilePath) {
+    void Exception::LoadSettings(const fs::path& i_settigsFilePath) {
         using namespace nlohmann;
 
-        json json;
-        RAI<std::ifstream>([](std::ifstream& i_file) noexcept { i_file.close(); }, i_settigsFilePath) >> json;
+        json errors;
+        RAI<std::ifstream>(i_settigsFilePath) >> errors;
 
-        // TODO: there is good to use a recursive algorithm to parsing the json-presented-errors
+        struct {
+            Exception::PtrC createNewException(json& error) {
+                Exception::Ptr result{};
+                try {
+                    auto exception = std::make_shared<Exception>(std::move(error["id"]), std::move(error["key"]));
+                    result = exception.get();
+                    Exceptions.push_back(std::move(exception));
+                    if (auto values = error.find("values"); values != error.end())
+                        for (auto [key, value] : values->items())
+                            result->d_values.emplace(key, value);
+                } catch (...) {
+                }
+                return result;
+            }
 
-        return;
+            void operator()(json& errors, Exception::PtrC rootException = nullptr) {
+                for (auto error : errors["exceptions"]) {
+                    if (auto* exceptionPtrC = createNewException(error); exceptionPtrC) {
+                        if (!rootException)
+                            Exception::d_rootExceptions.push_back(rootException);
+                        else
+                            rootException->d_subException.push_back(exceptionPtrC);
+                        if (error.find("exceptions") != error.end())
+                            this->operator()(error, exceptionPtrC);
+                    } else {
+                        std::cerr << "some error in the json: " << error.dump(4);
+                    }
+                }
+            }
+        } parser;
+        parser(errors);
     }
 } // namespace TB_NS::Error_NS
