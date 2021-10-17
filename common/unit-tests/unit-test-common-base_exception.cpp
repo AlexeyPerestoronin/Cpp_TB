@@ -37,6 +37,6 @@ namespace {
     }
 
     TEST(BaseException, ParseFromFile) {
-        Exception::LoadSettings(TB_GET_CURRENT_PATH / "test_exceptions.json");
+        Exceptions::LoadSettings(TB_GET_CURRENT_PATH / "test_exceptions.json");
     }
 } // namespace

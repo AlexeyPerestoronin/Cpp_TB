@@ -4,6 +4,8 @@
 #include <fstream>
 #include <iostream>
 
+#include <algorithm>
+
 #include <exception>
 
 #include <filesystem>
@@ -27,4 +29,5 @@ namespace fs = std::filesystem;
 
 namespace TB_NS {
     using Str = std::string;
+    using StrView = std::string_view;
 }
