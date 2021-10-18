@@ -39,7 +39,7 @@ namespace TB_NS::Error_NS {
             extractor("[description] ", get_error_info<Description>(*suberror));
             message << "***" << std::endl;
         }
-        d_errorMessage = std::make_shared<std::string>(message.str());
+        d_errorMessage = std::make_shared<Str>(message.str());
         return d_errorMessage->data();
     }
 
@@ -90,7 +90,7 @@ namespace TB_NS::Error_NS {
             Exception::PtrC createNewException(json& i_error) {
                 Exception::Ptr result{};
                 try {
-                    auto exception = std::make_shared<Exception>(std::move(i_error["id"]), std::move(i_error["key"]));
+                    auto exception = std::make_shared<Exception>(Str::BaseType(i_error["id"]), Str::BaseType(i_error["key"]));
                     result = exception.get();
                     Exceptions::d_allExceptions.push_back(std::move(exception));
                     if (auto values = i_error.find("values"); values != i_error.end())

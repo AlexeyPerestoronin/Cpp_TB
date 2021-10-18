@@ -14,20 +14,42 @@ namespace fs = std::filesystem;
 
 #include <memory>
 #include <optional>
-#define Ptr(StructType)                                           \
-    public:                                                       \
-    using Opt = typename std::optional<typename StructType>;      \
-    using Ptr = typename StructType*;                             \
-    using CPtr = typename const StructType*;                      \
-    using PtrC = typename StructType* const;                      \
-    using CPtrC = typename const StructType* const;               \
-    using UniPtr = typename std::unique_ptr<typename StructType>; \
-    using ShaPtr = typename std::shared_ptr<typename StructType>; \
-    using WekPtr = typename std::weak_ptr<typename StructType>;
+#define Ptr(DataType)                                           \
+    using Opt = typename std::optional<typename DataType>;      \
+    using Ptr = typename DataType*;                             \
+    using CPtr = typename const DataType*;                      \
+    using PtrC = typename DataType* const;                      \
+    using CPtrC = typename const DataType* const;               \
+    using Ref = typename DataType&;                             \
+    using CRef = typename const DataType&;                      \
+    using UniPtr = typename std::unique_ptr<typename DataType>; \
+    using ShaPtr = typename std::shared_ptr<typename DataType>; \
+    using WekPtr = typename std::weak_ptr<typename DataType> // there is need add ';' at the end of macro
 
-#define PtrCls(ClassType) Ptr(ClassType) private:
+#define PublicPtr(DataType) \
+    public:                 \
+    Ptr(DataType)
+
+#define PrivatePtr(DataType) \
+    public:                  \
+    Ptr(DataType)
+
+#define ProtectedPtr(DataType) \
+    public:                    \
+    Ptr(DataType)
+
+#define ExtentedUsing(Aliase, Base)          \
+    struct Aliase : Base {                   \
+        PublicPtr(Aliase);                   \
+        using BaseType = Base;               \
+        using BaseType::BaseType;            \
+        Aliase(BaseType&& i_base) noexcept   \
+            : BaseType(std::move(i_base)){}; \
+        Aliase(const BaseType& i_base)       \
+            : BaseType(i_base){};            \
+    } // there is need add ';' at the end of macro
 
 namespace TB_NS {
-    using Str = std::string;
-    using StrView = std::string_view;
-}
+    ExtentedUsing(Str, std::string);
+    ExtentedUsing(StrView, std::string_view);
+} // namespace TB_NS

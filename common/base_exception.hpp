@@ -5,12 +5,13 @@
 
 namespace TB_NS::Error_NS {
     class Exceptions;
-	
+
     class Exception
         : virtual public boost::exception
         , virtual public std::exception {
-        PtrCls(Exception);
+        PublicPtr(Exception);
 
+        private:
         friend class Exceptions;
 
         using Values = std::map<Str, Str>;
@@ -18,7 +19,7 @@ namespace TB_NS::Error_NS {
         Str d_id;
         Str d_key;
         Values d_values;
-        Exception::CPtr d_rootException{}; // it is the link to the exception from what this exception was founded
+        Exception::CPtr d_rootException{};   // it is the link to the exception from what this exception was founded
         Exception::CPtr d_parentException{}; // it is the link to the exception that is the parent in the exceptions' hierarchy
         std::list<Exception::Ptr> d_subException{};
         mutable std::shared_ptr<Str> d_errorMessage{};
@@ -33,7 +34,7 @@ namespace TB_NS::Error_NS {
         const char* what() const override;
 #pragma endregion
 
-    	const Exception& operator[](StrView i_IdOrKey) const noexcept;
+        const Exception& operator[](StrView i_IdOrKey) const noexcept;
     };
 
     using Location = boost::error_info<struct Tag_Location, boost::source_location>;
@@ -41,19 +42,20 @@ namespace TB_NS::Error_NS {
     using Suberror = boost::error_info<struct Tag_Suberror, Exception>;
 
     class Exceptions {
-        PtrCls(Exceptions);
-    	
+        PublicPtr(Exceptions);
+
+        private:
         friend class Exception;
-    	
+
 #pragma region static members / methods
         static Exception::PtrC d_rootException;
         static std::list<Exception::ShaPtr> d_allExceptions;
-    
+
         public:
         static Exceptions Ins;
         static void LoadSettings(const fs::path& i_settigsFilePath);
 #pragma endregion
 
-    	const Exception& operator[](StrView i_IdOrKey) const noexcept;
+        const Exception& operator[](StrView i_IdOrKey) const noexcept;
     };
 } // namespace TB_NS::Error_NS
