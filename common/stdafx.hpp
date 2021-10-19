@@ -31,15 +31,15 @@ namespace fs = std::filesystem;
     using WekPtr    = typename std::weak_ptr<typename DataType> // there is need add ';' at the end of macro
 
 #define PublicPtr(DataType) \
-    public:                 \
+    public: \
     Ptr(DataType)
 
 #define PrivatePtr(DataType) \
-    public:                  \
+    private: \
     Ptr(DataType)
 
 #define ProtectedPtr(DataType) \
-    public:                    \
+    protected: \
     Ptr(DataType)
 
 #define ExtendedUsing(Aliase, Base, ...) \
