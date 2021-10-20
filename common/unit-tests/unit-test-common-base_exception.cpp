@@ -6,16 +6,18 @@
 
 namespace {
     using namespace TB_NS::Error_NS;
-	
+
     void F1() {
-        throw Exception() << Description("message: F1(...)") << Location(BOOST_CURRENT_LOCATION);
+        Exception::CRef excption = Exceptions::RegistUnknowException("F1()", "F1()");
+        throw excption << Location(BOOST_CURRENT_LOCATION);
     }
 
     void F2() {
         try {
             F1();
         } catch (Exception& error) {
-            throw Exception() << Description("message: F2(...)") << Location(BOOST_CURRENT_LOCATION) << Suberror(error);
+            Exception::CRef excption = Exceptions::RegistUnknowException("F2()", "F2()");
+            throw excption << Location(BOOST_CURRENT_LOCATION) << Suberror(error);
         }
     }
 
@@ -23,7 +25,8 @@ namespace {
         try {
             F2();
         } catch (Exception& error) {
-            throw Exception() << Description("message: F3(...)") << Location(BOOST_CURRENT_LOCATION) << Suberror(error);
+            Exception::CRef excption = Exceptions::RegistUnknowException("F3()", "F3()");
+            throw excption << Location(BOOST_CURRENT_LOCATION) << Suberror(error);
         }
     }
 

@@ -21,10 +21,13 @@ namespace fs = std::filesystem;
 // PRS - Pointer Reference SmartPointer
 #define PRS(DataType) \
     using Opt   = typename std::optional<typename DataType>; \
+    using ROpt  = typename std::optional<typename DataType>&; \
+    using CROpt = typename const std::optional<typename DataType>&; \
     using Ptr   = typename DataType*; \
     using CPtr  = typename const DataType*; \
     using PtrC  = typename DataType* const; \
     using CPtrC = typename const DataType* const; \
+    using C     = typename const DataType; \
     using Ref   = typename DataType&; \
     using CRef  = typename const DataType&; \
     using UPtr  = typename std::unique_ptr<typename DataType>; \
@@ -59,4 +62,5 @@ namespace TB_NS {
     ExtendedUsing(Str, std::string);
     ExtendedUsing(IntToInt, std::map<int, int>);
     ExtendedUsing(StrView, std::string_view);
+    ExtendedUsing(Path, fs::path);
 } // namespace TB_NS

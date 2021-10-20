@@ -14,7 +14,7 @@ namespace TB_NS::Error_NS {
         private:
         friend class Exceptions;
 
-        using Values = std::map<Str, Str>;
+        ExtendedUsing(Values, std::map<Str, Str>);
 
         Str d_id;
         Str d_key;
@@ -28,17 +28,16 @@ namespace TB_NS::Error_NS {
         // TODO: default constructor should be removed
         Exception() = default;
         Exception(Str i_id, Str i_key, Values i_values = Values{}) noexcept;
-        bool isSatisfy(StrView i_IdOrKey) const noexcept;
+        bool isSatisfy(Str::CRef i_IdOrKey) const noexcept;
 
 #pragma region std::exception
         const char* what() const override;
 #pragma endregion
 
-        const Exception& operator[](StrView i_IdOrKey) const noexcept;
+        Exception::CRef operator[](Str::CRef i_IdOrKey) const noexcept;
     };
 
     using Location = boost::error_info<struct Tag_Location, boost::source_location>;
-    using Description = boost::error_info<struct Tag_Description, Str>;
     using Suberror = boost::error_info<struct Tag_Suberror, Exception>;
 
     class Exceptions {
@@ -47,15 +46,22 @@ namespace TB_NS::Error_NS {
         private:
         friend class Exception;
 
+        Exceptions() = default;
+        Exceptions(Exceptions&&) = delete;
+        Exceptions(Exceptions::CRef) = delete;
+        ~Exceptions();
+
 #pragma region static members / methods
         static Exception::PtrC d_rootException;
         static std::list<Exception::SPtr> d_allExceptions;
+        static std::list<Exception::SPtr> d_unregistedExceptions;
 
         public:
-        static Exceptions Ins;
-        static void LoadSettings(const fs::path& i_settigsFilePath);
+        static Exceptions::C Ins; // the lone instance of this class
+        static Exception::Ref RegistUnknowException(Str::CRef i_id, Str::CRef i_key, Exception::Values::CROpt i_values = std::nullopt);
+        static void LoadSettings(Path::CRef i_settigsFilePath);
 #pragma endregion
 
-        const Exception& operator[](StrView i_IdOrKey) const noexcept;
+        const Exception& operator[](Str::CRef i_IdOrKey) const noexcept;
     };
 } // namespace TB_NS::Error_NS
