@@ -6,7 +6,7 @@
 namespace TB_NS::Error_NS {
     namespace {
         // brief: list of all Exceptions of the instance of the program
-        std::list<Exception::ShaPtr> _Exceptions{};
+        std::list<Exception::SPtr> _Exceptions{};
     }; // namespace
 
 #pragma region Exception
@@ -76,7 +76,7 @@ namespace TB_NS::Error_NS {
 
 #pragma region Exceptions
 
-    std::list<Exception::ShaPtr> Exceptions::d_allExceptions{ std::make_shared<Exception>() /*d_rootException*/ };
+    std::list<Exception::SPtr> Exceptions::d_allExceptions{ std::make_shared<Exception>() /*d_rootException*/ };
     Exception::PtrC Exceptions::d_rootException = Exceptions::d_allExceptions.begin()->get();
     Exceptions Exceptions::Ins{};
 

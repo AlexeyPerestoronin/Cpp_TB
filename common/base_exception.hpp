@@ -9,7 +9,7 @@ namespace TB_NS::Error_NS {
     class Exception
         : virtual public boost::exception
         , virtual public std::exception {
-        PublicPtr(Exception);
+        PublicPRS(Exception);
 
         private:
         friend class Exceptions;
@@ -42,14 +42,14 @@ namespace TB_NS::Error_NS {
     using Suberror = boost::error_info<struct Tag_Suberror, Exception>;
 
     class Exceptions {
-        PublicPtr(Exceptions);
+        PublicPRS(Exceptions);
 
         private:
         friend class Exception;
 
 #pragma region static members / methods
         static Exception::PtrC d_rootException;
-        static std::list<Exception::ShaPtr> d_allExceptions;
+        static std::list<Exception::SPtr> d_allExceptions;
 
         public:
         static Exceptions Ins;

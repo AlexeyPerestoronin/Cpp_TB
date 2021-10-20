@@ -18,33 +18,34 @@ namespace fs = std::filesystem;
 #include <optional>
 
 // clang-format off
-#define Ptr(DataType) \
-    using Opt       = typename std::optional<typename DataType>; \
-    using Ptr       = typename DataType*; \
-    using CPtr      = typename const DataType*; \
-    using PtrC      = typename DataType* const; \
-    using CPtrC     = typename const DataType* const; \
-    using Ref       = typename DataType&; \
-    using CRef      = typename const DataType&; \
-    using UniPtr    = typename std::unique_ptr<typename DataType>; \
-    using ShaPtr    = typename std::shared_ptr<typename DataType>; \
-    using WekPtr    = typename std::weak_ptr<typename DataType> // there is need add ';' at the end of macro
+// PRS - Pointer Reference SmartPointer
+#define PRS(DataType) \
+    using Opt   = typename std::optional<typename DataType>; \
+    using Ptr   = typename DataType*; \
+    using CPtr  = typename const DataType*; \
+    using PtrC  = typename DataType* const; \
+    using CPtrC = typename const DataType* const; \
+    using Ref   = typename DataType&; \
+    using CRef  = typename const DataType&; \
+    using UPtr  = typename std::unique_ptr<typename DataType>; \
+    using SPtr  = typename std::shared_ptr<typename DataType>; \
+    using WPtr  = typename std::weak_ptr<typename DataType> // there is need add ';' at the end of macro
 
-#define PublicPtr(DataType) \
+#define PublicPRS(DataType) \
     public: \
-    Ptr(DataType)
+    PRS(DataType)
 
-#define PrivatePtr(DataType) \
+#define PrivatePRS(DataType) \
     private: \
-    Ptr(DataType)
+    PRS(DataType)
 
-#define ProtectedPtr(DataType) \
+#define ProtectedPRS(DataType) \
     protected: \
-    Ptr(DataType)
+    PRS(DataType)
 
 #define ExtendedUsing(Aliase, Base, ...) \
     struct Aliase : Base , __VA_ARGS__ { \
-        PublicPtr(Aliase); \
+        PRS(Aliase); \
         using BaseType = Base, __VA_ARGS__; \
         using BaseType::BaseType; \
         Aliase(BaseType&& i_base) noexcept \
