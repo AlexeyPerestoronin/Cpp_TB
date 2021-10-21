@@ -1,3 +1,11 @@
+// ************************************ //
+// **************** TB **************** //
+// *** Alexey Perestoronin's project ** //
+// ****Alexey.Perestoronin@yandex.ru ** //
+// ************************************ //
+
+// There is the collection of classes for error processing logic.
+
 #pragma once
 
 #include <common/stdafx.hpp>

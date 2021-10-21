@@ -1,6 +1,7 @@
 // ************************************ //
 // **************** TB **************** //
 // *** Alexey Perestoronin's project ** //
+// ****Alexey.Perestoronin@yandex.ru ** //
 // ************************************ //
 
 // Here is the template implementation of RAI techniques.
@@ -34,15 +35,31 @@ namespace TB_NS {
 
     template<class Type, Category category = define<Type>()>
     class RAI : public Type {
+        using ThisType = RAI<Type, Category::STREAM>;
         using BaseType = Type;
         using Deleter = std::function<void(BaseType&)>;
         using NoexceptDeleter = void (*)(BaseType&) noexcept;
+        PublicPRS(ThisType);
 
+        private:
         Deleter m_delter;
 
         public:
-        RAI(RAI&&) noexcept = default;
-        RAI(const RAI&) noexcept = default;
+        RAI(RAI&& i_rai)
+        noexcept
+            : BaseType(std::move(i_rai)){};
+
+        RAI(BaseType&& i_base)
+        noexcept
+            : BaseType(std::move(i_base)){};
+
+        RAI(const RAI& i_rai)
+        noexcept
+            : BaseType(i_rai){};
+
+        RAI(const BaseType& i_base)
+        noexcept
+            : BaseType(i_base){};
 
         template<std::convertible_to<NoexceptDeleter> DeleterT, class... Args>
         RAI(DeleterT&& i_deleter, Args&&... i_args)
@@ -60,16 +77,19 @@ namespace TB_NS {
         stream.close();
     }
     class RAI<Type, Category::STREAM> : public Type {
+        using ThisType = RAI<Type, Category::STREAM>;
         using BaseType = Type;
+        PublicPRS(ThisType);
 
-        public:
-        RAI(RAI&&) noexcept = default;
-        RAI(const RAI&) noexcept = default;
-
-        template<class... Args>
-        RAI(Args&&... i_args)
+        using BaseType::BaseType;
+        RAI(const RAI&) = delete;
+        RAI(RAI&& i_rai)
         noexcept
-            : BaseType(std::forward<Args>(i_args)...) {}
+            : BaseType(std::move(i_rai)){};
+
+        RAI(BaseType&& i_stream)
+        noexcept
+            : BaseType(std::move(i_stream)){};
 
         ~RAI() noexcept {
             BaseType::close();

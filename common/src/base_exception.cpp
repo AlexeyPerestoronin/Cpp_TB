@@ -1,3 +1,9 @@
+// ************************************ //
+// **************** TB **************** //
+// *** Alexey Perestoronin's project ** //
+// ****Alexey.Perestoronin@yandex.ru ** //
+// ************************************ //
+
 #include <common/base_exception.hpp>
 #include <common/rai.hpp>
 
@@ -35,11 +41,11 @@ namespace TB_NS::Error_NS {
             auto print = [&printer, &offcet](auto... i_message) { printer(offcet, i_message...); };
             print("----------");
             if (auto* locationPtr = get_error_info<Location>(*suberror); locationPtr)
-                print("[location] ", *locationPtr);
-            print("[id]", suberror->d_id);
-            print("[key]", suberror->d_key);
+                print("| [location] ", *locationPtr);
+            print("| [id]", suberror->d_id);
+            print("| [key]", suberror->d_key);
             for (size_t counter{ 0 }; const auto& [key, value] : suberror->d_values)
-                print(++counter, ") ", key, ": ", value);
+                print("| ", ++counter, ") ", key, ": ", value);
             print("----------");
         }
         d_errorMessage = std::make_shared<Str>(message.str());
@@ -84,10 +90,20 @@ namespace TB_NS::Error_NS {
 
     Exceptions::~Exceptions() {
         if (!d_unregistedExceptions.empty()) {
-            std::cerr << "\n[UNREGISTED EXCEPTINOS][BEGIN]\n";
+            std::function<void(Str::CRef)> logger = [](auto message) { std::cerr << message; };
+
+            RAI<std::fstream> fileLogger("unregisted-error.txt", std::ios::app | std::ios::in);
+            if (fileLogger.is_open()) {
+                logger = [&fileLogger](const auto& message) {
+                    fileLogger << message;
+                    std::cerr << message;
+                };
+            }
+
+            logger("\n[UNREGISTED EXCEPTINOS][BEGIN]\n");
             for (const auto& exceptionSPtr : d_unregistedExceptions)
-                std::cerr << exceptionSPtr->what();
-            std::cerr << "\n[UNREGISTED EXCEPTINOS][END]\n";
+                logger(exceptionSPtr->what());
+            logger("\n[UNREGISTED EXCEPTINOS][END]\n");
         }
     }
 
