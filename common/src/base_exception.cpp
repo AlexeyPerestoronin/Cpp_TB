@@ -37,16 +37,15 @@ namespace TB_NS::Error_NS {
             message << std::endl;
         };
 
-        for (auto [suberror, offcet] = std::make_tuple(this, size_t{ 0 }); suberror; suberror = get_error_info<Suberror>(*suberror), ++offcet) {
+        for (auto [suberror, offcet] = std::make_tuple(this, size_t{ 0 }); suberror; suberror = get_error_info<Suberror>(*suberror), offcet+=3) {
             auto print = [&printer, &offcet](auto... i_message) { printer(offcet, i_message...); };
-            print("----------");
             if (auto* locationP = get_error_info<Location>(*suberror); locationP)
-                print("| [location] ", *locationP);
-            print("| [id]", suberror->d_id);
-            print("| [key]", suberror->d_key);
+                print("location: ", *locationP);
+            print("id: ", suberror->d_id);
+            print("key: ", suberror->d_key);
             for (size_t counter{ 0 }; const auto& [key, value] : suberror->d_values)
-                print("| ", ++counter, ") ", key, ": ", value);
-            print("----------");
+                print(++counter, ") ", key, ": ", value);
+            print("suberror:");
         }
         d_errorMessage = std::make_shared<Str>(message.str());
         return d_errorMessage->data();

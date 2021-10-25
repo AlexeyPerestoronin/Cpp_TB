@@ -30,7 +30,7 @@ namespace {
         }
     }
 
-    TEST(BaseException, Simple1) {
+    TEST(BaseException, UnregisterExceptions) {
         try {
             F3();
             EXPECT_TRUE(false) << "unreachable code";
@@ -40,21 +40,12 @@ namespace {
     }
 
     TEST(BaseException, ParseFromFile) {
-        using Frames = std::set<int>;
-        using ToothWithFrames = std::pair<int, Frames>;
-        using ExportedTeeth = std::set<std::pair<int, Frames>>;
-
-        ExportedTeeth teeth1{ { 0, { 1, 2, 3 } }, { 1, { 1, 2, 3 } }, { 2, { 1, 2, 3 } } };
-        ExportedTeeth teeth2;
-
-        for (const auto& tooth : teeth1)
-            teeth1.insert(std::move(tooth));
-
-        std::map<int, int> digits;
-        for (auto& digit : digits) {
-        }
-
-
         Exceptions::LoadSettings(TB_GET_CURRENT_PATH / "test_exceptions.json");
+        try {
+            throw Exceptions::Ins["DB"]["connection"]["incorrect name"] << Location(BOOST_CURRENT_LOCATION);
+            EXPECT_TRUE(false) << "unreachable code";
+        } catch (Exception& error) {
+            std::cout << error.what();
+        }
     }
 } // namespace
