@@ -19,32 +19,33 @@ namespace fs = std::filesystem;
 
 // clang-format off
 // PRS - Pointer Reference SmartPointer
-#define PRS(DataType) \
-    using Opt   = typename std::optional<typename DataType>; \
-    using ROpt  = typename std::optional<typename DataType>&; \
-    using CROpt = typename const std::optional<typename DataType>&; \
-    using Ptr   = typename DataType*; \
-    using CPtr  = typename const DataType*; \
-    using PtrC  = typename DataType* const; \
-    using CPtrC = typename const DataType* const; \
-    using C     = typename const DataType; \
-    using Ref   = typename DataType&; \
-    using CRef  = typename const DataType&; \
-    using UPtr  = typename std::unique_ptr<typename DataType>; \
-    using SPtr  = typename std::shared_ptr<typename DataType>; \
-    using WPtr  = typename std::weak_ptr<typename DataType> // there is need add ';' at the end of macro
+#define PRS(DataType, ...) \
+    using This = DataType, __VA_ARGS__; \
+    using O    = std::optional<This>; \
+    using RO   = std::optional<This>&; \
+    using CRO  = const std::optional<This>&; \
+    using P    = This*; \
+    using CP   = const This*; \
+    using PC   = This* const; \
+    using CPC  = const This* const; \
+    using C    = const This; \
+    using R    = This&; \
+    using CR   = const This&; \
+    using UP   = std::unique_ptr<This>; \
+    using SP   = std::shared_ptr<This>; \
+    using WP   = std::weak_ptr<This> // there is need add ';' at the end of macro
 
-#define PublicPRS(DataType) \
+#define PublicPRS(DataType, ...) \
     public: \
-    PRS(DataType)
+    PRS(DataType, __VA_ARGS__)
 
-#define PrivatePRS(DataType) \
+#define PrivatePRS(DataType, ...) \
     private: \
-    PRS(DataType)
+    PRS(DataType, __VA_ARGS__)
 
-#define ProtectedPRS(DataType) \
+#define ProtectedPRS(DataType, ...) \
     protected: \
-    PRS(DataType)
+    PRS(DataType, __VA_ARGS__)
 
 #define ExtendedUsing(Aliase, Base, ...) \
     struct Aliase : Base , __VA_ARGS__ { \

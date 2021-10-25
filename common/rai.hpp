@@ -35,11 +35,10 @@ namespace TB_NS {
 
     template<class Type, Category category = define<Type>()>
     class RAI : public Type {
-        using ThisType = RAI<Type, Category::STREAM>;
         using BaseType = Type;
         using Deleter = std::function<void(BaseType&)>;
         using NoexceptDeleter = void (*)(BaseType&) noexcept;
-        PublicPRS(ThisType);
+        PublicPRS(RAI<Type, category>);
 
         private:
         Deleter m_delter;
@@ -49,17 +48,37 @@ namespace TB_NS {
         noexcept
             : BaseType(std::move(i_rai)){};
 
+        RAI& operator=(RAI&& i_rai) {
+            std::swap<RAI>(*this, i_rai);
+            return *this;
+        }
+
         RAI(BaseType&& i_base)
         noexcept
             : BaseType(std::move(i_base)){};
 
+        RAI& operator=(BaseType&& i_base) {
+            std::swap<BaseType>(*this, i_base);
+            return *this;
+        }
+
         RAI(const RAI& i_rai)
         noexcept
-            : BaseType(i_rai){};
+            : BaseType(static_cast<BaseType&>(i_rai)){};
+
+        RAI& operator=(const RAI& i_rai) {
+            static_cast<BaseType&>(*this) = static_cast<BaseType&>(i_rai);
+            return *this;
+        }
 
         RAI(const BaseType& i_base)
         noexcept
             : BaseType(i_base){};
+
+        RAI& operator=(const BaseType& i_base) {
+            static_cast<BaseType&>(*this) = i_base;
+            return *this;
+        }
 
         template<std::convertible_to<NoexceptDeleter> DeleterT, class... Args>
         RAI(DeleterT&& i_deleter, Args&&... i_args)

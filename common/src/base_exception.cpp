@@ -12,7 +12,7 @@
 namespace TB_NS::Error_NS {
     namespace {
         // brief: list of all Exceptions of the instance of the program
-        std::list<Exception::SPtr> _Exceptions{};
+        std::list<Exception::SP> _Exceptions{};
     }; // namespace
 
 #pragma region Exception
@@ -22,7 +22,7 @@ namespace TB_NS::Error_NS {
         , d_key(std::move(i_key))
         , d_values(std::move(i_values)) {}
 
-    bool Exception::isSatisfy(Str::CRef i_IdOrKey) const noexcept {
+    bool Exception::isSatisfy(Str::CR i_IdOrKey) const noexcept {
         return d_id == i_IdOrKey || d_key == i_IdOrKey;
     }
 
@@ -40,8 +40,8 @@ namespace TB_NS::Error_NS {
         for (auto [suberror, offcet] = std::make_tuple(this, size_t{ 0 }); suberror; suberror = get_error_info<Suberror>(*suberror), ++offcet) {
             auto print = [&printer, &offcet](auto... i_message) { printer(offcet, i_message...); };
             print("----------");
-            if (auto* locationPtr = get_error_info<Location>(*suberror); locationPtr)
-                print("| [location] ", *locationPtr);
+            if (auto* locationP = get_error_info<Location>(*suberror); locationP)
+                print("| [location] ", *locationP);
             print("| [id]", suberror->d_id);
             print("| [key]", suberror->d_key);
             for (size_t counter{ 0 }; const auto& [key, value] : suberror->d_values)
@@ -52,9 +52,9 @@ namespace TB_NS::Error_NS {
         return d_errorMessage->data();
     }
 
-    Exception::CRef Exception::operator[](Str::CRef i_IdOrKey) const noexcept {
+    Exception::CR Exception::operator[](Str::CR i_IdOrKey) const noexcept {
         const auto finder = [&i_IdOrKey](const auto& exceptions) -> auto {
-            const auto comparator = [&i_IdOrKey](auto exceptionPtr) -> bool { return exceptionPtr->isSatisfy(i_IdOrKey); };
+            const auto comparator = [&i_IdOrKey](auto exceptionP) -> bool { return exceptionP->isSatisfy(i_IdOrKey); };
             if (const auto exception = std::ranges::find_if(exceptions, comparator); exception != exceptions.end())
                 return *exception;
             else
@@ -62,15 +62,15 @@ namespace TB_NS::Error_NS {
         };
 
         // try to search through  the sub exceptions list
-        if (auto exceptionPtr = finder(d_subException); exceptionPtr) {
-            exceptionPtr->d_rootException = nullptr;
-            return *exceptionPtr;
+        if (auto exceptionP = finder(d_subException); exceptionP) {
+            exceptionP->d_rootException = nullptr;
+            return *exceptionP;
         }
 
         // try to search through  the sub exceptions list
-        if (auto exceptionPtr = finder(Exceptions::d_allExceptions); exceptionPtr) {
-            exceptionPtr->d_rootException = this;
-            return *exceptionPtr;
+        if (auto exceptionP = finder(Exceptions::d_allExceptions); exceptionP) {
+            exceptionP->d_rootException = this;
+            return *exceptionP;
         }
 
         // if no one known exceptions wasn't be founded then creates new exception, links it with current root-exception and returns
@@ -83,14 +83,14 @@ namespace TB_NS::Error_NS {
 
 #pragma region Exceptions
 
-    std::list<Exception::SPtr> Exceptions::d_unregistedExceptions{};
-    std::list<Exception::SPtr> Exceptions::d_allExceptions{ std::make_shared<Exception>() /* <--- this is the d_rootException */ };
-    Exception::PtrC Exceptions::d_rootException = Exceptions::d_allExceptions.begin()->get();
+    std::list<Exception::SP> Exceptions::d_unregistedExceptions{};
+    std::list<Exception::SP> Exceptions::d_allExceptions{ std::make_shared<Exception>() /* <--- this is the d_rootException */ };
+    Exception::PC Exceptions::d_rootException = Exceptions::d_allExceptions.begin()->get();
     Exceptions::C Exceptions::Ins{};
 
     Exceptions::~Exceptions() {
         if (!d_unregistedExceptions.empty()) {
-            std::function<void(Str::CRef)> logger = [](auto message) { std::cerr << message; };
+            std::function<void(Str::CR)> logger = [](auto message) { std::cerr << message; };
 
             RAI<std::fstream> fileLogger("unregisted-error.txt", std::ios::app | std::ios::in);
             if (fileLogger.is_open()) {
@@ -101,13 +101,13 @@ namespace TB_NS::Error_NS {
             }
 
             logger("\n[UNREGISTED EXCEPTINOS][BEGIN]\n");
-            for (const auto& exceptionSPtr : d_unregistedExceptions)
-                logger(exceptionSPtr->what());
+            for (const auto& exceptionSP : d_unregistedExceptions)
+                logger(exceptionSP->what());
             logger("\n[UNREGISTED EXCEPTINOS][END]\n");
         }
     }
 
-    Exception::Ref Exceptions::RegistUnknowException(Str::CRef i_id, Str::CRef i_key, Exception::Values::CROpt i_values) {
+    Exception::R Exceptions::RegistUnknowException(Str::CR i_id, Str::CR i_key, Exception::Values::CRO i_values) {
         auto& exceptions = Exceptions::d_unregistedExceptions;
         exceptions.push_back(std::make_shared<Exception>(
             i_id, i_key,
@@ -118,15 +118,15 @@ namespace TB_NS::Error_NS {
         return *exceptions.back().get();
     }
 
-    void Exceptions::LoadSettings(Path::CRef i_settigsFilePath) {
+    void Exceptions::LoadSettings(Path::CR i_settigsFilePath) {
         using namespace nlohmann;
 
         json errors;
         RAI<std::ifstream>(i_settigsFilePath) >> errors;
 
         struct {
-            Exception::PtrC createNewException(json& i_error) {
-                Exception::Ptr result{};
+            Exception::PC createNewException(json& i_error) {
+                Exception::P result{};
                 try {
                     auto exception = std::make_shared<Exception>(Str::BaseType(i_error["id"]), Str::BaseType(i_error["key"]));
                     result = exception.get();
@@ -139,13 +139,13 @@ namespace TB_NS::Error_NS {
                 return result;
             }
 
-            void operator()(json& i_errors, Exception::PtrC i_rootException) {
+            void operator()(json& i_errors, Exception::PC i_rootException) {
                 for (auto error : i_errors["exceptions"]) {
-                    if (auto* exceptionPtrC = createNewException(error); exceptionPtrC) {
-                        i_rootException->d_subException.push_back(exceptionPtrC);
-                        exceptionPtrC->d_parentException = i_rootException;
+                    if (auto* exceptionPC = createNewException(error); exceptionPC) {
+                        i_rootException->d_subException.push_back(exceptionPC);
+                        exceptionPC->d_parentException = i_rootException;
                         if (error.find("exceptions") != error.end())
-                            this->operator()(error, exceptionPtrC);
+                            this->operator()(error, exceptionPC);
                     } else {
                         std::cerr << "some error in the json:\n***\n" << error.dump(4) << "\n***\n";
                     }
@@ -155,7 +155,7 @@ namespace TB_NS::Error_NS {
         parser(errors, d_rootException);
     }
 
-    const Exception& Exceptions::operator[](Str::CRef i_IdOrKey) const noexcept {
+    const Exception& Exceptions::operator[](Str::CR i_IdOrKey) const noexcept {
         const auto& exceptions = d_rootException->d_subException;
         const auto comparator = std::bind(&Exception::isSatisfy, std::placeholders::_1, i_IdOrKey);
         if (const auto exception = std::ranges::find_if(exceptions, std::move(comparator)); exception != exceptions.end())
