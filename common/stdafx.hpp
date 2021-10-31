@@ -1,14 +1,21 @@
+#pragma once
+
 #include <string>
 #include <istream>
 #include <ostream>
 #include <fstream>
 #include <iostream>
 
+#include <ctime>
+
 #include <algorithm>
+#include <functional>
 
 #include <map>
+#include <vector>
 
 #include <exception>
+#include <stdexcept>
 
 #include <filesystem>
 namespace fs = std::filesystem;

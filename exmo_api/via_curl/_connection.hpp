@@ -1,12 +1,11 @@
 #pragma once
 
-#include "./_curl_object.hpp"
+#include <common/stdafx.hpp>
 
-#include <string>
-#include <map>
+#include <exmo_api/via_curl/_curl_object.hpp>
 
 namespace TB_NS {
-    namespace http {
+    namespace HTTP_NS {
         using JsonData = std::string;
         using Headers = std::map<std::string, std::string>;
 
@@ -25,7 +24,6 @@ namespace TB_NS {
 
         class Connection {
             public:
-
             void request(std::string_view i_url, const Request& i_request, std::string_view i_params = "", const Headers& i_headers = Headers());
 
             JsonData get_response();
@@ -37,5 +35,5 @@ namespace TB_NS {
             std::string recv_data_;
             std::string recv_header_;
         };
-    } // namespace http
+    } // namespace HTTP_NS
 } // namespace TB_NS
