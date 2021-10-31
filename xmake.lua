@@ -35,11 +35,6 @@ add_cxxflags("/await")
 
 add_includedirs("./")
 
--- add all *.md-files in VS solution
-add_headerfiles("**.md")
--- add all *.json-files in VS solution
-add_headerfiles("**.json")
-
 -- build from the source files the cppcoro library and include the all headers of this library
 add_includedirs(".external/cppcoro/include/")
 target("cppcoro")
@@ -57,6 +52,8 @@ target("common")
     add_files("common/src/*.cpp")
     add_headerfiles("common/unit-tests/*.cpp")
     add_headerfiles("common/*.hpp")
+    add_headerfiles("common/*.md")
+    add_headerfiles("common/**.json")
     add_packages("libcurl", "boost", "nlohmann_json")
     add_deps("cppcoro")
     --
