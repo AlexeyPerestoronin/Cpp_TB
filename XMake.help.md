@@ -7,6 +7,10 @@ xmake project -k vsxmake
 ```bash
 xmake require --info boost
 ```
+* Build only target ('cppcoro', for example)
+```bash
+xmake build targetname
+```
 
 ## From **xmale.lua**
 * Add `*.hpp` and `*.md` files into target VS project:

@@ -12,16 +12,16 @@ namespace TB_NS::OpenSSL_NS {
         });
 
         // Set HMAC key.
-        HMAC_Init_ex(ctxUPtr.get(), reinterpret_cast<const unsigned char*>(i_key.c_str()), i_key.size(), EVP_sha512(), nullptr);
+        HMAC_Init_ex(ctxUPtr.get(), reinterpret_cast<const unsigned char*>(i_key.c_str()), static_cast<int>(i_key.size()), EVP_sha512(), nullptr);
 
         // May be called repeatedly to insert all your data.
-        HMAC_Update(ctxUPtr.get(), reinterpret_cast<const unsigned char*>(i_msg.c_str()), i_msg.size());
+        HMAC_Update(ctxUPtr.get(), reinterpret_cast<const unsigned char*>(i_msg.c_str()), static_cast<int>(i_msg.size()));
 
         // Finish HMAC computation and fetch result.
-        unsigned char* result = new unsigned char[129];
-        unsigned int result_len = 129;
-        HMAC_Final(ctxUPtr.get(), result, &result_len);
-        for (int i = 0; i < result_len; i++) {
+        std::array<unsigned char, 129> result{};
+        unsigned int size{};
+        HMAC_Final(ctxUPtr.get(), result.data(), &size);
+        for (unsigned int i = 0; i < size; i++) {
             m_digest.push_back(int(result[i]));
         }
     }
