@@ -38,7 +38,7 @@ namespace TB_NS {
         using BaseType = Type;
         using Deleter = std::function<void(BaseType&)>;
         using NoexceptDeleter = void (*)(BaseType&) noexcept;
-        PublicPRS(RAI<Type, category>);
+        TB_PUBLIC_PRS(RAI<Type, category>);
 
         private:
         Deleter m_delter;
@@ -98,7 +98,7 @@ namespace TB_NS {
     class RAI<Type, Category::STREAM> : public Type {
         using ThisType = RAI<Type, Category::STREAM>;
         using BaseType = Type;
-        PublicPRS(ThisType);
+        TB_PUBLIC_PRS(ThisType);
 
         using BaseType::BaseType;
         RAI(const RAI&) = delete;

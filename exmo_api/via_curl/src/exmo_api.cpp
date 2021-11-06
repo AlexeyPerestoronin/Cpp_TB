@@ -1,4 +1,6 @@
-#include <exmo_api/via_curl/exmo_api.hpp>
+#include "../exmo_api.hpp"
+
+#include <common/base_exception.hpp>
 
 namespace TB_NS::Exmo_NS {
     API::API(std::string i_public_key, std::string i_secret_key)
@@ -6,7 +8,8 @@ namespace TB_NS::Exmo_NS {
         , m_secret_key(std::move(i_secret_key))
         , m_url("api.exmo.com/v1/")
         , m_connection(HTTP_NS::Connection())
-        , m_nonce(static_cast<ULONG>(std::time(nullptr))) {}
+        , m_nonce(static_cast<ULONG>(std::time(nullptr))) {
+    }
 
     HTTP_NS::JsonData API::call(std::string_view i_method, std::string_view i_params) {
         std::string params = "nonce=";

@@ -1,14 +1,11 @@
 #pragma once
 
 #include <common/stdafx.hpp>
-//#include <common/base_exception.hpp>
 
-#include <exmo_api/via_curl/_hmac_sha512.hpp>
-#include <exmo_api/via_curl/_connection.hpp>
+#include "./_hmac_sha512.hpp"
+#include "./_connection.hpp"
 
 namespace TB_NS {
-    //Error_NS::Exceptions::LoadSettings(TB_GET_CURRENT_PATH / "test_exceptions.json");
-
     namespace Exmo_NS {
         class API {
             ULONG m_nonce;

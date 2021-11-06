@@ -1,5 +1,8 @@
 #pragma once
 
+#define TB_EXPORT __declspec(dllexport)
+#define TB_IMPORT __declspec(dllimport)
+
 #include <string>
 #include <istream>
 #include <ostream>
@@ -26,37 +29,34 @@ namespace fs = std::filesystem;
 
 // clang-format off
 // PRS - Pointer Reference SmartPointer
-#define PRS(DataType, ...) \
+#define TB_PRS(DataType, ...) \
     using This = DataType, __VA_ARGS__; \
     using O    = std::optional<This>; \
     using RO   = std::optional<This>&; \
     using CRO  = const std::optional<This>&; \
-    using P    = This*; \
     using CP   = const This*; \
     using PC   = This* const; \
     using CPC  = const This* const; \
-    using C    = const This; \
-    using R    = This&; \
     using CR   = const This&; \
     using UP   = std::unique_ptr<This>; \
     using SP   = std::shared_ptr<This>; \
     using WP   = std::weak_ptr<This> // there is need add ';' at the end of macro
 
-#define PublicPRS(DataType, ...) \
+#define TB_PUBLIC_PRS(DataType, ...) \
     public: \
-    PRS(DataType, __VA_ARGS__)
+    TB_PRS(DataType, __VA_ARGS__)
 
-#define PrivatePRS(DataType, ...) \
+#define TB_PRIVATE_PRS(DataType, ...) \
     private: \
-    PRS(DataType, __VA_ARGS__)
+    TB_PRS(DataType, __VA_ARGS__)
 
-#define ProtectedPRS(DataType, ...) \
+#define TB_PROTECTED_PRS(DataType, ...) \
     protected: \
-    PRS(DataType, __VA_ARGS__)
+    TB_PRS(DataType, __VA_ARGS__)
 
-#define ExtendedUsing(Aliase, Base, ...) \
+#define TB_EXTENDED_USING(Aliase, Base, ...) \
     struct Aliase : Base , __VA_ARGS__ { \
-        PRS(Aliase); \
+        TB_PRS(Aliase); \
         using BaseType = Base, __VA_ARGS__; \
         using BaseType::BaseType; \
         Aliase(BaseType&& i_base) noexcept \
@@ -67,8 +67,8 @@ namespace fs = std::filesystem;
 // clang-format on
 
 namespace TB_NS {
-    ExtendedUsing(Str, std::string);
-    ExtendedUsing(IntToInt, std::map<int, int>);
-    ExtendedUsing(StrView, std::string_view);
-    ExtendedUsing(Path, fs::path);
+    TB_EXTENDED_USING(Str, std::string);
+    TB_EXTENDED_USING(IntToInt, std::map<int, int>);
+    TB_EXTENDED_USING(StrView, std::string_view);
+    TB_EXTENDED_USING(Path, fs::path);
 } // namespace TB_NS
