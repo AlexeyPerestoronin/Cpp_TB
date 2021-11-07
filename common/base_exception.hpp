@@ -41,13 +41,13 @@ namespace TB_NS::Error_NS {
         Exception(Exceptions* const i_homeExceptions, IdKey i_idKey) noexcept;
         Exception(Exceptions* const i_homeExceptions, Str i_id, Str i_key, Values i_values = Values{}) noexcept;
 
-        TB_EXPORT bool isSatisfy(Str::CR i_IdOrKey) const noexcept;
+        bool isSatisfy(Str::CR i_IdOrKey) const noexcept;
 
 #pragma region std::exception
-        TB_EXPORT const char* what() const override;
+        const char* what() const override;
 #pragma endregion
 
-        TB_EXPORT Exception::CR operator[](Str::CR i_IdOrKey) const noexcept;
+        Exception::CR operator[](Str::CR i_IdOrKey) const noexcept;
     };
 
     using Location = boost::error_info<struct Tag_Location, boost::source_location>;
@@ -61,26 +61,24 @@ namespace TB_NS::Error_NS {
         private:
         friend class Exception;
 
-        Exception::PC m_rootException{};
-        std::list<Exception::SP> m_allExceptions{};
-        std::list<Exception::SP> m_unregistedExceptions{};
+        Exception* m_rootException{};
+        std::list<Exception*> m_allExceptions{};
+        std::list<Exception*> m_unregistedExceptions{};
 
+        Exceptions();
         Exceptions(Exceptions&&) = delete;
         Exceptions& operator=(Exceptions&&) = delete;
         Exceptions(Exceptions::CR) = delete;
         Exceptions& operator=(Exceptions::CR) = delete;
 
         public:
-        Exceptions();
-        TB_EXPORT ~Exceptions();
-        TB_EXPORT Exception& RegistNewException(Str::CR i_id, Str::CR i_key, Exception::Values::CR i_values = Exception::Values{});
-        TB_EXPORT Exception& RegistUnknowException(Str::CR i_id, Str::CR i_key, Exception::Values::CRO i_values = std::nullopt);
-        TB_EXPORT void LoadSettings(const char* i_settigsFilePath, size_t i_size);
+        static TB_NODISCARD Exceptions& GetIns();
 
-        TB_EXPORT Exception::CR operator[](Str::CR i_IdOrKey) const noexcept;
+        ~Exceptions();
+        TB_MAYBE_UNUSED Exception& RegistNewException(Str::CR i_id, Str::CR i_key, Exception::Values::CR i_values = Exception::Values{});
+        TB_MAYBE_UNUSED Exception& RegistUnknowException(Str::CR i_id, Str::CR i_key, Exception::Values::CRO i_values = std::nullopt);
+        void LoadSettings(Path::CR i_settigsFilePath);
+
+        Exception::CR operator[](Str::CR i_IdOrKey) const noexcept;
     };
-
-    // brief: creates instance of Exceptions-class
-    // note1: accessible outside the common.dll
-    TB_EXPORT Exceptions CreateExceptionsIns();
 } // namespace TB_NS::Error_NS

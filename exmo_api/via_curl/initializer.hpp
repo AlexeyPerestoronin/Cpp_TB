@@ -11,10 +11,9 @@
 #include <common/base_exception.hpp>
 
 namespace TB_NS::Exmo_API {
-    // brief: flag shows isn't invoked target function
+    // brief: flag shows isn't invoked 'LoadModule'-function
     bool IsModuleLoad();
 
     // brief: loads Exmo-API module
-    // param: io_exceptionIns - entry point to load module's exceptions
-    void LoadModule(Error_NS::Exceptions& io_exceptionIns);
+    void LoadModule();
 } // namespace TB_NS::Exmo_API

@@ -7,7 +7,7 @@
 namespace {
     using namespace TB_NS::Error_NS;
 
-    Exceptions Ins{ CreateExceptionsIns() };
+    Exceptions& Ins{ Exceptions::GetIns() };
 
     void F1() {
         Exception::CR excption = Ins.RegistUnknowException("F1()", "F1()");
@@ -42,12 +42,12 @@ namespace {
     }
 
     TEST(BaseException, ParseFromFile) {
-        //Ins.LoadSettings(TB_GET_CURRENT_PATH / "test_exceptions.json");
-        //try {
-        //    throw Ins["DB"]["connection"]["incorrect name"] << Location(BOOST_CURRENT_LOCATION);
-        //    EXPECT_TRUE(false) << "unreachable code";
-        //} catch (Exception& error) {
-        //    std::cout << error.what();
-        //}
+        Ins.LoadSettings(TB_GET_CURRENT_PATH / "test_exceptions.json");
+        try {
+            throw Ins["DB"]["connection"]["incorrect name"] << Location(BOOST_CURRENT_LOCATION);
+            EXPECT_TRUE(false) << "unreachable code";
+        } catch (Exception& error) {
+            std::cout << error.what();
+        }
     }
 } // namespace

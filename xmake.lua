@@ -161,15 +161,7 @@ target_end()
 
 
 target("common")
-    set_kind("shared")
-
-    if is_mode("debug") then
-        print("[INFO] build common.dll in DEBUG-mode")
-        add_cxxflags("/MDd")
-    elseif is_mode("release") then
-        print("[INFO] build common.dll in RELEASE-mode")
-        add_cxxflags("/MD")
-	end
+    set_kind("static")
 
     add_rules("copy_exception_file")
     add_rules("corutine_supporting")
@@ -204,7 +196,10 @@ target("exmo_api")
     add_headerfiles("exmo_api/**.json")
     add_headerfiles("exmo_api/**.md")
 
-    add_packages("libcurl", "openssl", "boost", "nlohmann_json", "common")
+    add_packages("libcurl", "openssl", "boost", "nlohmann_json")
+
+    add_deps("common")
+
     --
     set_group("internal/lib")
 target_end()
@@ -220,9 +215,9 @@ target("TB")
     add_files("src/TB.cpp")
     add_files("src/TB.exception.json")
 
-    add_packages("libcurl", "openssl", "common")
+    add_packages("libcurl", "openssl")
     
-    add_deps("exmo_api")
+    add_deps("exmo_api", "common")
     --
     set_group("internal/exe")
 target_end()
@@ -239,7 +234,7 @@ target("UnitTests")
     add_files("src/UnitTests.exception.json")
     add_files("**/unit-tests/*.cpp")
 
-    add_packages("libcurl", "openssl", "boost", "gtest", "nlohmann_json", "common")
+    add_packages("libcurl", "openssl", "boost", "gtest", "nlohmann_json")
 
     add_deps("exmo_api", "common")
     --

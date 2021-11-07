@@ -15,10 +15,9 @@ namespace TB_NS::Exmo_API {
         return isExmoApiModuleLoad;
     }
 
-    void LoadModule(Error_NS::Exceptions& io_exceptionIns) {
+    void LoadModule() {
         if (!isExmoApiModuleLoad) {
-            Str exmoExceptinFile{ "exmo_api.exception.json" };
-            io_exceptionIns.LoadSettings(exmoExceptinFile.data(), exmoExceptinFile.size());
+            Error_NS::Exceptions::GetIns().LoadSettings("exmo_api.exception.json");
             isExmoApiModuleLoad = true;
         }
     }

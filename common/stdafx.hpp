@@ -1,7 +1,16 @@
 #pragma once
+#include <type_traits>
 
 #define TB_EXPORT __declspec(dllexport)
 #define TB_IMPORT __declspec(dllimport)
+
+#define TB_MAYBE_UNUSED [[maybe_unused]]
+#define TB_NODISCARD [[nodiscard]]
+
+#define TB_CONST_CAST(value)                                                                                                 \
+    const_cast<std::conditional_t<                                                                                           \
+        std::is_pointer_v<decltype(value)>, std::add_pointer_t<std::remove_const_t<std::remove_pointer_t<decltype(value)>>>, \
+        std::remove_const_t<decltype(value)>>>(value)
 
 #include <string>
 #include <istream>
