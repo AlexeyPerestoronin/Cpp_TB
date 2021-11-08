@@ -7,19 +7,19 @@
 namespace {
     using namespace TB_NS::Error_NS;
 
-    Exceptions& Ins{ Exceptions::GetIns() };
+    Exceptions& Errors{ Exceptions::GetIns() };
 
     void F1() {
-        Exception::CR excption = Ins.RegistUnknowException("F1()", "F1()");
-        throw excption << Location(BOOST_CURRENT_LOCATION);
+        Exception::CR excption = Errors.RegistUnknowException("F1()", "F1()");
+        throw excption << TB_LOCATION;
     }
 
     void F2() {
         try {
             F1();
         } catch (Exception& error) {
-            Exception::CR excption = Ins.RegistUnknowException("F2()", "F2()");
-            throw excption << Location(BOOST_CURRENT_LOCATION) << Suberror(error);
+            Exception::CR excption = Errors.RegistUnknowException("F2()", "F2()");
+            throw excption << TB_LOCATION << Suberror(error);
         }
     }
 
@@ -27,8 +27,8 @@ namespace {
         try {
             F2();
         } catch (Exception& error) {
-            Exception::CR excption = Ins.RegistUnknowException("F3()", "F3()");
-            throw excption << Location(BOOST_CURRENT_LOCATION) << Suberror(error);
+            Exception::CR excption = Errors.RegistUnknowException("F3()", "F3()");
+            throw excption << TB_LOCATION << Suberror(error);
         }
     }
 
@@ -42,9 +42,9 @@ namespace {
     }
 
     TEST(BaseException, ParseFromFile) {
-        Ins.LoadSettings(TB_GET_CURRENT_PATH / "test_exceptions.json");
+        Exceptions::GetIns().LoadSettings(TB_GET_CURRENT_PATH / "test_exceptions.json");
         try {
-            throw Ins["DB"]["connection"]["incorrect name"] << Location(BOOST_CURRENT_LOCATION);
+            throw Errors["DB"]["connection"]["incorrect name"] << TB_LOCATION;
             EXPECT_TRUE(false) << "unreachable code";
         } catch (Exception& error) {
             std::cout << error.what();

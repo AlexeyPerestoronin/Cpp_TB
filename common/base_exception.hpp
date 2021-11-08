@@ -15,7 +15,6 @@ namespace TB_NS::Error_NS {
     class Exceptions;
 
     // brief: class presents one runtime-exception
-    // note1: not accessible outside the common.dll
     class Exception
         : virtual public boost::exception
         , virtual public std::exception {
@@ -54,7 +53,6 @@ namespace TB_NS::Error_NS {
     using Suberror = boost::error_info<struct Tag_Suberror, Exception>;
 
     // brief: class manages the all runtime-exceptions
-    // note1: not accessible outside the common.dll
     class Exceptions {
         TB_PUBLIC_PRS(Exceptions);
 
@@ -81,4 +79,6 @@ namespace TB_NS::Error_NS {
 
         Exception::CR operator[](Str::CR i_IdOrKey) const noexcept;
     };
+
+#define TB_LOCATION Location(BOOST_CURRENT_LOCATION)
 } // namespace TB_NS::Error_NS
