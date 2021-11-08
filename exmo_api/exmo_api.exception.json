@@ -1,1 +1,74 @@
-{}
+{
+  "reductions": [
+    {
+      "key": "{link:OpenSSL HMAC WebSite}",
+      "value": "https://www.openssl.org/docs/man1.1.0/man3/HMAC_Init_ex.html",
+      "description": "the site where You can find detail information about HMAC's functions'"
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "CURL",
+      "key": "command line tool and library for transferring data with URLs",
+      "values": {
+        "description": "common exception for CURL library",
+        "web site": "https://curl.se/"
+      },
+      "exceptions": [
+        {
+          "id": "easy_init",
+          "key": "call of curl_easy_init",
+          "values": {
+            "description": "bad result call of the 'curl_easy_init'-function",
+            "web site": "https://curl.se/libcurl/c/curl_easy_init.html"
+          }
+        }
+      ]
+    },
+    {
+      "id": "OpenSSL",
+      "key": "Cryptography and SSL/TLS Toolkit",
+      "values": {
+        "description": "common exception for OpenSSL library",
+        "web site": "https://www.openssl.org/docs/"
+      },
+      "exceptions": [
+        {
+          "id": "HMAC",
+          "key": "hash based message authentication code",
+          "values": {
+            "definition": "HMAC is a MAC (message authentication code), i.e. a keyed hash function used for message authentication, which is based on a hash function.",
+            "description": "common exception for HMAC's functions'",
+            "web site": "{link:OpenSSL HMAC WebSite}"
+          },
+          "exceptions": [
+            {
+              "id": "Init_ex",
+              "key": "call of HMAC_Init_ex",
+              "values": {
+                "description": "bad result call of the 'HMAC_Init_ex'-function",
+                "web site": "{link:OpenSSL HMAC WebSite}"
+              }
+            },
+            {
+              "id": "Update",
+              "key": "call of HMAC_Update",
+              "values": {
+                "description": "bad result call of the 'HMAC_Update'-function",
+                "web site": "{link:OpenSSL HMAC WebSite}"
+              }
+            },
+            {
+              "id": "Final",
+              "key": "call of HMAC_Final",
+              "values": {
+                "description": "bad result call of the 'HMAC_Final'-function",
+                "web site": "{link:OpenSSL HMAC WebSite}"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

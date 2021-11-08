@@ -1,3 +1,9 @@
+// ************************************ //
+// **************** TB **************** //
+// *** Alexey Perestoronin's project ** //
+// ****Alexey.Perestoronin@yandex.ru ** //
+// ************************************ //
+
 #pragma once
 
 #include <curl/curl.h>

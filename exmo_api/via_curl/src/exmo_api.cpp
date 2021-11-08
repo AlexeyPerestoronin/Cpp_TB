@@ -40,7 +40,7 @@ namespace TB_NS::Exmo_NS {
     }
 
     std::string API::signature(const std::string& params) {
-        OpenSSL_NS::HMAC_SHA512 hmac_sha512(m_secret_key, params);
-        return hmac_sha512.hex_digest();
+        OpenSSL_NS::HmacSha512 hmac(m_secret_key, params);
+        return hmac.compute();
     }
 } // namespace TB_NS::Exmo_NS

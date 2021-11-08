@@ -6,11 +6,11 @@
 
 namespace TB_NS {
     namespace OpenSSL_NS {
-        class HMAC_SHA512 {
+        class HmacSha512 {
             public:
-            HMAC_SHA512(Str::CR i_key, Str::CR i_msg);
+            HmacSha512(Str::CR i_key, Str::CR i_msg);
 
-            std::string hex_digest();
+            Str compute();
 
             private:
             std::vector<unsigned char> m_digest;

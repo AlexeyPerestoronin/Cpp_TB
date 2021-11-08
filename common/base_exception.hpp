@@ -80,5 +80,6 @@ namespace TB_NS::Error_NS {
         Exception::CR operator[](Str::CR i_IdOrKey) const noexcept;
     };
 
-#define TB_LOCATION Location(BOOST_CURRENT_LOCATION)
+#define TB_LOCATION TB_NS::Error_NS::Location(BOOST_CURRENT_LOCATION)
+#define TB_EXEPT TB_NS::Error_NS::Exceptions::GetIns()
 } // namespace TB_NS::Error_NS
