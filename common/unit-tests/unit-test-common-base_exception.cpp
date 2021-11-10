@@ -10,7 +10,7 @@ namespace {
     Exceptions& Errors{ Exceptions::GetIns() };
 
     void F1() {
-        Exception::CR excption = Errors.RegistUnknowException("F1()", "F1()");
+        Exception::CR excption = Errors["F1()"];
         throw excption << TB_LOCATION;
     }
 
@@ -18,7 +18,7 @@ namespace {
         try {
             F1();
         } catch (Exception& error) {
-            Exception::CR excption = Errors.RegistUnknowException("F2()", "F2()");
+            Exception::CR excption = Errors["F2()"];
             throw excption << TB_LOCATION << Suberror(error);
         }
     }
@@ -27,7 +27,7 @@ namespace {
         try {
             F2();
         } catch (Exception& error) {
-            Exception::CR excption = Errors.RegistUnknowException("F3()", "F3()");
+            Exception::CR excption = Errors["F3()"];
             throw excption << TB_LOCATION << Suberror(error);
         }
     }

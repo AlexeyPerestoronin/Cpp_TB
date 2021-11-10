@@ -12,45 +12,64 @@
 #include <boost/exception/all.hpp>
 
 namespace TB_NS::Error_NS {
-    class Exceptions;
+    // brief: class presents one error that is a base for runtime-exception creation process
+    struct Error {
+        TB_PRS(Error);
+        TB_EXTENDED_USING(Values, std::map<Str, Str>);
+
+        Str id{};
+        Str::O key{};
+        Values::O values{};
+        Error::Vp subErrors{};
+        Error::Vp unregSubErrors{};
+
+        ~Error();
+
+        TB_NODISCARD bool isEquivalent(Str::CR i_idOrKey) noexcept;
+        TB_NODISCARD bool operator=(Error::CR i_error) const noexcept;
+    };
+
+    namespace PredefinedError_NS {
+        const Error SettingsFileNotLoading{ .id = "LoadSettings",
+                                            .key = "file with exceptions cannot be openLoadSettingsed",
+                                            .values = Error::Values{ { "description", "the '{file_name:}'-file with exceptions cannot be opened" } } };
+
+        const Error UnregException{ .id = "UnregError",
+                                    .key = "target error cannot be fouLoadSettingsnd",
+                                    .values = Error::Values{ { "description", "target error cannot be found by key or value - {keyOrValue:}" } } };
+    } // namespace PredefinedError_NS
 
     // brief: class presents one runtime-exception
     class Exception
         : virtual public boost::exception
         , virtual public std::exception {
-        friend class Exceptions;
-
         TB_PUBLIC_PRS(Exception);
-        TB_EXTENDED_USING(IdKey, std::pair<Str, Str>);
-        TB_EXTENDED_USING(Values, std::map<Str, Str>);
-        TB_EXTENDED_USING(IdKeyValues, std::tuple<Str, Str, Values>);
+        TB_EXTENDED_USING(ReplaceUnit, std::pair<Str, Str>);
+        TB_EXTENDED_USING(ReplaceUnits, ReplaceUnit::L);
 
         private:
-        Exceptions* const m_homeExceptions; // it is the link to the Exceptions-class instance that is the owner for the it exception
-        Str m_id{};
-        Str m_key{};
-        Values m_values{};
-        Exception::CP m_rootException{};   // it is the link to the exception from what this exception was founded
-        Exception::CP m_parentException{}; // it is the link to the exception that is the parent in the exceptions' hierarchy
-        std::list<Exception*> m_subException{};
+        Error::CR m_error;
+        ReplaceUnits m_replaceUnits{};
         mutable std::shared_ptr<Str> m_errorMessage{};
 
         public:
-        Exception(Exceptions* const i_homeExceptions, IdKeyValues i_idKeyValues) noexcept;
-        Exception(Exceptions* const i_homeExceptions, IdKey i_idKey) noexcept;
-        Exception(Exceptions* const i_homeExceptions, Str i_id, Str i_key, Values i_values = Values{}) noexcept;
+        Exception(Error::CR i_error) noexcept;
+        ~Exception();
 
-        bool isSatisfy(Str::CR i_IdOrKey) const noexcept;
+        Error::CR getError() const;
+        ReplaceUnits::CR getUnits() const;
 
 #pragma region std::exception
         const char* what() const override;
 #pragma endregion
 
-        Exception::CR operator[](Str::CR i_IdOrKey) const noexcept;
+        TB_NODISCARD Exception& operator()(ReplaceUnit i_replaceUnit) noexcept;
+        TB_NODISCARD Exception operator[](Str::CR i_IdOrKey) noexcept;
     };
 
     using Location = boost::error_info<struct Tag_Location, boost::source_location>;
     using Suberror = boost::error_info<struct Tag_Suberror, Exception>;
+    using Parenterror = boost::error_info<struct Tag_Parenterror, Exception>;
 
     // brief: class manages the all runtime-exceptions
     class Exceptions {
@@ -59,11 +78,9 @@ namespace TB_NS::Error_NS {
         private:
         friend class Exception;
 
-        Exception* m_rootException{};
-        std::list<Exception*> m_allExceptions{};
-        std::list<Exception*> m_unregistedExceptions{};
+        Error::Lp m_rootErrors{};
 
-        Exceptions();
+        Exceptions() = default;
         Exceptions(Exceptions&&) = delete;
         Exceptions& operator=(Exceptions&&) = delete;
         Exceptions(Exceptions::CR) = delete;
@@ -73,11 +90,9 @@ namespace TB_NS::Error_NS {
         static TB_NODISCARD Exceptions& GetIns();
 
         ~Exceptions();
-        TB_MAYBE_UNUSED Exception& RegistNewException(Str::CR i_id, Str::CR i_key, Exception::Values::CR i_values = Exception::Values{});
-        TB_MAYBE_UNUSED Exception& RegistUnknowException(Str::CR i_id, Str::CR i_key, Exception::Values::CRO i_values = std::nullopt);
         void LoadSettings(Path::CR i_settigsFilePath);
 
-        Exception::CR operator[](Str::CR i_IdOrKey) const noexcept;
+        TB_NODISCARD Exception operator[](Str::CR i_IdOrKey) const noexcept;
     };
 
 #define TB_LOCATION TB_NS::Error_NS::Location(BOOST_CURRENT_LOCATION)

@@ -2,17 +2,15 @@
 It is the module are encapsulated common program logic for TB.
 ***
 ## Table of contents
-* [Exceptions](##Exceptions)  
-    - [list of files](##list-of-files)
-    - [Usage explanation in examples](##Usage-explanation-in-examples)
+* [Exceptions](##Exceptions)
+    - [Idea description](###Idea-description)
+    - [Usage explanation in examples](###Usage-explanation-in-examples)
 
 ## Exceptions
 Is the part of the common-module is containing the classes for using exceptions in the TB.
 ***
-### list of files:  
-* `common/base_exception.hpp`
-* `common/src/base_exception.cpp`
-* `common/unit-tests/unit-test-common-base_exception.cpp`
+### Idea-description
+TODO: need to add description...
 ### Usage explanation in examples
 1. At first there is need to have the file is describing each exceptions in one module, `common-exceptions.json`:
      - quantity of that settings-files is unlimited, and they could be placed in each module where need;

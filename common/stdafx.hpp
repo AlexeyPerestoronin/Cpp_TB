@@ -40,16 +40,60 @@ namespace fs = std::filesystem;
 // PRS - Pointer Reference SmartPointer
 #define TB_PRS(DataType, ...) \
     using This = DataType, __VA_ARGS__; \
-    using O    = std::optional<This>; \
-    using RO   = std::optional<This>&; \
-    using CRO  = const std::optional<This>&; \
-    using CP   = const This*; \
-    using PC   = This* const; \
-    using CPC  = const This* const; \
-    using CR   = const This&; \
-    using UP   = std::unique_ptr<This>; \
-    using SP   = std::shared_ptr<This>; \
-    using WP   = std::weak_ptr<This> // there is need add ';' at the end of macro
+    /* reference */ \
+        using CR   = const This&; \
+    /* pointer */ \
+        using CP   = const This*; \
+        using PC   = This* const; \
+        using CPC  = const This* const; \
+    /* smart pointer */ \
+        using UP   = std::unique_ptr<This>; \
+        using SP   = std::shared_ptr<This>; \
+        using WP   = std::weak_ptr<This>; \
+    /* optional */ \
+        using O    = std::optional<This>; \
+        using RO   = std::optional<This>&; \
+        using CRO  = const std::optional<This>&; \
+    /* list */ \
+        using L  = std::list<This>; \
+        using RL  = std::list<This>&; \
+        using CRL  = const std::list<This>&; \
+        /* --- */ \
+        using Lp  = std::list<This*>; \
+        using RLp  = std::list<This*>&; \
+        using CRLp  = const std::list<This*>&; \
+        /* --- */ \
+        using Lup  = std::list<UP>; \
+        using RLup  = std::list<UP>&; \
+        using CRLup  = const std::list<UP>&; \
+        /* --- */ \
+        using Lsp  = std::list<SP>; \
+        using RLsp  = std::list<SP>&; \
+        using CRLsp  = const std::list<SP>&; \
+        /* --- */ \
+        using Lwp  = std::list<WP>; \
+        using RLwp  = std::list<WP>&; \
+        using CRLwp  = const std::list<WP>&; \
+    /* vector */ \
+        using V  = std::vector<This>; \
+        using RV  = std::vector<This>&; \
+        using CRV  = const std::vector<This>&; \
+        /* --- */ \
+        using Vp  = std::vector<This*>; \
+        using RVp  = std::vector<This*>&; \
+        using CRVp  = const std::vector<This*>&; \
+        /* --- */ \
+        using Vup  = std::vector<UP>; \
+        using RVup  = std::vector<UP>&; \
+        using CRVup  = const std::vector<UP>&; \
+        /* --- */ \
+        using Vsp  = std::vector<SP>; \
+        using RVsp  = std::vector<SP>&; \
+        using CRVsp  = const std::vector<SP>&; \
+        /* --- */ \
+        using Vwp  = std::vector<WP>; \
+        using RVwp  = std::vector<WP>&; \
+        using CRVwp  = const std::vector<WP>& // there is need add ';' at the end of macro
 
 #define TB_PUBLIC_PRS(DataType, ...) \
     public: \

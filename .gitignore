@@ -2,4 +2,5 @@ vsxmake20??/
 .external/
 .vscode/
 .xmake/
+.notes/
 build/
