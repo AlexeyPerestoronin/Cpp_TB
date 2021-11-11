@@ -1,4 +1,11 @@
 {
+  "reductions": [
+    {
+      "key": "{link:OpenSSL HMAC WebSite}",
+      "value": "https://www.openssl.org/docs/man1.1.0/man3/HMAC_Init_ex.html",
+      "description": "the site where You can find detail information about HMAC's functions'"
+    }
+  ],
   "exceptions": [
     {
       "id": "0",

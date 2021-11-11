@@ -9,13 +9,15 @@
 #pragma once
 
 #include <common/stdafx.hpp>
+#include <common/aliases.hpp>
+
 #include <boost/exception/all.hpp>
 
 namespace TB_NS::Error_NS {
     // brief: class presents one error that is a base for runtime-exception creation process
     struct Error {
         TB_PRS(Error);
-        TB_EXTENDED_USING(Values, std::map<Str, Str>);
+        using Values = StrToStr;
 
         Str id{};
         Str::O key{};
@@ -44,8 +46,7 @@ namespace TB_NS::Error_NS {
         : virtual public boost::exception
         , virtual public std::exception {
         TB_PUBLIC_PRS(Exception);
-        TB_EXTENDED_USING(ReplaceUnit, std::pair<Str, Str>);
-        TB_EXTENDED_USING(ReplaceUnits, ReplaceUnit::L);
+        using ReplaceUnits = StrToStr;
 
         private:
         Error::CR m_error;
@@ -63,7 +64,7 @@ namespace TB_NS::Error_NS {
         const char* what() const override;
 #pragma endregion
 
-        TB_NODISCARD Exception& operator()(ReplaceUnit i_replaceUnit) noexcept;
+        TB_NODISCARD Exception& operator()(ReplaceUnits::value_type i_replaceUnit) noexcept;
         TB_NODISCARD Exception operator[](Str::CR i_IdOrKey) noexcept;
     };
 

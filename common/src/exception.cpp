@@ -26,20 +26,12 @@ namespace TB_NS::Error_NS {
                 return *this;
             }
 
-            Str print() {
+            TB_NODISCARD Str print() {
                 return m_message.str();
             }
         };
 
-        class Processer {
-            static Str format(Str templ, Exception::ReplaceUnits::CR units) {
-                for (const auto& [key, value] : units)
-                    for (size_t start = templ.find(key), len = key.size(); start != std::string::npos; start = templ.find(key))
-                        templ.replace(start, len, value);
-                return templ;
-            }
-
-            public:
+        struct Processer {
             Printer& printer;
             bool is_verbose{ false };
 
@@ -51,7 +43,7 @@ namespace TB_NS::Error_NS {
                 printer.add("key: ", error.key.value_or("doesn't defined"));
                 if (error.values.has_value())
                     for (const auto& [key, value] : error.values.value())
-                        printer.add("* ", key, ": ", format(value, i_exception->getUnits()));
+                        printer.add("* ", key, ": ", Str{value}.format(i_exception->getUnits()));
                 if (is_verbose)
                     if (Exception::CP parentError = boost::get_error_info<Parenterror>(*i_exception); parentError) {
                         printer.add("parent error:");
@@ -77,31 +69,31 @@ namespace TB_NS::Error_NS {
     }
 
     const char* Exception::what() const {
-        Printer message{};
-        Processer processer{ .printer = message, .is_verbose = true };
+        Printer printer{};
+        Processer processer{ .printer = printer, .is_verbose = true };
 
         for (auto [suberror, offcet] = std::make_tuple(this, size_t{ 0 }); suberror; offcet += 3) {
-            message.offcet(offcet);
+            printer.offcet(offcet);
             processer.process(suberror);
             if (suberror = boost::get_error_info<Suberror>(*suberror); suberror)
-                message.add("sub-error:");
+                printer.add("sub-error:");
         }
-        m_errorMessage = std::make_shared<Str>(message.print());
+        m_errorMessage = std::make_shared<Str>(printer.print());
         return m_errorMessage->data();
     }
 
-    TB_NODISCARD Exception& Exception::operator()(ReplaceUnit i_replaceUnit) noexcept {
-        m_replaceUnits.push_back(std::move(i_replaceUnit));
+    TB_NODISCARD Exception& Exception::operator()(ReplaceUnits::value_type i_replaceUnit) noexcept {
+        m_replaceUnits.emplace(std::move(i_replaceUnit));
         return *this;
     }
 
     TB_NODISCARD Exception Exception::operator[](Str::CR i_IdOrKey) noexcept {
-        Error* targetErrorPtr{};
+        const Error* targetErrorPtr = &PredefinedError_NS::UnregException;
         for (Error* subErrorPtr : m_error.subErrors)
             if (subErrorPtr->isEquivalent(i_IdOrKey))
                 targetErrorPtr = subErrorPtr;
-
-        Exception subException = targetErrorPtr ? Exception(*targetErrorPtr) : Exception(PredefinedError_NS::UnregException)({ "{keyOrValue:}", i_IdOrKey });
+        
+        Exception subException = Exception(*targetErrorPtr);
         subException << Parenterror(*this);
         return std::move(subException);
     }

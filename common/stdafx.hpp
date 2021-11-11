@@ -1,3 +1,11 @@
+// ************************************ //
+// **************** TB **************** //
+// *** Alexey Perestoronin's project ** //
+// ****Alexey.Perestoronin@yandex.ru ** //
+// ************************************ //
+
+// It is the precompiled header file
+
 #pragma once
 #include <type_traits>
 
@@ -118,10 +126,3 @@ namespace fs = std::filesystem;
             : BaseType(i_base){}; \
     } // there is need add ';' at the end of macro
 // clang-format on
-
-namespace TB_NS {
-    TB_EXTENDED_USING(Str, std::string);
-    TB_EXTENDED_USING(IntToInt, std::map<int, int>);
-    TB_EXTENDED_USING(StrView, std::string_view);
-    TB_EXTENDED_USING(Path, fs::path);
-} // namespace TB_NS
