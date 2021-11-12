@@ -10,7 +10,7 @@
 
 #include <common/base_exception.hpp>
 
-namespace TB_NS::CURL_NS {
+namespace TB_NS::Curl_NS {
     CURL* EntryPoint::m_curlPtr = nullptr;
 
     EntryPoint::~EntryPoint() {

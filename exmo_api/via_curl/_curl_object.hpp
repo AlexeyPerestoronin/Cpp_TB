@@ -9,7 +9,7 @@
 #include <curl/curl.h>
 
 namespace TB_NS {
-    namespace CURL_NS {
+    namespace Curl_NS {
         class EntryPoint {
             static CURL* m_curlPtr;
 

@@ -215,7 +215,7 @@ target("TB")
     add_files("src/TB.cpp")
     add_files("src/TB.exception.json")
 
-    add_packages("libcurl", "openssl")
+    add_packages("libcurl", "openssl", "boost", "nlohmann_json")
     
     add_deps("exmo_api", "common")
     --

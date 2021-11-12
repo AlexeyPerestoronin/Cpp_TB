@@ -5,11 +5,7 @@
 namespace TB_NS::Exmo_NS {
     API::API(std::string i_public_key, std::string i_secret_key)
         : m_public_key(std::move(i_public_key))
-        , m_secret_key(std::move(i_secret_key))
-        , m_url("api.exmo.com/v1/")
-        , m_connection(HTTP_NS::Connection())
-        , m_nonce(static_cast<ULONG>(std::time(nullptr))) {
-    }
+        , m_secret_key(std::move(i_secret_key)) {}
 
     HTTP_NS::JsonData API::call(std::string_view i_method, std::string_view i_params) {
         std::string params = "nonce=";
@@ -24,7 +20,7 @@ namespace TB_NS::Exmo_NS {
         std::map<std::string, std::string> headers;
         headers["Content-type"] = "application/x-www-form-urlencoded";
         headers["Key"] = m_public_key;
-        headers["Sign"] = this->signature(params);
+        headers["Sign"] = OpenSSL_NS::HmacSha512(m_secret_key, params).compute();
 
         // TODO: there need eliminate coping by using a std::map<COMMAND_ID command_id, std::string target_url>;
         auto url = std::string(m_url).append(i_method);
@@ -37,10 +33,5 @@ namespace TB_NS::Exmo_NS {
         for (const auto& param : i_params)
             r_params += "&" + param;
         return r_params;
-    }
-
-    std::string API::signature(const std::string& params) {
-        OpenSSL_NS::HmacSha512 hmac(m_secret_key, params);
-        return hmac.compute();
     }
 } // namespace TB_NS::Exmo_NS
