@@ -1,9 +1,9 @@
 {
   "reductions": [
     {
-      "key": "{link:OpenSSL HMAC WebSite}",
-      "value": "https://www.openssl.org/docs/man1.1.0/man3/HMAC_Init_ex.html",
-      "description": "the site where You can find detail information about HMAC's functions'"
+      "key": "{site:localhost}",
+      "value": "127.0.0.1",
+      "description": "the localhost IP address"
     }
   ],
   "exceptions": [
@@ -11,7 +11,7 @@
       "id": "0",
       "key": "unregister exception",
       "values": {
-        "description": "this exception usages when the attempt of using unregister exception happened",
+        "description": "this exception by name usages when the attempt of using unregister exception happened",
         "what could be doing": "please register the exception `{}` before using it."
       }
     },
@@ -67,7 +67,8 @@
               "id": "3.1.1",
               "key": "incorrect name",
               "values": {
-                "description": "the name '{}` fo the BD isn't correct",
+                "description": "the name '{name:}` of the BD isn't correct",
+                "web site": "{site:localhost}",
                 "what could be doing": "please review the target BD's name"
               }
             },

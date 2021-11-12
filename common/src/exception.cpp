@@ -43,7 +43,7 @@ namespace TB_NS::Error_NS {
                 printer.add("key: ", error.key.value_or("doesn't defined"));
                 if (error.values.has_value())
                     for (const auto& [key, value] : error.values.value())
-                        printer.add("* ", key, ": ", Str{value}.format(i_exception->getUnits()));
+                        printer.add("* ", key, ": ", static_cast<Str>(value).format(i_exception->getUnits()));
                 if (is_verbose)
                     if (Exception::CP parentError = boost::get_error_info<Parenterror>(*i_exception); parentError) {
                         printer.add("parent error:");

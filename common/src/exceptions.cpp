@@ -5,9 +5,8 @@
 // ************************************ //
 
 #include <common/base_exception.hpp>
+#include <common/json.hpp>
 #include <common/rai.hpp>
-
-#include <nlohmann/json.hpp>
 
 namespace TB_NS::Error_NS {
     Exceptions& Exceptions::GetIns() {
@@ -22,21 +21,46 @@ namespace TB_NS::Error_NS {
     }
 
     void Exceptions::LoadSettings(Path::CR i_settigsFilePath) {
-        using namespace nlohmann;
-
-        json errors;
+        Json errors;
         if (auto settingsFile = RAI<std::ifstream>(i_settigsFilePath); settingsFile.is_open())
             settingsFile >> errors;
         else
             throw Exception(PredefinedError_NS::SettingsFileNotLoading)({ "{file_name:}", i_settigsFilePath.string() });
 
         class Parser {
-            Error::Values m_reductinos{};
+            Error::Values m_reductions{};
             Exceptions& m_exceptions;
-            json& m_errors;
+            Json::CR m_errors;
+
+            Error* createNewError(Json::CR i_error) {
+                try {
+                    Error* newError = new Error{ .id = i_error["id"], .key = i_error["key"] };
+                    if (auto values = i_error.find("values"); values != i_error.end()) {
+                        Error::Values val{};
+                        for (const auto& [key, value] : values->items())
+                            val[key] = static_cast<Str>(value).format(m_reductions);
+                        newError->values = std::move(val);
+                    }
+                    return newError;
+                } catch (...) {
+                    return nullptr;
+                }
+            }
+
+            void parse(Json::CR i_errors, Error* i_rootErrorPtr) {
+                for (const auto& exceptions : i_errors["exceptions"]) {
+                    if (auto* errorPtr = createNewError(exceptions); errorPtr) {
+                        i_rootErrorPtr ? i_rootErrorPtr->subErrors.push_back(errorPtr) : m_exceptions.m_rootErrors.push_back(errorPtr);
+                        if (exceptions.find("exceptions") != exceptions.end())
+                            parse(exceptions, errorPtr);
+                    } else {
+                        std::cerr << "some error in the json:\n***\n" << exceptions.dump(4) << "\n***\n";
+                    }
+                }
+            }
 
             public:
-            Parser(Exceptions& i_exceptions, json& i_errors)
+            Parser(Exceptions& i_exceptions, Json::CR i_errors)
                 : m_exceptions(i_exceptions)
                 , m_errors(i_errors) {
                 for (auto reduction : m_errors["reductions"]) {
@@ -46,35 +70,12 @@ namespace TB_NS::Error_NS {
                     if (auto v = reduction.find("value"); v != reduction.end())
                         value = static_cast<Str::BaseType>(*v);
                     if (key && value)
-                        m_reductinos[std::move(key.value())] = std::move(value.value());
+                        m_reductions[std::move(key.value())] = std::move(value.value());
                 }
             }
 
-            Error* createNewError(json& i_error) {
-                try {
-                    Error* newError = new Error{ .id = i_error["id"], .key = i_error["key"] };
-                    if (auto values = i_error.find("values"); values != i_error.end()) {
-                        Error::Values val{};
-                        for (auto [key, value] : values->items())
-                            val[static_cast<Str::BaseType>(key)] = static_cast<Str::BaseType>(value);
-                        newError->values = std::move(val);
-                    }
-                    return newError;
-                } catch (...) {
-                    return nullptr;
-                }
-            }
-
-            void parse(Error* i_rootErrorPtr = nullptr) {
-                for (auto error : m_errors["exceptions"]) {
-                    if (auto* errorPtr = createNewError(error); errorPtr) {
-                        i_rootErrorPtr ? i_rootErrorPtr->subErrors.push_back(errorPtr) : m_exceptions.m_rootErrors.push_back(errorPtr);
-                        if (error.find("exceptions") != error.end())
-                            parse(errorPtr);
-                    } else {
-                        std::cerr << "some error in the json:\n***\n" << error.dump(4) << "\n***\n";
-                    }
-                }
+            void parse() {
+                parse(m_errors, nullptr);
             }
         };
         Parser parser{ *this, errors };
