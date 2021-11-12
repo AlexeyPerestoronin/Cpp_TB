@@ -1,8 +1,8 @@
 #pragma once
 
-#include <exmo_api/via_curl/_connection.hpp>
+#include "../connection.hpp"
 
-namespace TB_NS::HTTP_NS {
+namespace TB_NS::CurlAdapter_NS::Http_NS {
     curl_slist* Post::prepare(const StrToStr& headers) const {
         curl_slist* list = nullptr;
         for (auto h : headers) {
@@ -15,7 +15,7 @@ namespace TB_NS::HTTP_NS {
     void Connection::request(std::string_view i_url, const Request& i_request, std::string_view i_params, const StrToStr& i_headers) {
         m_requestData.clear();
         m_requestHeader.clear();
-        CURL* curlInsPtr = Curl_NS::EntryPoint::GetIns();
+        CURL* curlInsPtr = CurlAdapter_NS::EntryPoint::GetIns();
         curl_easy_setopt(curlInsPtr, CURLOPT_URL, i_url.data());
         curl_easy_setopt(curlInsPtr, CURLOPT_WRITEDATA, &m_requestData);
         curl_easy_setopt(curlInsPtr, CURLOPT_HEADERDATA, &m_requestHeader);
@@ -46,4 +46,4 @@ namespace TB_NS::HTTP_NS {
         }
         return size * nmemb;
     }
-} // namespace TB_NS::HTTP_NS
+} // namespace TB_NS::CurlAdapter_NS::Http_NS

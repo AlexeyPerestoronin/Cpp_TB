@@ -3,9 +3,9 @@
 #include <common/stdafx.hpp>
 #include <common/aliases.hpp>
 
-#include "_curl_object.hpp"
+#include "curl_object.hpp"
 
-namespace TB_NS::HTTP_NS {
+namespace TB_NS::CurlAdapter_NS::Http_NS {
     using JsonData = std::string;
     using StrToStr = std::map<std::string, std::string>;
 
@@ -35,4 +35,4 @@ namespace TB_NS::HTTP_NS {
         Str m_requestData;
         Str m_requestHeader;
     };
-} // namespace TB_NS::HTTP_NS
+} // namespace TB_NS::CurlAdapter_NS::Http_NS

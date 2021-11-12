@@ -7,7 +7,7 @@ namespace TB_NS::Exmo_NS {
         : m_public_key(std::move(i_public_key))
         , m_secret_key(std::move(i_secret_key)) {}
 
-    HTTP_NS::JsonData API::call(std::string_view i_method, std::string_view i_params) {
+    CurlAdapter_NS::Http_NS::JsonData API::call(std::string_view i_method, std::string_view i_params) {
         std::string params = "nonce=";
         m_nonce++;
         params.append(std::to_string(m_nonce));
@@ -24,7 +24,7 @@ namespace TB_NS::Exmo_NS {
 
         // TODO: there need eliminate coping by using a std::map<COMMAND_ID command_id, std::string target_url>;
         auto url = std::string(m_url).append(i_method);
-        m_connection.request(url, HTTP_NS::Post(), params, headers);
+        m_connection.request(url, CurlAdapter_NS::Http_NS::Post(), params, headers);
         return m_connection.get_response();
     }
 
