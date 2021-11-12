@@ -17,7 +17,7 @@ namespace TB_NS::CurlAdapter_NS {
 
     void LoadModule() {
         if (!isCurlModuleLoad) {
-            Error_NS::Exceptions::GetIns().LoadSettings("curl_adapter.exception.json");
+            Error_NS::Exceptions::GetIns().LoadSettings("curl_adaptor.exception.json");
             isCurlModuleLoad = true;
         }
     }

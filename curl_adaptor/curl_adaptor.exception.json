@@ -1,23 +1,23 @@
 {
-    "exceptions": [
-      {
-        "id": "CURL",
-        "key": "command line tool and library for transferring data with URLs",
-        "values": {
-          "description": "common exception for CURL library",
-          "web site": "https://curl.se/"
-        },
-        "exceptions": [
-          {
-            "id": "easy_init",
-            "key": "call of curl_easy_init",
-            "values": {
-              "description": "bad result call of the 'curl_easy_init'-function",
-              "web site": "https://curl.se/libcurl/c/curl_easy_init.html"
-            }
+  "reductions": [],
+  "exceptions": [
+    {
+      "id": "CURL",
+      "key": "command line tool and library for transferring data with URLs",
+      "values": {
+        "description": "common exception for CURL library",
+        "web site": "https://curl.se/"
+      },
+      "exceptions": [
+        {
+          "id": "easy_init",
+          "key": "call of curl_easy_init",
+          "values": {
+            "description": "bad result call of the 'curl_easy_init'-function",
+            "web site": "https://curl.se/libcurl/c/curl_easy_init.html"
           }
-        ]
-      }
-    ]
-  }
-  
+        }
+      ]
+    }
+  ]
+}

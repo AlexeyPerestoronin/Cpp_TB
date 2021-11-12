@@ -24,7 +24,8 @@ namespace TB_NS::Exmo_NS {
 
         // TODO: there need eliminate coping by using a std::map<COMMAND_ID command_id, std::string target_url>;
         auto url = std::string(m_url).append(i_method);
-        m_connection.request(url, CurlAdapter_NS::Http_NS::Post(), params, headers);
+        CurlAdapter_NS::Http_NS::PostRequest postRequest{};
+        m_connection.request(url, postRequest, params, headers);
         return m_connection.get_response();
     }
 

@@ -1,18 +1,9 @@
 #pragma once
 
-#include "../connection.hpp"
+#include "../http.hpp"
 
 namespace TB_NS::CurlAdapter_NS::Http_NS {
-    curl_slist* Post::prepare(const StrToStr& headers) const {
-        curl_slist* list = nullptr;
-        for (auto h : headers) {
-            std::string s{ std::string(h.first + ": " + h.second) };
-            list = curl_slist_append(list, s.c_str());
-        }
-        return list;
-    }
-
-    void Connection::request(std::string_view i_url, const Request& i_request, std::string_view i_params, const StrToStr& i_headers) {
+    void Connection::request(std::string_view i_url, Request& i_request, std::string_view i_params, const StrToStr& i_headers) {
         m_requestData.clear();
         m_requestHeader.clear();
         CURL* curlInsPtr = CurlAdapter_NS::EntryPoint::GetIns();

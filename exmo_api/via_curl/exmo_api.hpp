@@ -1,7 +1,7 @@
 #pragma once
 
 #include <common/stdafx.hpp>
-#include <curl_adaptor/connection.hpp>
+#include <curl_adaptor/http.hpp>
 
 #include "./_hmac_sha512.hpp"
 
