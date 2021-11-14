@@ -1,0 +1,117 @@
+{
+  "reductions": [],
+  "exceptions": [
+    {
+      "id": "CURL",
+      "key": "command line tool and library for transferring data with URLs",
+      "values": {
+        "description": "common exception for CURL library",
+        "web site": "https://curl.se/"
+      },
+      "exceptions": [
+        {
+          "id": "easy_init",
+          "key": "call of curl_easy_init",
+          "values": {
+            "description": "bad result call of the 'curl_easy_init'-function",
+            "web site": "https://curl.se/libcurl/c/curl_easy_init.html"
+          }
+        },
+        {
+          "id": "easy_setopt",
+          "key": "call of curl_easy_setopt",
+          "values": {
+            "description": "bad result call of the 'curl_easy_setopt'-function",
+            "web site": "https://curl.se/libcurl/c/curl_easy_setopt.html"
+          },
+          "exceptions": [
+            {
+              "id": "URL",
+              "key": "CURLOPT_URL parameter",
+              "values": {
+                "description": "the CURLOPT_URL parameter cannot be set correctly",
+                "error message": "{:error_message}",
+                "error code": "{:error_code}",
+                "target URL": "{:url}",
+                "web site": "https://curl.se/libcurl/c/CURLOPT_URL.html"
+              }
+            },
+            {
+              "id": "WRITEDATA",
+              "key": "CURLOPT_WRITEDATA parameter",
+              "values": {
+                "description": "the CURLOPT_WRITEDATA parameter cannot be set correctly",
+                "error message": "{:error_message}",
+                "error code": "{:error_code}",
+                "requested data": "{:requested_data}",
+                "web site": "https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html"
+              }
+            },
+            {
+              "id": "HEADERDATA",
+              "key": "CURLOPT_HEADERDATA parameter",
+              "values": {
+                "description": "the CURLOPT_HEADERDATA parameter cannot be set correctly",
+                "error message": "{:error_message}",
+                "error code": "{:error_code}",
+                "requested header": "{:requested_header}",
+                "web site": "https://curl.se/libcurl/c/CURLOPT_HEADERDATA.html"
+              }
+            },
+            {
+              "id": "WRITEFUNCTION",
+              "key": "CURLOPT_WRITEFUNCTION parameter",
+              "values": {
+                "description": "the CURLOPT_WRITEFUNCTION parameter cannot be set correctly",
+                "error message": "{:error_message}",
+                "error code": "{:error_code}",
+                "web site": "https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html"
+              }
+            },
+            {
+              "id": "POSTFIELDS",
+              "key": "CURLOPT_POSTFIELDS parameter",
+              "values": {
+                "description": "the CURLOPT_POSTFIELDS parameter cannot be set correctly",
+                "error message": "{:error_message}",
+                "error code": "{:error_code}",
+                "post fields params": "{:post_fields_params}",
+                "web site": "https://curl.se/libcurl/c/CURLOPT_POSTFIELDS.html"
+              }
+            },
+            {
+              "id": "POSTFIELDSIZE",
+              "key": "CURLOPT_POSTFIELDSIZE parameter",
+              "values": {
+                "description": "the CURLOPT_POSTFIELDSIZE parameter cannot be set correctly",
+                "error message": "{:error_message}",
+                "error code": "{:error_code}",
+                "post fields size": "{:post_fields_size}",
+                "web site": "https://curl.se/libcurl/c/CURLOPT_POSTFIELDSIZE.html"
+              }
+            },
+            {
+              "id": "HTTPHEADER",
+              "key": "CURLOPT_HTTPHEADER parameter",
+              "values": {
+                "description": "the CURLOPT_HTTPHEADER parameter cannot be set correctly",
+                "error message": "{:error_message}",
+                "error code": "{:error_code}",
+                "value": "{:value}",
+                "web site": "https://curl.se/libcurl/c/CURLOPT_HTTPHEADER.html"
+              }
+            }
+          ]
+        },
+        {
+          "id": "easy_perform",
+          "key": "call of curl_easy_perform",
+          "values": {
+            "description": "bad result call of the 'curl_easy_perform'-function",
+            "web site": "https://curl.se/libcurl/c/curl_easy_perform.html"
+          }
+        }
+      ]
+    }
+  ]
+}

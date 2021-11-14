@@ -65,6 +65,7 @@ namespace TB_NS::Error_NS {
 #pragma endregion
 
         TB_NODISCARD Exception& operator()(ReplaceUnits::value_type i_replaceUnit) noexcept;
+        TB_NODISCARD Exception& operator()(Str i_key, Str i_value) noexcept;
         TB_NODISCARD Exception operator[](Str::CR i_IdOrKey) noexcept;
     };
 

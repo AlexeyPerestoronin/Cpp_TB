@@ -24,5 +24,15 @@ namespace TB_NS {
 
         TB_MAYBE_UNUSED Str& format(Str::CR i_key, Str::CR i_value);
         TB_MAYBE_UNUSED Str& format(StrToStr::CR i_replaceUnits);
+
+        Str& operator+=(Str::CR i_str);
     };
+
+    template<class FromType>
+    Str ToStr(FromType&& i_value) {
+        if constexpr (std::is_convertible_v<std::decay_t<FromType>, int>)
+            return std::to_string(i_value);
+        else
+            static_assert(std::false_type::value, "target Type cannot be convert to Str");
+    }
 } // namespace TB_NS

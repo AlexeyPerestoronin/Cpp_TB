@@ -182,6 +182,25 @@ target("common")
 target_end()
 
 
+target("curl_adaptor")
+    set_kind("static")
+
+    add_rules("copy_exception_file")
+
+    add_files("curl_adaptor/src/*.cpp")
+    add_files("curl_adaptor/**exception.json")
+
+    add_headerfiles("curl_adaptor/unit-tests/*.cpp")
+    add_headerfiles("curl_adaptor/*.hpp")
+    add_headerfiles("curl_adaptor/*.md")
+    add_headerfiles("curl_adaptor/**.json")
+
+    add_packages("libcurl", "openssl", "boost", "nlohmann_json")
+    --
+    set_group("internal/lib")
+target_end()
+
+
 target("exmo_api")
     set_kind("static")
 
@@ -198,8 +217,7 @@ target("exmo_api")
 
     add_packages("libcurl", "openssl", "boost", "nlohmann_json")
 
-    add_deps("common")
-
+    add_deps("common", "curl_adaptor")
     --
     set_group("internal/lib")
 target_end()
@@ -217,7 +235,7 @@ target("TB")
 
     add_packages("libcurl", "openssl", "boost", "nlohmann_json")
     
-    add_deps("exmo_api", "common")
+    add_deps("exmo_api", "common", "curl_adaptor")
     --
     set_group("internal/exe")
 target_end()
@@ -236,7 +254,7 @@ target("UnitTests")
 
     add_packages("libcurl", "openssl", "boost", "gtest", "nlohmann_json")
 
-    add_deps("exmo_api", "common")
+    add_deps("exmo_api", "common", "curl_adaptor")
     --
     set_group("internal/exe")
 target_end()

@@ -21,6 +21,8 @@
         std::remove_const_t<decltype(value)>>>(value)
 
 #include <string>
+using namespace std::string_literals;
+
 #include <istream>
 #include <ostream>
 #include <fstream>

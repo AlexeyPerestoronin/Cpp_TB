@@ -6,11 +6,11 @@
 
 #pragma once
 
-#include "../_curl_object.hpp"
+#include "../curl_object.hpp"
 
 #include <common/base_exception.hpp>
 
-namespace TB_NS::Curl_NS {
+namespace TB_NS::CurlAdapter_NS {
     CURL* EntryPoint::m_curlPtr = nullptr;
 
     EntryPoint::~EntryPoint() {
@@ -28,4 +28,4 @@ namespace TB_NS::Curl_NS {
         }
         return m_curlPtr;
     }
-} // namespace TB_NS::CURL_NS
+} // namespace TB_NS::CurlAdapter_NS
