@@ -28,6 +28,8 @@ namespace TB_NS {
         Str& operator+=(Str::CR i_str);
     };
 
+    // brief: convers the data of any type to string (Str)
+    // param: i_value - target data to conversion
     template<class FromType>
     Str ToStr(FromType&& i_value) {
         if constexpr (std::is_convertible_v<std::decay_t<FromType>, int>)

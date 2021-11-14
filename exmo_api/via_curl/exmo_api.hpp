@@ -5,8 +5,6 @@
 
 #include <curl_adaptor/http.hpp>
 
-#include "./_hmac_sha512.hpp"
-
 
 namespace TB_NS::Exmo_NS {
     class API {
