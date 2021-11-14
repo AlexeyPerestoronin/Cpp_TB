@@ -13,42 +13,45 @@
 
 namespace TB_NS::CurlAdapter_NS {
     namespace Http_NS {
-        using JsonData = std::string;
-        using StrToStr = std::map<std::string, std::string>;
-
-        class Request {
-            TB_PUBLIC_PRS(Request);
+        // brief: common interface of the HTTP-request for the CURL library
+        class RequestI {
+            TB_PUBLIC_PRS(RequestI);
 
             protected:
+            Str m_value{};
             curl_slist* m_list{};
 
+            void addValue(Str::CR i_value) noexcept;
+
             public:
-            virtual ~Request() = default;
-            virtual curl_slist* prepare(const StrToStr&) = 0;
+            RequestI() noexcept = default;
+            virtual ~RequestI();
+
+            TB_NODISCARD curl_slist* get() noexcept;
+            void reset() noexcept;
+            Str::CR value() noexcept;
+            virtual void prepare(StrToStr::CR) = 0;
         };
 
-        class PostRequest : public Request {
+        // brief: HTTP-POST-request adapter
+        class PostRequest : public RequestI {
             TB_PUBLIC_PRS(PostRequest);
 
             public:
-            PostRequest();
-            ~PostRequest();
-
-            curl_slist* prepare(const StrToStr& headers) override;
+            void prepare(StrToStr::CR i_headers) override;
         };
 
+        // brief: the adapter of the CURL library HTTP-connection
         class Connection {
-            public:
-            void request(std::string_view i_url, Request& i_request, std::string_view i_params = "", const StrToStr& i_headers = StrToStr());
-
-            JsonData get_response();
-
-            private:
-            static std::size_t write_received_data_to_string(char* ptr, std::size_t size, std::size_t nmemb, void* buffer);
-
-            private:
+            TB_PUBLIC_PRS(Connection);
+            
+        private:
             Str m_requestData;
             Str m_requestHeader;
+
+            public:
+            void makeRequest(Str::CR i_url, RequestI& i_request, Str::CR i_params = Str{});
+            Str getResponse();
         };
     } // namespace Http_NS
 } // namespace TB_NS::CurlAdapter_NS::Http_NS

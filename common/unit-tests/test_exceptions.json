@@ -69,6 +69,7 @@
               "values": {
                 "description": "the name '{name:}` of the BD isn't correct",
                 "web site": "{site:localhost}",
+                "error code": "{:error_code}",
                 "what could be doing": "please review the target BD's name"
               }
             },

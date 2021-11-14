@@ -34,4 +34,9 @@ namespace TB_NS {
             format(key, value);
         return *this;
     }
+
+    Str& Str::operator+=(Str::CR i_str) {
+        BaseType::append(i_str.data(), i_str.size());
+        return *this;
+    }
 } // namespace TB_NS

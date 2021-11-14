@@ -9,6 +9,7 @@
 #include <curl/curl.h>
 
 namespace TB_NS::CurlAdapter_NS {
+    // brief: presents the entry point for the CURL library
     class EntryPoint {
         static CURL* m_curlPtr;
 

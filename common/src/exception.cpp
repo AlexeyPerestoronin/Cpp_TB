@@ -87,6 +87,11 @@ namespace TB_NS::Error_NS {
         return *this;
     }
 
+    TB_NODISCARD Exception& Exception::operator()(Str i_key, Str i_value) noexcept {
+        m_replaceUnits.emplace(std::move(i_key), std::move(i_value));
+        return *this;
+    }
+
     TB_NODISCARD Exception Exception::operator[](Str::CR i_IdOrKey) noexcept {
         const Error* targetErrorPtr = &PredefinedError_NS::UnregException;
         for (Error* subErrorPtr : m_error.subErrors)

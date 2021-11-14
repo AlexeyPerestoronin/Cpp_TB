@@ -44,7 +44,7 @@ namespace {
     TEST(BaseException, ParseFromFile) {
         Exceptions::GetIns().LoadSettings(TB_GET_CURRENT_PATH / "test_exceptions.json");
         try {
-            throw Errors["DB"]["connection"]["incorrect name"]({"{name:}", "local.db"}) << TB_LOCATION;
+            throw Errors["DB"]["connection"]["incorrect name"]("{name:}", "local.db")("{:error_code}", TB_NS::ToStr(-111i8)) << TB_LOCATION;
             EXPECT_TRUE(false) << "unreachable code";
         } catch (Exception& error) {
             std::cout << error.what();
