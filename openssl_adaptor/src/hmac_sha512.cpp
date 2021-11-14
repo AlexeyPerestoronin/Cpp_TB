@@ -1,11 +1,10 @@
 #pragma once
 
-#include <exmo_api/via_curl/_hmac_sha512.hpp>
+#include "../hmac_sha512.hpp"
 
-#include <common/rai.hpp>
 #include <common/base_exception.hpp>
 
-namespace TB_NS::OpenSSL_NS {
+namespace TB_NS::OpenSslAdapter_NS {
     HmacSha512::HmacSha512(Str::CR i_key, Str::CR i_msg) {
         std::unique_ptr<HMAC_CTX, std::function<void(HMAC_CTX*)>> ctxUPtr(HMAC_CTX_new(), [](HMAC_CTX* i_ctxPtr) {
             if (i_ctxPtr)
@@ -23,7 +22,7 @@ namespace TB_NS::OpenSSL_NS {
         // Finish HMAC computation and fetch result.
         std::array<unsigned char, 129> result{};
         unsigned int size{};
-        if(HMAC_Final(ctxUPtr.get(), result.data(), &size) == NULL)
+        if (HMAC_Final(ctxUPtr.get(), result.data(), &size) == NULL)
             throw TB_EXEPT["OpenSSL"]["HMAC"]["Final"] << TB_LOCATION;
 
         for (unsigned int i = 0; i < size; i++) {
@@ -41,4 +40,4 @@ namespace TB_NS::OpenSSL_NS {
         }
         return r_digestStr;
     }
-} // namespace TB_NS::OpenSSL_NS
+} // namespace TB_NS::OpenSslAdapter_NS

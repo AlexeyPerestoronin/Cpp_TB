@@ -2,16 +2,36 @@
 It is the module are encapsulated common program logic for TB.
 ***
 ## Table of contents
-* [Exceptions](##Exceptions)
-    - [Idea description](###Idea-description)
-    - [Usage explanation in examples](###Usage-explanation-in-examples)
+* [Main hierarchy](#Main-hierarchy)
+* [Exceptions](#Exceptions)
+    - [Idea description](##Idea-description)
+    - [Usage explanation in examples](##Usage-explanation-in-examples)
 
-## Exceptions
+# Main hierarchy
+* namespace TB_NS  
+    * class Str - the class extending base functional of standard strings
+    * TB_EXTENDED_USING(StrToStr, std::map<Str, Str>);
+    * template<class FromType> Str ToStr(FromType&& i_value) - convers the data of any type to string (Str)
+    * class Json - this class is the small overbuild for nlohmann::json  
+    * template<class Type, Category category = define<Type>()> class RAI - template-class for constructing a RAI-wrapper around a some data of the target type
+    * template<ContainerType Container> cppcoro::generator<index_value<Container>> enumerator(Container& i_container) - enumerates the all elements of the target container in like-python style
+    * template<ContainerType Container> cppcoro::generator<cindex_value<Container>> cenumerator(const Container& i_container) - enumerates the all elements of the target container in like-python style (const version)
+    * namespace Error_NS
+        * struct Error - class presents one error that is a base for runtime-exception creation process
+        * class Exception - class presents one runtime-exception
+        * class Exceptions - class manages the all runtime-exceptions
+# Exceptions
 Is the part of the common-module is containing the classes for using exceptions in the TB.
 ***
-### Idea-description
-TODO: need to add description...
-### Usage explanation in examples
+## Idea-description
+The general idea are basing on using a some separate files with the exceptions presented in the json-format.
+The main targets of its approach is:
+1. No exceptions presented in the C++-code
+2. Be possible to make a hierarchy of exceptions
+3. Give convenient way to change, modify and restructuring exceptions
+4. Make all the exceptions as flexible to specific adjusting as it is needed
+
+## Usage explanation in examples
 1. At first there is need to have the file is describing each exceptions in one module, `common-exceptions.json`:
      - quantity of that settings-files is unlimited, and they could be placed in each module where need;
      - the structure of the settings-file with the errors is unlimited in nesting;

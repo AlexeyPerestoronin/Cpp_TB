@@ -33,6 +33,9 @@ namespace TB_NS {
         };
     } // namespace
 
+    // brief: template-class for constructing a RAI-wrapper around a some data of the target type
+    // param-t: Type - target type the data of which have to be wrapped
+    // param-t: category - category of data types in which the target type of the data is including
     template<class Type, Category category = define<Type>()>
     class RAI : public Type {
         using BaseType = Type;

@@ -1,11 +1,15 @@
 #include <gtest/gtest.h>
 #include <common/base_exception.hpp>
+#include <common/initializer.hpp>
 #include <curl_adaptor/initializer.hpp>
+#include <openssl_adaptor/initializer.hpp>
 #include <exmo_api/via_curl/initializer.hpp>
 
 int main(int argc, char* argv[]) {
     try {
+        TB_NS::LoadModule();
         TB_NS::CurlAdapter_NS::LoadModule();
+        TB_NS::OpenSslAdapter_NS::LoadModule();
         TB_NS::Exmo_API::LoadModule();
 
         ::testing::InitGoogleTest(&argc, argv);
