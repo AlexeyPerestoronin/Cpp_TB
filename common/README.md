@@ -10,7 +10,9 @@ It is the module are encapsulated common program logic for TB.
 # Main hierarchy
 * namespace TB_NS  
     * class Str - the class extending base functional of standard strings
-    * TB_EXTENDED_USING(StrToStr, std::map<Str, Str>);
+    * TB_EXTENDED_USING(VStrs, std::vector<Str>)
+    * TB_EXTENDED_USING(LStrs, std::list<Str>)
+    * TB_EXTENDED_USING(StrToStr, std::map<Str, Str>)
     * template<class FromType> Str ToStr(FromType&& i_value) - convers the data of any type to string (Str)
     * class Json - this class is the small overbuild for nlohmann::json  
     * template<class Type, Category category = define<Type>()> class RAI - template-class for constructing a RAI-wrapper around a some data of the target type

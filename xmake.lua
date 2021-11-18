@@ -242,6 +242,28 @@ target("exmo_api")
 target_end()
 
 
+target("trader")
+    set_kind("static")
+
+    add_rules("copy_exception_file")
+    add_rules("corutine_supporting")
+
+    add_files("trader/**/src/*.cpp")
+    add_files("trader/**exception.json")
+
+    add_headerfiles("trader/**/unit-tests/*.cpp")
+    add_headerfiles("trader/**.hpp")
+    add_headerfiles("trader/**.json")
+    add_headerfiles("trader/**.md")
+
+    add_packages("libcurl", "openssl", "boost", "nlohmann_json")
+
+    add_deps("common", "curl_adaptor", "openssl_adaptor")
+    --
+    set_group("internal/lib")
+target_end()
+
+
 target("TB")
     set_kind("binary")
 

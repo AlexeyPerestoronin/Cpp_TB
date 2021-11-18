@@ -1,15 +1,14 @@
 // ************************************ //
 // **************** TB **************** //
 // *** Alexey Perestoronin's project ** //
-// ****Alexey.Perestoronin@yandex.ru ** //
+// *** Alexey.Perestoronin@yandex.ru ** //
 // ************************************ //
 
 // There is the collection of classes for error processing logic.
 
 #pragma once
 
-#include <common/stdafx.hpp>
-#include <common/aliases.hpp>
+#include <common/common.hpp>
 
 #include <boost/exception/all.hpp>
 
@@ -32,13 +31,15 @@ namespace TB_NS::Error_NS {
     };
 
     namespace PredefinedError_NS {
-        const Error SettingsFileNotLoading{ .id = "LoadSettings",
-                                            .key = "file with exceptions cannot be openLoadSettingsed",
-                                            .values = Error::Values{ { "description", "the '{file_name:}'-file with exceptions cannot be opened" } } };
+        const Error SettingsFileNotLoading = [] {
+            Error::Values v{ { "description", "the '{file_name:}'-file with exceptions cannot be opened" } };
+            return Error{ .id = "LoadSettings", .key = "file with exceptions cannot be openLoadSettingsed", .values = std::move(v) };
+        }();
 
-        const Error UnregException{ .id = "UnregError",
-                                    .key = "target error cannot be fouLoadSettingsnd",
-                                    .values = Error::Values{ { "description", "target error cannot be found by key or value - {keyOrValue:}" } } };
+        const Error UnregException = [] {
+            Error::Values v{ { "description", "target error cannot be found by key or value - {keyOrValue:}" } };
+            return Error{ .id = "UnregError", .key = "target error cannot be fouLoadSettingsnd", .values = std::move(v) };
+        }();
     } // namespace PredefinedError_NS
 
     // brief: class presents one runtime-exception

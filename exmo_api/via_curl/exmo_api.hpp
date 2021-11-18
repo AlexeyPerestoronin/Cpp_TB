@@ -1,25 +1,32 @@
 #pragma once
 
-#include <common/stdafx.hpp>
-#include <common/json.hpp>
+#include <trader/interactions/interaction.hpp>
 
 #include <curl_adaptor/http.hpp>
 
 
 namespace TB_NS::Exmo_NS {
-    class API {
-        std::string m_public_key;
-        std::string m_secret_key;
+    using namespace Trader_NS::Interaction_NS;
+    class API : public ExchangeI {
+        Str m_publicKey;
+        Str m_secretKey;
 
         Str m_url{ "api.exmo.com/v1/"s };
         ULONG m_nonce{ static_cast<ULONG>(std::time(nullptr)) };
         CurlAdapter_NS::Http_NS::Connection m_connection{ CurlAdapter_NS::Http_NS::Connection() };
 
         public:
-        API(std::string i_public_key, std::string i_secret_key);
+        API(Str i_public_key, Str i_secret_key);
 
-        Json call(std::string_view i_method, std::string_view i_params);
+#pragma region ExchangeI
+        ExchangeID getID() const noexcept override;
+        void check(CommandID command_id, CurrencyPair& io_pair) const override;
+        void check(CommandID command_id, Limit& io_limit) const override;
+        Json interact(CommandID command_id, RequestedParameters::CR i_params) override;
+#pragma endregion
 
-        static std::string build(const std::vector<std::string>& i_params);
+        Json call(Str::CR i_method, Str::CR i_params);
+
+        static Str build(LStrs::CR i_params);
     };
 } // namespace TB_NS::Exmo_NS

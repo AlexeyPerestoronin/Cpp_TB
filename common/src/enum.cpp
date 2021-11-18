@@ -4,16 +4,15 @@
 // *** Alexey.Perestoronin@yandex.ru ** //
 // ************************************ //
 
-// Common-API Module Entry Point
-
 #pragma once
 
-#include <common/base_exception.hpp>
+#include "../enum.hpp"
 
 namespace TB_NS {
-    // brief: flag shows isn't invoked 'LoadModule'-function
-    bool IsModuleLoad();
 
-    // brief: loads Common-API Module
-    void LoadModule();
+    Enum& Enum::add(int i_index, Str::CR i_view) {
+        m_intToStr.emplace(i_index, i_view);
+        m_strToInt.emplace(i_view, i_index);
+        return *this;
+    }
 } // namespace TB_NS

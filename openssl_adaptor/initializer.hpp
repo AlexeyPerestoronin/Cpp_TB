@@ -1,7 +1,7 @@
 // ************************************ //
 // **************** TB **************** //
 // *** Alexey Perestoronin's project ** //
-// ****Alexey.Perestoronin@yandex.ru ** //
+// *** Alexey.Perestoronin@yandex.ru ** //
 // ************************************ //
 
 // OpenSSL-Adapter Module Entry Point

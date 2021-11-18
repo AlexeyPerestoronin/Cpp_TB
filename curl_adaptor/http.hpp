@@ -1,13 +1,12 @@
 // ************************************ //
 // **************** TB **************** //
 // *** Alexey Perestoronin's project ** //
-// ****Alexey.Perestoronin@yandex.ru ** //
+// *** Alexey.Perestoronin@yandex.ru ** //
 // ************************************ //
 
 #pragma once
 
-#include <common/stdafx.hpp>
-#include <common/aliases.hpp>
+#include <common/common.hpp>
 
 #include "curl_object.hpp"
 

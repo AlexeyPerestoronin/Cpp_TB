@@ -1,7 +1,7 @@
 // ************************************ //
 // **************** TB **************** //
 // *** Alexey Perestoronin's project ** //
-// ****Alexey.Perestoronin@yandex.ru ** //
+// *** Alexey.Perestoronin@yandex.ru ** //
 // ************************************ //
 
 // It is the precompiled header file
@@ -35,6 +35,8 @@ using namespace std::string_literals;
 
 #include <map>
 #include <vector>
+
+#include <variant>
 
 #include <exception>
 #include <stdexcept>

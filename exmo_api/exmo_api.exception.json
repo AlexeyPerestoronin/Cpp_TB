@@ -1,4 +1,60 @@
 {
   "reductions": [],
-  "exceptions": []
+  "exceptions": [
+    {
+      "id": "EXMO",
+      "key": "Exmo Crypto-Trading platform",
+      "values": {
+        "description": "one of the popular crypto exchange platform",
+        "web site": "https://exmo.me/ru"
+      },
+      "exceptions": [
+        {
+          "id": "API",
+          "key": "Application Program Interface",
+          "values": {
+            "web site": "https://documenter.getpostman.com/view/10287440/SzYXWKPi#c60c51a8-e683-4f45-a000-820723d37871"
+          },
+          "exceptions": [
+            {
+              "id": "REST",
+              "key": "Representational State Transfer",
+              "values": {
+                "web site": "https://documenter.getpostman.com/view/10287440/SzYXWKPi#78c08852-d5e7-4354-96a3-3bad5184bbfa"
+              },
+              "exceptions": [
+                {
+                  "id": "order_book",
+                  "key": "Get Orders Book",
+                  "values": {
+                    "what is this request": "returns the book of current orders on the currency pair",
+                    "web site": "https://documenter.getpostman.com/view/10287440/SzYXWKPi#c60c51a8-e683-4f45-a000-820723d37871"
+                  },
+                  "exceptions": [
+                    {
+                      "id": "limits",
+                      "key": "limits violation",
+                      "values": {
+                        "description": "the limitation of the `limit` value was violated",
+                        "minimal allowed": "{min:}",
+                        "requested": "{requested:}"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "unregistered",
+                  "key": "unregistered request",
+                  "values": {
+                    "description": "the request is unregistered",
+                    "id": "{id:}"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

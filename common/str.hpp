@@ -1,16 +1,21 @@
 // ************************************ //
 // **************** TB **************** //
 // *** Alexey Perestoronin's project ** //
-// ****Alexey.Perestoronin@yandex.ru ** //
+// *** Alexey.Perestoronin@yandex.ru ** //
 // ************************************ //
 
 #pragma once
 #include <common/stdafx.hpp>
+#include <common/aliases.hpp>
 
 namespace TB_NS {
     // brief: the class extending base functional of standard strings
     class Str;
-    TB_EXTENDED_USING(StrToStr, std::map<Str, Str>);
+    using VStrs = AliasFor<std::vector<Str>>;
+    using LStrs = AliasFor<std::list<Str>>;
+    using StrToStr = AliasFor<std::map<Str, Str>>;
+    using StrToInt = AliasFor<std::map<Str, int>>;
+    using IntToStr = AliasFor<std::map<int, Str>>;
 
     class Str : public std::string {
         TB_PUBLIC_PRS(Str);
@@ -26,6 +31,12 @@ namespace TB_NS {
         TB_MAYBE_UNUSED Str& format(StrToStr::CR i_replaceUnits);
 
         Str& operator+=(Str::CR i_str);
+    };
+
+    struct StrI {
+        TB_PRS(StrI);
+        virtual void from(Str::CR i_str) noexcept = 0;
+        virtual Str to() noexcept = 0;
     };
 
     // brief: convers the data of any type to string (Str)
