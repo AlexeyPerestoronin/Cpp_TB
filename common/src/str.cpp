@@ -23,13 +23,13 @@ namespace TB_NS {
         return *this;
     }
 
-    TB_MAYBE_UNUSED Str& Str::format(Str::CR i_key, Str::CR i_value) {
+    TB_MAYBE_UNUSED Str& Str::format(const BaseType& i_key, const BaseType& i_value) {
         for (size_t start = BaseType::find(i_key), len = i_key.size(); start != BaseType::npos; start = BaseType::find(i_key))
             BaseType::replace(start, len, i_value);
         return *this;
     }
 
-    TB_MAYBE_UNUSED Str& Str::format(StrToStr::CR i_replaceUnits) {
+    TB_MAYBE_UNUSED Str& Str::format(const KeyToValue& i_replaceUnits) {
         for (const auto& [key, value] : i_replaceUnits)
             format(key, value);
         return *this;

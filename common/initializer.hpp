@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include <common/base_exception.hpp>
-
 namespace TB_NS {
     // brief: flag shows isn't invoked 'LoadModule'-function
     bool IsModuleLoad();

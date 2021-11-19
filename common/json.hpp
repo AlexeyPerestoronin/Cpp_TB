@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include <common/stdafx.hpp>
 #include <common/str.hpp>
 
 #include <nlohmann/json.hpp>

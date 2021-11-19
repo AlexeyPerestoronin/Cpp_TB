@@ -20,7 +20,7 @@ namespace TB_NS::CurlAdapter_NS::Http_NS {
         m_requestHeader.clear();
         CURL* curlInsPtr = CurlAdapter_NS::EntryPoint::GetIns();
 
-#define ERROR_AND_MESSAGE ("{:error_code}", ToStr(errorCode))("{:error_message}", curl_easy_strerror(errorCode))
+#define ERROR_AND_MESSAGE ("{:error_code}", ToStr(Int{ errorCode }))("{:error_message}", curl_easy_strerror(errorCode))
         if (CURLcode errorCode = curl_easy_setopt(curlInsPtr, CURLOPT_URL, i_url.data()); errorCode != CURLE_OK)
             throw TB_EXEPT["CURL"]["easy_setopt"]["URL"]("{:url}", i_url) ERROR_AND_MESSAGE << TB_LOCATION;
 

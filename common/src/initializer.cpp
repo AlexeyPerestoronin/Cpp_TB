@@ -5,6 +5,7 @@
 // ************************************ //
 
 #include "../initializer.hpp"
+#include <common/base_exception.hpp>
 
 namespace TB_NS {
     namespace {

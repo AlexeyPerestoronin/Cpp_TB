@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <common/common.hpp>
+#include <common/aliases.hpp>
 
 #include <boost/exception/all.hpp>
 

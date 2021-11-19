@@ -10,12 +10,18 @@ It is the module are encapsulated common program logic for TB.
 # Main hierarchy
 * namespace TB_NS  
     * class Str - the class extending base functional of standard strings
-    * TB_EXTENDED_USING(VStrs, std::vector<Str>)
-    * TB_EXTENDED_USING(LStrs, std::list<Str>)
-    * TB_EXTENDED_USING(StrToStr, std::map<Str, Str>)
-    * template<class FromType> Str ToStr(FromType&& i_value) - convers the data of any type to string (Str)
+    * template<class FromType> Str ToStr(FromType&& i_value) - converts the data of any type to string (Str)
+    * template<,,,> struct AliasFor - creates the usage-friendly alias for the target type
+    * using Int = AliasForBuitInType<int>
+    * using Double = AliasForBuitInType<double>
+    * using Path = AliasFor<fs::path>
+    * using VStrs = AliasFor<std::vector<Str>>
+    * using LStrs = AliasFor<std::list<Str>>
+    * using StrToStr = AliasFor<std::map<Str, Str>>
+    * using StrToInt = AliasFor<std::map<Str, int>>
+    * using IntToStr = AliasFor<std::map<int, Str>>
     * class Json - this class is the small overbuild for nlohmann::json  
-    * template<class Type, Category category = define<Type>()> class RAI - template-class for constructing a RAI-wrapper around a some data of the target type
+    * template<,> class RAI - template-class for constructing a RAI-wrapper around a some data of the target type
     * template<ContainerType Container> cppcoro::generator<index_value<Container>> enumerator(Container& i_container) - enumerates the all elements of the target container in like-python style
     * template<ContainerType Container> cppcoro::generator<cindex_value<Container>> cenumerator(const Container& i_container) - enumerates the all elements of the target container in like-python style (const version)
     * namespace Error_NS
