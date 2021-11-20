@@ -11,7 +11,7 @@ namespace TB_NS::Exmo_NS {
         : m_publicKey(std::move(i_publicKey))
         , m_secretKey(std::move(i_secretKey)) {}
 
-    ExchangeID API::getID() const noexcept {
+    ExchangeCode API::getID() const noexcept {
         return ExchangeID::EXMO;
     }
 
@@ -24,10 +24,10 @@ namespace TB_NS::Exmo_NS {
 #define REST_API_EXCEPT TB_EXEPT["EXMO"]["API"]["REST"]
         switch (commandID) {
             case CommandID::GET_ORDER_BOOK:
-                if (int min_allowed = 100; io_limit == std::nullopt)
-                    io_limit.emplace(min_allowed);
-                else if (io_limit < min_allowed)
-                    throw REST_API_EXCEPT["order_book"]["limits"]("{min:}", ToStr(min_allowed))("{requested:}", ToStr(io_limit.value())) << TB_LOCATION;
+                if (int minAllowed = 100; io_limit == std::nullopt)
+                    io_limit.emplace(minAllowed);
+                else if (io_limit < minAllowed)
+                    throw REST_API_EXCEPT["order_book"]["limits"]("{min:}", ToStr(minAllowed))("{requested:}", ToStr(io_limit.value())) << TB_LOCATION;
 
             default:
                 throw REST_API_EXCEPT["unregistered"]/*("{id:}", ToStr(static_cast<int>(commandID)))*/ << TB_LOCATION;

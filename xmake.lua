@@ -236,7 +236,7 @@ target("exmo_api")
 
     add_packages("libcurl", "openssl", "boost", "nlohmann_json")
 
-    add_deps("common", "curl_adaptor", "openssl_adaptor")
+    add_deps("common", "curl_adaptor", "openssl_adaptor", "trader")
     --
     set_group("internal/lib")
 target_end()
@@ -295,7 +295,7 @@ target("UnitTests")
 
     add_packages("libcurl", "openssl", "boost", "gtest", "nlohmann_json")
 
-    add_deps("exmo_api", "common", "curl_adaptor", "openssl_adaptor")
+    add_deps("common", "curl_adaptor", "openssl_adaptor", "exmo_api", "trader")
     --
     set_group("internal/exe")
 target_end()

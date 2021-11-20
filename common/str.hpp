@@ -32,8 +32,9 @@ namespace TB_NS {
 
     struct StrI {
         TB_PRS(StrI);
-        virtual void from(Str::CR i_str) = 0;
-        virtual Str to() const = 0;
+        // NOTE: since this interface could be used with exception(s) the both of its functions should be marked as noexcept.
+        virtual void from(Str::CR i_str) noexcept = 0;
+        virtual Str to() const noexcept = 0;
     };
 
     // brief: converts the data of any type to string (Str)

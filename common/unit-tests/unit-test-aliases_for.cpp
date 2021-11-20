@@ -7,82 +7,82 @@ namespace {
     TEST(Testing_AliasFor, For_Int) {
         Int i{};
         ASSERT_STREQ(i.to().c_str(), "0");
-        ASSERT_EQ(0, i);
+        ASSERT_EQ(0, static_cast<int>(i));
         
         i += 100;
         ASSERT_STREQ(i.to().c_str(), "100");
-        ASSERT_EQ(100, i);
+        ASSERT_EQ(100, static_cast<int>(i));
         
         --i;
         ASSERT_STREQ(i.to().c_str(), "99");
-        ASSERT_EQ(99, i);
+        ASSERT_EQ(99, static_cast<int>(i));
         
         i.from("-123");
         ASSERT_STREQ(i.to().c_str(), "-123");
-        ASSERT_EQ(-123, i);
+        ASSERT_EQ(-123, static_cast<int>(i));
 
         i.from("+543");
         ASSERT_STREQ(i.to().c_str(), "543");
-        ASSERT_EQ(543, i);
+        ASSERT_EQ(543, static_cast<int>(i));
     }
 
     TEST(Testing_AliasFor, For_Double) {
         Double i{};
         ASSERT_STREQ(i.to().c_str(), "0");
-        ASSERT_EQ(0, i);
+        ASSERT_EQ(0., static_cast<double>(i));
         
         i += 100;
         ASSERT_STREQ(i.to().c_str(), "100");
-        ASSERT_EQ(100, i);
+        ASSERT_EQ(100., static_cast<double>(i));
         
         --i;
         ASSERT_STREQ(i.to().c_str(), "99");
-        ASSERT_EQ(99, i);
+        ASSERT_EQ(99., static_cast<double>(i));
         
         i.from("-123");
         ASSERT_STREQ(i.to().c_str(), "-123");
-        ASSERT_EQ(-123, i);
+        ASSERT_EQ(-123., static_cast<double>(i));
 
         i.from("+543");
         ASSERT_STREQ(i.to().c_str(), "543");
-        ASSERT_EQ(543, i);
+        ASSERT_EQ(543., static_cast<double>(i));
 
         i = 5.5;
         ASSERT_STREQ(i.to().c_str(), "5.5");
-        ASSERT_EQ(5.5, i);
+        ASSERT_EQ(5.5, static_cast<double>(i));
 
         i = 0.5e-3;
         ASSERT_STREQ(i.to().c_str(), "0.0005");
-        ASSERT_EQ(0.5e-3, i);
+        ASSERT_EQ(0.5e-3, static_cast<double>(i));
 
         i.from("123.123");
         ASSERT_STREQ(i.to().c_str(), "123.123");
-        ASSERT_EQ(123.123, i);
+        ASSERT_EQ(123.123, static_cast<double>(i));
 
         i.from("-321.321");
         ASSERT_STREQ(i.to().c_str(), "-321.321");
-        ASSERT_EQ(-321.321, i);
+        ASSERT_EQ(-321.321, static_cast<double>(i));
 
         i.from("0.0000001");
         ASSERT_STREQ(i.to().c_str(), "1e-07");
-        ASSERT_EQ(0.0000001, i);
+        ASSERT_EQ(0.0000001, static_cast<double>(i));
 
-        i = 0;
-        ASSERT_EQ(0, i);
-        ASSERT_EQ(0, i++);
-        ASSERT_EQ(1, i);
-        ASSERT_EQ(1, i++);
-        ASSERT_EQ(2, i);
-        ASSERT_EQ(2, i--);
-        ASSERT_EQ(1, i--);
-        ASSERT_EQ(0, i);
-        ASSERT_EQ(5, i + 5.);
-        ASSERT_EQ(5, i += 5);
-        ASSERT_EQ(10, i += 5);
-        ASSERT_EQ(50, i * 5.);
-        ASSERT_EQ(50, i *= 5);
-        ASSERT_EQ(50, i--);
-        ASSERT_EQ(48, --i);
+        i = 0.;
+        ASSERT_EQ(0., static_cast<double>(i));
+        ASSERT_EQ(0., static_cast<double>(i++));
+        ASSERT_EQ(1., static_cast<double>(i));
+        ASSERT_EQ(1., static_cast<double>(i++));
+        ASSERT_EQ(2., static_cast<double>(i));
+        ASSERT_EQ(2., static_cast<double>(i--));
+        ASSERT_EQ(1., static_cast<double>(i--));
+        ASSERT_EQ(0., static_cast<double>(i));
+        ASSERT_EQ(5., static_cast<double>(i + 5.));
+        ASSERT_EQ(5., static_cast<double>(i += 5));
+        ASSERT_EQ(10., static_cast<double>(i += 5));
+        ASSERT_EQ(50., static_cast<double>(i * 5.));
+        ASSERT_EQ(50., static_cast<double>(i *= 5));
+        ASSERT_EQ(50., static_cast<double>(i--));
+        ASSERT_EQ(48., static_cast<double>(--i));
     }
 
     TEST(Testing_AliasFor, For_Map) {

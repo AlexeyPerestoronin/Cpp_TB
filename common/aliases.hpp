@@ -17,20 +17,41 @@ namespace TB_NS {
             Type m_value;
 
             public:
-            BuiltInType()
+            BuiltInType() noexcept
                 : m_value{ Type{} } {}
 
-            BuiltInType(Type i_value)
-                : m_value{ i_value } {}
-
-            BuiltInType& operator=(Type i_value) {
-                m_value = i_value;
-                return *this;
+            template<typename FromType>
+            BuiltInType(FromType i_value) noexcept {
+                if constexpr (std::is_same_v<FromType, Type>)
+                    m_value = i_value;
+                else if constexpr (std::is_enum_v<FromType> && std::is_integral_v<Type>)
+                    m_value = static_cast<Type>(i_value);
+                else
+                    static_assert(std::false_type::value, "unsupported conversion");
             }
 
 #pragma region operator(s)
-            operator Type() const noexcept {
-                return m_value;
+            BuiltInType& operator=(const BuiltInType&) noexcept = default;
+
+            template<typename FromType>
+            BuiltInType& operator=(FromType i_value) noexcept {
+                if constexpr (std::is_same_v<FromType, Type>)
+                    m_value = i_value;
+                else if constexpr (std::is_enum_v<FromType> && std::is_integral_v<Type>)
+                    m_value = static_cast<Type>(i_value);
+                else
+                    static_assert(std::false_type::value, "unsupported conversion");
+                return *this;
+            }
+
+            template<typename ToType>
+            operator ToType() const noexcept {
+                if constexpr (std::is_same_v<ToType, Type>)
+                    return m_value;
+                else if constexpr (std::is_enum_v<ToType> && std::is_integral_v<Type>)
+                    return static_cast<ToType>(m_value);
+                else
+                    static_assert(std::false_type::value, "unsupported conversion");
             }
 
             BuiltInType& operator++() noexcept {
@@ -55,10 +76,15 @@ namespace TB_NS {
                 return r_result;
             }
 
-#define DEFINE_OPERATOR_1(opr)                         \
-    BuiltInType& operator opr(Type i_value) noexcept { \
-        m_value opr i_value;                           \
-        return *this;                                  \
+#define DEFINE_OPERATOR_1(opr)                                    \
+    BuiltInType& operator opr(Type i_value) noexcept {            \
+        m_value opr i_value;                                      \
+        return *this;                                             \
+    }                                                             \
+                                                                  \
+    BuiltInType& operator opr(const BuiltInType& i_bt) noexcept { \
+        m_value opr i_bt.m_value;                                 \
+        return *this;                                             \
     }
 
             DEFINE_OPERATOR_1(+=)
@@ -66,9 +92,13 @@ namespace TB_NS {
             DEFINE_OPERATOR_1(*=)
             DEFINE_OPERATOR_1(/=)
 
-#define DEFINE_OPERATOR_2(opr)                              \
-    BuiltInType operator opr(Type i_value) const noexcept { \
-        return m_value opr i_value;                         \
+#define DEFINE_OPERATOR_2(opr)                                         \
+    BuiltInType operator opr(Type i_value) const noexcept {            \
+        return m_value opr i_value;                                    \
+    }                                                                  \
+                                                                       \
+    BuiltInType operator opr(const BuiltInType& i_bt) const noexcept { \
+        return m_value opr i_bt.m_value;                               \
     }
 
             DEFINE_OPERATOR_2(+)
@@ -76,6 +106,33 @@ namespace TB_NS {
             DEFINE_OPERATOR_2(*)
             DEFINE_OPERATOR_2(/)
 
+#define DEFINE_OPERATOR_3(opr)                                  \
+    bool operator opr(Type i_value) const noexcept {            \
+        return m_value opr i_value;                             \
+    }                                                           \
+                                                                \
+    bool operator opr(const BuiltInType& i_bt) const noexcept { \
+        return m_value opr i_bt.m_value;                        \
+    }
+
+            DEFINE_OPERATOR_3(>)
+            DEFINE_OPERATOR_3(<)
+            DEFINE_OPERATOR_3(>=)
+            DEFINE_OPERATOR_3(<=)
+
+            template<typename WithType>
+            bool operator==(WithType i_value) const noexcept {
+                if constexpr (std::is_same_v<WithType, BuiltInType>)
+                    return m_value == i_value.m_value;
+                else if constexpr (std::is_same_v<WithType, Type>)
+                    return m_value == i_value;
+                else if constexpr (std::is_enum_v<WithType> && std::is_integral_v<Type>)
+                    return m_value == static_cast<Type>(i_value);
+                else
+                    static_assert(std::false_type::value, "unsupported conversion");
+            }
+
+#undef DEFINE_OPERATOR_3
 #undef DEFINE_OPERATOR_2
 #undef DEFINE_OPERATOR_1
 #pragma endregion
@@ -86,7 +143,7 @@ namespace TB_NS {
     // param-t: Type - target type for which the alias should be built
     // param-t: FromStr - pointer to a function converts a value of Str-type to the Type
     // param-t: ToStr - pointer to a function converts a value of the Type to Str-type
-    template<typename Type, void (*FromStr)(Type&, Str::CR) = nullptr, Str (*ToStr)(const Type&) = nullptr>
+    template<typename Type, void (*FromStr)(Type&, Str::CR) noexcept = nullptr, Str (*ToStr)(const Type&) noexcept = nullptr>
     struct AliasFor
         : StrI
         , std::conditional_t<std::is_trivial_v<Type>, BuiltInType<Type>, Type> {
@@ -114,9 +171,8 @@ namespace TB_NS {
         }
 
 #pragma region StrI
-        void from(Str::CR i_str) override final {
+        void from(Str::CR i_str) noexcept override final {
             if (!FromStr)
-                // Think-Over-Point: maybe there is better to raise an exception
                 return;
             if constexpr (IsTrivialType) {
                 Type value = static_cast<const BaseType&>(*this);
@@ -126,9 +182,8 @@ namespace TB_NS {
                 (*FromStr)(*this, i_str);
         }
 
-        Str to() const override final {
+        Str to() const noexcept override final {
             if (!ToStr)
-                // Think-Over-Point: maybe there is better to raise an exception
                 return Str{};
             if constexpr (IsTrivialType) {
                 Type value = static_cast<const BaseType&>(*this);
@@ -139,16 +194,15 @@ namespace TB_NS {
 #pragma endregion
     };
 
-
-#pragma region Aliases for buit-in types
+#pragma region Aliases for buit - in types
     namespace {
         template<typename InnerType>
-        void ToInnerTypeFromStr(InnerType& i_value, Str::CR i_str) {
+        void ToInnerTypeFromStr(InnerType& i_value, Str::CR i_str) noexcept {
             (std::stringstream{} << i_str) >> i_value;
         }
 
         template<typename InnerType>
-        Str ToStrFromInnerType(const InnerType& i_value) {
+        Str ToStrFromInnerType(const InnerType& i_value) noexcept {
             return (std::stringstream{} << i_value).str();
         }
 
@@ -166,6 +220,6 @@ namespace TB_NS {
     using VStrs = AliasFor<std::vector<Str>>;
     using LStrs = AliasFor<std::list<Str>>;
     using StrToStr = AliasFor<std::map<Str, Str>>;
-    using StrToInt = AliasFor<std::map<Str, int>>;
-    using IntToStr = AliasFor<std::map<int, Str>>;
+    using StrToInt = AliasFor<std::map<Str, Int>>;
+    using IntToStr = AliasFor<std::map<Int, Str>>;
 } // namespace TB_NS
