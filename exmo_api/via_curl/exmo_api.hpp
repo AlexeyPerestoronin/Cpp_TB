@@ -19,10 +19,10 @@ namespace TB_NS::Exmo_NS {
         API(Str i_public_key, Str i_secret_key);
 
 #pragma region ExchangeI
-        ExchangeCode getID() const noexcept override;
-        void check(CommandID command_id, CurrencyPair& io_pair) const override;
-        void check(CommandID command_id, Limit& io_limit) const override;
-        Json interact(CommandID command_id, RequestedParameters::CR i_params) override;
+        ExchangeCode code() const noexcept override;
+        void check(CommandCode i_commandCode, CurrencyPair& io_pair) const override;
+        void check(CommandCode i_commandCode, Limit& io_limit) const override;
+        Json interact(CommandCode i_commandCode, RequestedParameters::CR i_params) override;
 #pragma endregion
 
         Json call(Str::CR i_method, Str::CR i_params);

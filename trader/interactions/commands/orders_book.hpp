@@ -12,7 +12,7 @@ namespace TB_NS::Trader_NS::Interaction_NS {
         public:
 #pragma region CommandI
         using CommandI::CommandI;
-        CommandID getID() const noexcept override;
+        CommandCode code() const noexcept override;
 #pragma endregion
 
         struct Responce {

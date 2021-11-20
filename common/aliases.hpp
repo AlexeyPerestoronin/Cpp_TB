@@ -14,17 +14,18 @@ namespace TB_NS {
     namespace {
         template<typename Type>
         class BuiltInType {
-            Type m_value;
+            Type m_value{};
 
             public:
-            BuiltInType() noexcept
-                : m_value{ Type{} } {}
+            BuiltInType() noexcept = default;
 
             template<typename FromType>
             BuiltInType(FromType i_value) noexcept {
-                if constexpr (std::is_same_v<FromType, Type>)
+                if constexpr (std::is_same_v<FromType, BuiltInType>)
+                    m_value = i_value.m_value;
+                else if constexpr (std::is_same_v<FromType, Type>)
                     m_value = i_value;
-                else if constexpr (std::is_enum_v<FromType> && std::is_integral_v<Type>)
+                else if constexpr ((std::is_enum_v<FromType> && std::is_integral_v<Type>) || std::is_convertible_v<FromType, Type>)
                     m_value = static_cast<Type>(i_value);
                 else
                     static_assert(std::false_type::value, "unsupported conversion");

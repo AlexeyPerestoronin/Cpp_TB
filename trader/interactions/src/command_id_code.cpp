@@ -4,13 +4,15 @@
 // *** Alexey.Perestoronin@yandex.ru ** //
 // ************************************ //
 
-#include "../exchange_id_code.hpp"
+#pragma once
+
+#include "../command_id_code.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS {
-    void ToExchangeIDFromStr(ExchangeID& i_value, Str::CR i_str) noexcept {
+    void ToCommandIDFromStr(CommandID& i_value, Str::CR i_str) noexcept {
         static StrToInt nameToCode{
-            { "ExchangeID::UNSUPPORTED", Int{ ExchangeID::UNSUPPORTED } },
-            { "ExchangeID::EXMO", Int{ ExchangeID::EXMO } },
+            { "CommandID::UNSUPPORTED", Int{ CommandID::UNSUPPORTED } },
+            { "CommandID::GET_ORDER_BOOK", Int{ CommandID::GET_ORDER_BOOK } },
         };
 
         for (const auto& [name, code] : nameToCode)
@@ -18,18 +20,18 @@ namespace TB_NS::Trader_NS::Interaction_NS {
                 i_value = code;
                 return;
             }
-        i_value = ExchangeID::UNSUPPORTED;
+        i_value = CommandID::UNSUPPORTED;
     }
 
-    Str ToStrFromExchangeID(const ExchangeID& i_value) noexcept {
+    Str ToStrfromCommandID(const CommandID& i_value) noexcept {
         static IntToStr codeToName{
-            { Int{ ExchangeID::UNSUPPORTED }, "ExchangeID::UNSUPPORTED" },
-            { Int{ ExchangeID::EXMO }, "ExchangeID::EXMO" },
+            { Int{ CommandID::UNSUPPORTED }, "CommandID::UNSUPPORTED" },
+            { Int{ CommandID::GET_ORDER_BOOK }, "CommandID::GET_ORDER_BOOK" },
         };
 
         for (const auto& [code, name] : codeToName)
             if (code == i_value)
                 return name;
-        return "ExchangeID::UNSUPPORTED";
+        return "CommandID::UNSUPPORTED";
     }
 } // namespace TB_NS::Trader_NS::Interaction_NS
