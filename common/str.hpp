@@ -12,9 +12,7 @@ namespace TB_NS {
     // brief: the class extending base functional of standard strings
     class Str;
 
-
     class Str : public std::string {
-        using KeyToValue = std::map<Str, Str>;
         TB_PUBLIC_PRS(Str);
         using BaseType = std::string;
 
@@ -24,8 +22,10 @@ namespace TB_NS {
         Str(const BaseType& i_baseType);
         Str& operator=(const BaseType& i_baseType);
 
-        TB_MAYBE_UNUSED Str& format(const BaseType& i_key, const BaseType& i_value);
-        TB_MAYBE_UNUSED Str& format(const KeyToValue& i_replaceUnits);
+        TB_MAYBE_UNUSED Str& format(const BaseType& i_key, const BaseType& i_value) noexcept;
+        TB_MAYBE_UNUSED Str& format(const std::map<Str, Str>& i_replaceUnits) noexcept;
+
+        std::pair<Str, Str> splite(Str::CR i_anchor) const noexcept;
 
         Str& operator+=(Str::CR i_str);
     };
@@ -44,6 +44,15 @@ namespace TB_NS {
             return i_value.to();
         else if constexpr (std::is_trivial_v<Type>)
             return std::to_string(i_value);
+        else
+            static_assert(std::false_type::value, "target Type cannot be convert to Str");
+    }
+
+    // brief: converts target string to any data
+    template<class Type>
+    void FromStr(Type& io_value, Str::CR i_str) {
+        if constexpr (std::is_convertible_v<const Type&, const StrI&>)
+            return io_value.from(i_str);
         else
             static_assert(std::false_type::value, "target Type cannot be convert to Str");
     }

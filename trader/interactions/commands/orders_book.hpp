@@ -2,7 +2,7 @@
 
 #include "../interaction.hpp"
 
-namespace TB_NS::Trader_NS::Interaction_NS {
+namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
     class OrdersBook : public CommandI {
         TB_PUBLIC_PRS(CommandI);
 
@@ -19,6 +19,8 @@ namespace TB_NS::Trader_NS::Interaction_NS {
             // TODO: ...
         };
 
-        Responce request(CurrencyPair i_pair, Limit i_limit) const;
+        OrdersBook::Responce getR(TradePair i_pair);
+
+        Responce request(TradePair i_pair, Limit i_limit) const;
     };
-} // namespace TB_NS::Trader_NS::Interaction_NS
+} // namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS

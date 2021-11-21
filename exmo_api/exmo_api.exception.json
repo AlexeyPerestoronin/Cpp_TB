@@ -24,20 +24,18 @@
               },
               "exceptions": [
                 {
-                  "id": "order_book",
-                  "key": "Get Orders Book",
-                  "values": {
-                    "what is this request": "returns the book of current orders on the currency pair",
-                    "web site": "https://documenter.getpostman.com/view/10287440/SzYXWKPi#c60c51a8-e683-4f45-a000-820723d37871"
-                  },
+                  "id": "violation",
+                  "key": "API's violations'",
                   "exceptions": [
                     {
-                      "id": "limits",
-                      "key": "limits violation",
+                      "id": "limit",
+                      "key": "limit violation",
                       "values": {
-                        "description": "the limitation of the `limit` value was violated",
+                        "description": "the 'limit'-parameter's limitation was violated",
                         "minimal allowed": "{min:}",
-                        "requested": "{requested:}"
+                        "maximal allowed": "{max:}",
+                        "requested": "{requested:}",
+                        "command id": "{id:}"
                       }
                     }
                   ]
@@ -47,10 +45,50 @@
                   "key": "unregistered request",
                   "values": {
                     "description": "the request is unregistered",
-                    "id": "{id:}"
+                    "command id": "{id:}"
                   }
                 }
               ]
+            }
+          ]
+        },
+        {
+          "id": "checks",
+          "key": "common checks",
+          "values": {
+            "description": "common exception for collection of checks related exceptions"
+          },
+          "exceptions": [
+            {
+              "id": "unrecognized",
+              "key": "unrecognized checks",
+              "values": {
+                "description": "there was an attempt to perform an unrecognized checking"
+              }
+            }
+          ]
+        },
+        {
+          "id": "builds",
+          "key": "common builds",
+          "values": {
+            "description": "building time-line exception"
+          },
+          "exceptions": [
+            {
+              "id": "usupported_type",
+              "key": "unsupported type of request's parameter'",
+              "values": {
+                "description": "there was an attempt to build an unsupported request's parameter"
+              }
+            },
+            {
+              "id": "unsupported_currency",
+              "key": "unsupported type of currency",
+              "values": {
+                "description": "there was an attempt build request with the unsupported currency type",
+                "type of unsupported currency": "{type:}"
+              }
             }
           ]
         }

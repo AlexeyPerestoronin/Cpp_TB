@@ -2,20 +2,18 @@
 
 #include "command_id_code.hpp"
 #include "exchange_id_code.hpp"
+#include "trade_pair.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS {
-    using CurrencyPair = AliasFor<Str::O>;
     using Limit = AliasFor<Int::O>;
 
-    using RequestedParameter = AliasFor<std::variant<CurrencyPair, Limit>>;
+    using RequestedParameter = AliasFor<std::variant<TradePair, Limit>>;
     using RequestedParameters = AliasFor<RequestedParameter::L>;
 
-    struct ExchangeI {
+    struct ExchangeI : std::enable_shared_from_this<ExchangeI> {
         TB_PRS(ExchangeI);
         virtual ExchangeCode code() const noexcept = 0;
-        virtual void check(CommandCode i_commandCode, CurrencyPair& io_pair) const = 0;
-        virtual void check(CommandCode i_commandCode, Limit& io_limit) const = 0;
-        virtual Json interact(CommandCode i_commandCode, RequestedParameters::CR i_params) = 0;
+        virtual Json interact(CommandCode i_commandCode, RequestedParameters i_params) = 0;
     };
 
     class CommandI {

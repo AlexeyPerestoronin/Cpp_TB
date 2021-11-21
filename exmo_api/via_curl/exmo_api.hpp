@@ -12,21 +12,29 @@ namespace TB_NS::Exmo_NS {
         Str m_secretKey;
 
         Str m_url{ "api.exmo.com/v1/"s };
-        ULONG m_nonce{ static_cast<ULONG>(std::time(nullptr)) };
+        mutable ULONG m_nonce{ static_cast<ULONG>(std::time(nullptr)) };
         CurlAdapter_NS::Http_NS::Connection m_connection{ CurlAdapter_NS::Http_NS::Connection() };
+
+        void check(CommandCode i_commandCode, TradePair& io_pair) const;
+        void check(CommandCode i_commandCode, Limit& io_limit) const;
+        void check(CommandCode i_commandCode, RequestedParameters& i_params) const;
+
+        Str method(CommandCode i_commandCode) const;
+
+        Str build(TradePair::CR i_pair) const;
+        Str build(Limit::CR i_limit) const;
+        Str build(RequestedParameters::CR i_params) const;
 
         public:
         API(Str i_public_key, Str i_secret_key);
 
 #pragma region ExchangeI
         ExchangeCode code() const noexcept override;
-        void check(CommandCode i_commandCode, CurrencyPair& io_pair) const override;
-        void check(CommandCode i_commandCode, Limit& io_limit) const override;
-        Json interact(CommandCode i_commandCode, RequestedParameters::CR i_params) override;
+        Json interact(CommandCode i_commandCode, RequestedParameters i_params) override;
 #pragma endregion
 
         Json call(Str::CR i_method, Str::CR i_params);
 
-        static Str build(LStrs::CR i_params);
+        static Str build_dd(LStrs::CR i_params);
     };
 } // namespace TB_NS::Exmo_NS
