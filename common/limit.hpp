@@ -32,7 +32,7 @@ namespace TB_NS {
     // param-t: Type - the type of the presenting/holding value
     template<class Type>
     class Limit : StrI {
-        static_assert(std::is_convertible_v<Type, StrI>, "here is possible to preserve only StrI-inherited types");
+        static_assert(!std::is_convertible_v<Type, StrI>, "here is possible to preserve only StrI-inherited types");
 
         TB_PUBLIC_PRS(Limit<Type>);
 
@@ -55,9 +55,12 @@ namespace TB_NS {
             return *this;
         }
 
+        Limit(Limit&& i_limit)
+            : m_valueOpt(std::move(i_limit.m_valueOpt)) {}
+
 #pragma region StrI
         bool from(Str::CR i_str) noexcept override {
-            if (FromStr(TB_CONST_CAST(DefaultLimit), i_str))
+            if (FromStr(const_cast<Default&>(DefaultLimit), i_str))
                 return true;
             m_valueOpt = FromStr<Type>(i_str);
             return m_valueOpt.has_value();

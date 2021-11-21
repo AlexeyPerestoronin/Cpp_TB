@@ -9,7 +9,7 @@
 #include "../command_id_code.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS {
-    void ToCommandIDFromStr(CommandID& i_value, Str::CR i_str) noexcept {
+    bool ToCommandIDFromStr(CommandID& i_value, Str::CR i_str) noexcept {
         static StrToInt nameToCode{
             { "CommandID::UNSUPPORTED", Int{ CommandID::UNSUPPORTED } },
             { "CommandID::GET_ORDER_BOOK", Int{ CommandID::GET_ORDER_BOOK } },
@@ -18,9 +18,10 @@ namespace TB_NS::Trader_NS::Interaction_NS {
         for (const auto& [name, code] : nameToCode)
             if (name == i_str) {
                 i_value = code;
-                return;
+                return true;
             }
         i_value = CommandID::UNSUPPORTED;
+        return false;
     }
 
     Str ToStrfromCommandID(const CommandID& i_value) noexcept {

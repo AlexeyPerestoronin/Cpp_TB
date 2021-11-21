@@ -20,7 +20,7 @@ namespace TB_NS::Trader_NS::Interaction_NS {
     };
 
     // brief: converts a string to a currency's ID
-    void ToCurrencyIDFromStr(CurrencyID& i_value, Str::CR i_str) noexcept;
+    bool ToCurrencyIDFromStr(CurrencyID& i_value, Str::CR i_str) noexcept;
 
     // brief: converts a currency's ID to a string
     Str ToStrFromCurrencyID(const CurrencyID& i_value) noexcept;

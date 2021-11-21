@@ -19,8 +19,8 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
             // TODO: ...
         };
 
-        OrdersBook::Responce getR(TradePair i_pair);
+        Responce getR(TradePair i_pair);
 
-        Responce request(TradePair i_pair, Limit i_limit) const;
+        Responce request(TradePair i_pair, QuantityLimit i_limit = DefaultLimit) const;
     };
 } // namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS

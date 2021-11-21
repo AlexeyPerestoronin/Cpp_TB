@@ -9,10 +9,12 @@
 #include "../trade_pair.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS {
-    void TradePair::from(Str::CR i_str) noexcept {
+    bool TradePair::from(Str::CR i_str) noexcept {
         auto [before, after] = i_str.splite(",");
-        FromStr(_1, before);
-        FromStr(_2, after);
+        bool r_result{ true };
+        r_result &= FromStr(_1, before);
+        r_result &= FromStr(_2, after);
+        return r_result;
     }
 
     Str TradePair::to() const noexcept {

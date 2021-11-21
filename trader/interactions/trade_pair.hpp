@@ -19,7 +19,7 @@ namespace TB_NS::Trader_NS::Interaction_NS {
             , _2{ i_2 } {}
 
 #pragma region StrI
-        void from(Str::CR i_str) noexcept override final;
+        bool from(Str::CR i_str) noexcept override final;
         Str to() const noexcept override final;
 #pragma endregion
     };

@@ -16,7 +16,7 @@ namespace TB_NS::Trader_NS::Interaction_NS {
     };
 
     // brief: converts a string to a command's ID
-    void ToCommandIDFromStr(CommandID& i_value, Str::CR i_str) noexcept;
+    bool ToCommandIDFromStr(CommandID& i_value, Str::CR i_str) noexcept;
 
     // brief: converts a command's ID to a string
     Str ToStrfromCommandID(const CommandID& i_value) noexcept;

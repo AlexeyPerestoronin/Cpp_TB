@@ -5,9 +5,9 @@
 #include "trade_pair.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS {
-    using Limit = AliasFor<Int::O>;
+    using QuantityLimit = Limit<Int>;
 
-    using RequestedParameter = AliasFor<std::variant<TradePair, Limit>>;
+    using RequestedParameter = AliasFor<std::variant<TradePair, QuantityLimit>>;
     using RequestedParameters = AliasFor<RequestedParameter::L>;
 
     struct ExchangeI : std::enable_shared_from_this<ExchangeI> {

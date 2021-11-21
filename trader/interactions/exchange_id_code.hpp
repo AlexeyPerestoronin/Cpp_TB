@@ -16,7 +16,7 @@ namespace TB_NS::Trader_NS::Interaction_NS {
     };
 
     // brief: converts a string to an exchange platform's ID
-    void ToExchangeIDFromStr(ExchangeID& i_value, Str::CR i_str) noexcept;
+    bool ToExchangeIDFromStr(ExchangeID& i_value, Str::CR i_str) noexcept;
 
     // brief: converts an exchange platform's ID to a string
     Str ToStrFromExchangeID(const ExchangeID& i_value) noexcept;
