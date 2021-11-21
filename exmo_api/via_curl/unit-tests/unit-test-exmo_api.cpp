@@ -6,18 +6,18 @@
 namespace {
     using namespace TB_NS::Trader_NS::Interaction_NS;
 
-    ExchangeI::SP exchange = TB_NS::Exmo_NS::API("your_key", "your_secret").shared_from_this();
+    ExchangeI::SP exchange = std::make_shared<TB_NS::Exmo_NS::ViaCurl_NS::ExmoExchange>("your_key", "your_secret");
+    TradePair BTC_USD{ CurrencyID::BTC, CurrencyID::USD };
 
     TEST(ExmoAPI, GetOrderBook) {
         Commands_NS::OrdersBook command{ exchange };
-        command.code();
-        //Limit lim{};
-        command.getR(TradePair{ CurrencyID::BTC, CurrencyID::USD });
-        //command.request(TradePair{ CurrencyID::BTC, CurrencyID::USD }, lim);
+        ASSERT_EQ(CommandID::GET_ORDER_BOOK, command.code());
+        QuantityLimit lim{ TB_NS::DefaultLimit };
+        command.request(BTC_USD, TB_NS::Int{ 100 });
     }
 
     TEST(ExmoAPI, Simple2) {
-        TB_NS::Exmo_NS::API api("your_key", "your_secret");
+        TB_NS::Exmo_NS::ViaCurl_NS::ExmoExchange api("your_key", "your_secret");
         TB_NS::Json response = api.call("user_info", "");
         std::clog << ">> user_info: " << response.dump(4) << "\n\n";
 

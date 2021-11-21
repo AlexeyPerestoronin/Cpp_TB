@@ -22,6 +22,7 @@ namespace TB_NS::CurlAdapter_NS {
 
     CURL* EntryPoint::GetIns() {
         if (!m_curlPtr) {
+            // TODO: now here it is being created single-thread CURL-instance
             m_curlPtr = curl_easy_init();
             if (!m_curlPtr)
                 throw TB_EXEPT["CURL"]["easy_init"] << TB_LOCATION;

@@ -10,9 +10,9 @@
 
 namespace TB_NS::Trader_NS::Interaction_NS {
     bool ToCommandIDFromStr(CommandID& i_value, Str::CR i_str) noexcept {
-        static StrToInt nameToCode{
-            { "CommandID::UNSUPPORTED", Int{ CommandID::UNSUPPORTED } },
-            { "CommandID::GET_ORDER_BOOK", Int{ CommandID::GET_ORDER_BOOK } },
+        static std::map<Str, CommandID> nameToCode{
+            { "CommandID::UNSUPPORTED", CommandID::UNSUPPORTED },
+            { "CommandID::GET_ORDER_BOOK", CommandID::GET_ORDER_BOOK },
         };
 
         for (const auto& [name, code] : nameToCode)
@@ -25,9 +25,9 @@ namespace TB_NS::Trader_NS::Interaction_NS {
     }
 
     Str ToStrfromCommandID(const CommandID& i_value) noexcept {
-        static IntToStr codeToName{
-            { Int{ CommandID::UNSUPPORTED }, "CommandID::UNSUPPORTED" },
-            { Int{ CommandID::GET_ORDER_BOOK }, "CommandID::GET_ORDER_BOOK" },
+        static std::map<CommandID, Str> codeToName{
+            { CommandID::UNSUPPORTED, "CommandID::UNSUPPORTED" },
+            { CommandID::GET_ORDER_BOOK, "CommandID::GET_ORDER_BOOK" },
         };
 
         for (const auto& [code, name] : codeToName)

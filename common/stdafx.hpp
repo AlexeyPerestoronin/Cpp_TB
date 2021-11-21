@@ -48,6 +48,8 @@ namespace fs = std::filesystem;
 #include <memory>
 #include <optional>
 
+#include <mutex>
+
 // clang-format off
 // PRS - Pointer Reference SmartPointer
 #define TB_PRS(DataType, ...) \

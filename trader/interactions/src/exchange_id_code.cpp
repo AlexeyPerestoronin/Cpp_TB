@@ -8,9 +8,9 @@
 
 namespace TB_NS::Trader_NS::Interaction_NS {
     bool ToExchangeIDFromStr(ExchangeID& i_value, Str::CR i_str) noexcept {
-        static StrToInt nameToCode{
-            { "ExchangeID::UNSUPPORTED", Int{ ExchangeID::UNSUPPORTED } },
-            { "ExchangeID::EXMO", Int{ ExchangeID::EXMO } },
+        static std::map<Str, ExchangeID> nameToCode{
+            { "ExchangeID::UNSUPPORTED", ExchangeID::UNSUPPORTED },
+            { "ExchangeID::EXMO", ExchangeID::EXMO },
         };
 
         for (const auto& [name, code] : nameToCode)
@@ -23,9 +23,9 @@ namespace TB_NS::Trader_NS::Interaction_NS {
     }
 
     Str ToStrFromExchangeID(const ExchangeID& i_value) noexcept {
-        static IntToStr codeToName{
-            { Int{ ExchangeID::UNSUPPORTED }, "ExchangeID::UNSUPPORTED" },
-            { Int{ ExchangeID::EXMO }, "ExchangeID::EXMO" },
+        static std::map<ExchangeID, Str> codeToName{
+            { ExchangeID::UNSUPPORTED, "ExchangeID::UNSUPPORTED" },
+            { ExchangeID::EXMO, "ExchangeID::EXMO" },
         };
 
         for (const auto& [code, name] : codeToName)

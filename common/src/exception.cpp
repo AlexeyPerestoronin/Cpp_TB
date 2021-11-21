@@ -82,6 +82,11 @@ namespace TB_NS::Error_NS {
         return m_errorMessage->data();
     }
 
+    TB_NODISCARD Exception& Exception::operator()(ReplaceUnits i_replaceUnits) noexcept {
+        m_replaceUnits.insert(std::make_move_iterator(i_replaceUnits.begin()), std::make_move_iterator(i_replaceUnits.end()));
+        return *this;
+    }
+
     TB_NODISCARD Exception& Exception::operator()(ReplaceUnits::value_type i_replaceUnit) noexcept {
         m_replaceUnits.emplace(std::move(i_replaceUnit));
         return *this;

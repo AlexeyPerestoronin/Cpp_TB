@@ -5,15 +5,14 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
         return CommandID::GET_ORDER_BOOK;
     }
 
-    OrdersBook::Responce OrdersBook::getR(TradePair i_pair) {
-        //Json responce = m_exchange->interact(code(), RequestedParameters{ std::move(i_pair), std::move(QuantityLimit{ Int{ 100 } }) });
-        //Str str = responce.dump(4);
-        return Responce{};
-    }
-
-    OrdersBook::Responce OrdersBook::request(TradePair i_pair, QuantityLimit i_limit) const {
-        /*Json responce = */m_exchange->interact(code(), std::move(RequestedParameters{ std::move(i_pair), std::move(i_limit) }));
-        return Responce();
+    Json OrdersBook::request(TradePair i_pair, TB_NS::Limit<Int>) const {
+        QuantityLimit i_limit{ DefaultLimit };
+        auto interaction = m_exchange->createIteractions(code());
+        interaction->prepare(i_pair);
+        interaction->prepare(i_limit);
+        Json responce = interaction->interact();
+        Str str = responce.dump(4);
+        return responce;
         // TODO: there is need to insert an exception handling
     }
 } // namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS

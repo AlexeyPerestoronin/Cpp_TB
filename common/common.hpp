@@ -1,6 +1,7 @@
 #pragma once
 
 #include <common/stdafx.hpp>
+#include <common/singlton.hpp>
 #include <common/aliases.hpp>
 #include <common/str.hpp>
 #include <common/json.hpp>

@@ -49,7 +49,7 @@ namespace TB_NS {
             operator ToType() const noexcept {
                 if constexpr (std::is_same_v<ToType, Type>)
                     return m_value;
-                else if constexpr (std::is_enum_v<ToType> && std::is_integral_v<Type>)
+                else if constexpr (std::is_enum_v<Type> && std::is_integral_v<ToType>)
                     return static_cast<ToType>(m_value);
                 else
                     static_assert(std::false_type::value, "unsupported conversion");

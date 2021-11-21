@@ -10,7 +10,7 @@
 
 namespace TB_NS::Trader_NS::Interaction_NS {
     bool ToCurrencyIDFromStr(CurrencyID& i_value, Str::CR i_str) noexcept {
-        static StrToInt nameToCode{
+        static std::map<Str, CurrencyID> nameToCode{
             { "CurrencyID::UNSUPPORTED", CurrencyID::UNSUPPORTED },
             // fiat
             { "CurrencyID::USD", CurrencyID::USD },
@@ -29,7 +29,7 @@ namespace TB_NS::Trader_NS::Interaction_NS {
     }
 
     Str ToStrFromCurrencyID(const CurrencyID& i_value) noexcept {
-        static IntToStr codeToName{
+        static std::map<CurrencyID, Str> codeToName{
             { CurrencyID::UNSUPPORTED, "CurrencyID::UNSUPPORTED" },
             // fiat
             { CurrencyID::USD, "CurrencyID::USD" },

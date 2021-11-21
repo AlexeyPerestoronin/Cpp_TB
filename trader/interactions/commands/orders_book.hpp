@@ -3,24 +3,19 @@
 #include "../interaction.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
-    class OrdersBook : public CommandI {
-        TB_PUBLIC_PRS(CommandI);
+    struct OrdersBook : CommandI {
+        TB_PRS(OrdersBook);
 
-        protected:
-        ExchangeI::SP m_exchange{};
-
-        public:
-#pragma region CommandI
         using CommandI::CommandI;
+
+#pragma region CommandI
         CommandCode code() const noexcept override;
 #pragma endregion
 
-        struct Responce {
-            // TODO: ...
-        };
+        //struct Responce {
+        //    // TODO: ...
+        //};
 
-        Responce getR(TradePair i_pair);
-
-        Responce request(TradePair i_pair, QuantityLimit i_limit = DefaultLimit) const;
+        Json request(TradePair i_pair, TB_NS::Limit<Int>) const;
     };
 } // namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS

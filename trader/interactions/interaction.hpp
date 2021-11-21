@@ -7,13 +7,23 @@
 namespace TB_NS::Trader_NS::Interaction_NS {
     using QuantityLimit = Limit<Int>;
 
-    using RequestedParameter = AliasFor<std::variant<TradePair, QuantityLimit>>;
-    using RequestedParameters = AliasFor<RequestedParameter::L>;
+    class InteractI : Singleton {
+        protected:
+        CommandCode m_commandCode;
 
-    struct ExchangeI : std::enable_shared_from_this<ExchangeI> {
+        TB_PUBLIC_PRS(InteractI);
+        InteractI(CommandCode i_commandCode) noexcept
+            : m_commandCode(i_commandCode){};
+
+        virtual void prepare(TradePair& io_tradePair) = 0;
+        virtual void prepare(QuantityLimit& io_quantityLimits) = 0;
+        virtual Json interact() = 0;
+    };
+
+    struct ExchangeI : Singleton {
         TB_PRS(ExchangeI);
         virtual ExchangeCode code() const noexcept = 0;
-        virtual Json interact(CommandCode i_commandCode, RequestedParameters i_params) = 0;
+        virtual InteractI::SP createIteractions(CommandCode i_commandCode) = 0;
     };
 
     class CommandI {

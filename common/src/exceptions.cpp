@@ -23,7 +23,11 @@ namespace TB_NS::Error_NS {
     void Exceptions::LoadSettings(Path::CR i_settigsFilePath) {
         Json errors;
         if (auto settingsFile = RAI<std::ifstream>(i_settigsFilePath); settingsFile.is_open())
-            settingsFile >> errors;
+            try {
+                settingsFile >> errors;
+            } catch (std::exception& error) {
+                throw Exception(PredefinedError_NS::SettingsFileCannotBeParsed)({ "{file_name:}", i_settigsFilePath.string() })("{error:}", error.what());
+            }
         else
             throw Exception(PredefinedError_NS::SettingsFileNotLoading)({ "{file_name:}", i_settigsFilePath.string() });
 

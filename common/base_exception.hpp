@@ -36,6 +36,14 @@ namespace TB_NS::Error_NS {
             return Error{ .id = "LoadSettings", .key = "file with exceptions cannot be openLoadSettingsed", .values = std::move(v) };
         }();
 
+        const Error SettingsFileCannotBeParsed = [] {
+            Error::Values v{
+                { "description", "the '{file_name:}'-file with exceptions cannot be parsed" },
+                { "target error", "{error:}" },
+            };
+            return Error{ .id = "LoadSettings", .key = "file with exceptions cannot be openLoadSettingsed", .values = std::move(v) };
+        }();
+
         const Error UnregException = [] {
             Error::Values v{ { "description", "target error cannot be found by key or value - {keyOrValue:}" } };
             return Error{ .id = "UnregError", .key = "target error cannot be fouLoadSettingsnd", .values = std::move(v) };
@@ -65,6 +73,7 @@ namespace TB_NS::Error_NS {
         const char* what() const override;
 #pragma endregion
 
+        TB_NODISCARD Exception& operator()(ReplaceUnits i_replaceUnits) noexcept;
         TB_NODISCARD Exception& operator()(ReplaceUnits::value_type i_replaceUnit) noexcept;
         TB_NODISCARD Exception& operator()(Str i_key, Str i_value) noexcept;
         TB_NODISCARD Exception operator[](Str::CR i_IdOrKey) noexcept;

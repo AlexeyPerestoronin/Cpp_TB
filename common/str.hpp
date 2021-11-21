@@ -51,6 +51,8 @@ namespace TB_NS {
             return i_value.to();
         else if constexpr (std::is_trivial_v<Type>)
             return std::to_string(i_value);
+        else if constexpr (std::is_same_v<Type, Str>)
+            return i_value;
         else
             static_assert(std::false_type::value, "target Type cannot be convert to Str");
     }
@@ -60,6 +62,10 @@ namespace TB_NS {
     TB_MAYBE_UNUSED bool FromStr(Type& io_value, Str::CR i_str) noexcept {
         if constexpr (std::is_convertible_v<const Type&, const StrI&>)
             return io_value.from(i_str);
+        else if constexpr (std::is_same_v<Type, Str>) {
+            io_value = i_str;
+            return true;
+        }
         else
             static_assert(std::false_type::value, "target Type cannot be convert to Str");
     }
@@ -71,6 +77,9 @@ namespace TB_NS {
             if (Type value; value.from(i_str))
                 return value;
             return std::nullopt;
+        }
+        else if constexpr (std::is_same_v<Type, Str>) {
+            return i_str;
         } else
             static_assert(std::false_type::value, "target Type cannot be convert to Str");
     }
