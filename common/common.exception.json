@@ -1,4 +1,21 @@
 {
   "reductions": [],
-  "exceptions": []
+  "exceptions": [
+    {
+      "id": "Limit",
+      "key": "Limit-class's exceptions'",
+      "values": {
+        "description": "the exceptions collection belongs the Limit-class"
+      },
+      "exceptions": [
+        {
+          "id": "no_value_presents",
+          "key": "No value presents",
+          "values": {
+            "description": "the current instance of Limit-class isn't have the preserved value - only default value"
+          }
+        }
+      ]
+    }
+  ]
 }

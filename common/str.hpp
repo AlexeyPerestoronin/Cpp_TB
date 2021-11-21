@@ -33,7 +33,14 @@ namespace TB_NS {
     struct StrI {
         TB_PRS(StrI);
         // NOTE: since this interface could be used with exception(s) the both of its functions should be marked as noexcept.
-        virtual void from(Str::CR i_str) noexcept = 0;
+
+        // brief: creates Object of a inherited-Type from the string
+        // param: i_str - the string from which the Object have to be constructed
+        // return: true - if successfully constructed; false - in other vise
+        TB_MAYBE_UNUSED virtual bool from(Str::CR i_str) noexcept = 0;
+
+        // brief: converts Object of a inherited-Type to a string
+        // return: string presents the Object
         virtual Str to() const noexcept = 0;
     };
 
@@ -50,10 +57,21 @@ namespace TB_NS {
 
     // brief: converts target string to any data
     template<class Type>
-    void FromStr(Type& io_value, Str::CR i_str) {
+    TB_MAYBE_UNUSED bool FromStr(Type& io_value, Str::CR i_str) noexcept {
         if constexpr (std::is_convertible_v<const Type&, const StrI&>)
             return io_value.from(i_str);
         else
+            static_assert(std::false_type::value, "target Type cannot be convert to Str");
+    }
+
+    // brief: converts target string to any data
+    template<class Type>
+    TB_MAYBE_UNUSED std::optional<Type> FromStr(Str::CR i_str) noexcept {
+        if constexpr (std::is_convertible_v<const Type&, const StrI&>) {
+            if (Type value; value.from(i_str))
+                return value;
+            return std::nullopt;
+        } else
             static_assert(std::false_type::value, "target Type cannot be convert to Str");
     }
 } // namespace TB_NS

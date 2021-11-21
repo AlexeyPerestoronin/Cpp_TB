@@ -248,6 +248,7 @@ target("trader")
     add_rules("copy_exception_file")
     add_rules("corutine_supporting")
 
+    add_files("trader/src/*.cpp")
     add_files("trader/**/src/*.cpp")
     add_files("trader/**exception.json")
 

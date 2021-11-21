@@ -144,7 +144,7 @@ namespace TB_NS {
     // param-t: Type - target type for which the alias should be built
     // param-t: FromStr - pointer to a function converts a value of Str-type to the Type
     // param-t: ToStr - pointer to a function converts a value of the Type to Str-type
-    template<typename Type, void (*FromStr)(Type&, Str::CR) noexcept = nullptr, Str (*ToStr)(const Type&) noexcept = nullptr>
+    template<typename Type, bool (*FromStr)(Type&, Str::CR) noexcept = nullptr, Str (*ToStr)(const Type&) noexcept = nullptr>
     struct AliasFor
         : StrI
         , std::conditional_t<std::is_trivial_v<Type>, BuiltInType<Type>, Type> {
@@ -172,15 +172,16 @@ namespace TB_NS {
         }
 
 #pragma region StrI
-        void from(Str::CR i_str) noexcept override final {
+        bool from(Str::CR i_str) noexcept override final {
             if (!FromStr)
-                return;
+                return false;
             if constexpr (IsTrivialType) {
                 Type value = static_cast<const BaseType&>(*this);
                 (*FromStr)(value, i_str);
                 *this = value;
             } else
                 (*FromStr)(*this, i_str);
+            return true;
         }
 
         Str to() const noexcept override final {
@@ -198,8 +199,9 @@ namespace TB_NS {
 #pragma region Aliases for buit - in types
     namespace {
         template<typename InnerType>
-        void ToInnerTypeFromStr(InnerType& i_value, Str::CR i_str) noexcept {
+        bool ToInnerTypeFromStr(InnerType& i_value, Str::CR i_str) noexcept {
             (std::stringstream{} << i_str) >> i_value;
+            return true;
         }
 
         template<typename InnerType>
