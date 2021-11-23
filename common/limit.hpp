@@ -32,9 +32,12 @@ namespace TB_NS {
     // param-t: Type - the type of the presenting/holding value
     template<class Type>
     class Limit : public StrI {
-        static_assert(std::is_convertible_v<const Type&, const StrI&> || std::is_same_v<Type, Str>, "here is possible to preserve only StrI-inherited types");
+        static_assert(
+            std::is_convertible_v<const Type&, const StrI&> || std::is_same_v<Type, Str> || std::is_trivial_v<Type>,
+            "here is possible to preserve only StrI-inherited types");
 
         TB_PUBLIC_PRS(Limit<Type>);
+        using ValueType = Type;
 
         private:
         std::optional<Type> m_valueOpt{ std::nullopt };

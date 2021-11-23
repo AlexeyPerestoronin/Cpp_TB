@@ -30,6 +30,10 @@ namespace TB_NS {
         Str& operator+=(Str::CR i_str);
     };
 
+    std::ostream& operator<<(std::ostream& i_stream, Str::CR i_str);
+    
+    std::ifstream& operator>>(std::ifstream& i_stream, Str& i_str);
+
     struct StrI {
         TB_PRS(StrI);
         // NOTE: since this interface could be used with exception(s) the both of its functions should be marked as noexcept.
@@ -46,13 +50,13 @@ namespace TB_NS {
 
     // brief: converts the data of any type to string (Str)
     template<class Type>
-    Str ToStr(const Type& i_value) {
+    TB_NODISCARD Str ToStr(const Type& i_value) noexcept {
         if constexpr (std::is_convertible_v<const Type&, const StrI&>)
             return i_value.to();
-        else if constexpr (std::is_trivial_v<Type>)
-            return std::to_string(i_value);
         else if constexpr (std::is_same_v<Type, Str>)
             return i_value;
+        else if constexpr (std::is_trivial_v<Type>)
+            return std::to_string(i_value);
         else
             static_assert(std::false_type::value, "target Type cannot be convert to Str");
     }
@@ -65,21 +69,38 @@ namespace TB_NS {
         else if constexpr (std::is_same_v<Type, Str>) {
             io_value = i_str;
             return true;
-        }
-        else
+        } else if constexpr (std::is_trivial_v<Type>) {
+            try {
+                std::stringstream stream{};
+                stream << i_str;
+                stream >> io_value;
+                return true;
+            } catch (...) {
+                return false;
+            }
+        } else
             static_assert(std::false_type::value, "target Type cannot be convert to Str");
     }
 
     // brief: converts target string to any data
     template<class Type>
-    TB_MAYBE_UNUSED std::optional<Type> FromStr(Str::CR i_str) noexcept {
+    TB_NODISCARD std::optional<Type> FromStr(Str::CR i_str) noexcept {
         if constexpr (std::is_convertible_v<const Type&, const StrI&>) {
             if (Type value; value.from(i_str))
                 return value;
             return std::nullopt;
-        }
-        else if constexpr (std::is_same_v<Type, Str>) {
+        } else if constexpr (std::is_same_v<Type, Str>) {
             return i_str;
+        } else if constexpr (std::is_trivial_v<Type>) {
+            try {
+                Type value;
+                std::stringstream stream{};
+                stream << i_str;
+                stream >> value;
+                return value;
+            } catch (...) {
+                return std::nullopt;
+            }
         } else
             static_assert(std::false_type::value, "target Type cannot be convert to Str");
     }

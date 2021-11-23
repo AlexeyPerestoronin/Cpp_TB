@@ -16,6 +16,6 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
         //    // TODO: ...
         //};
 
-        Json request(TradePair i_pair, TB_NS::Limit<Int>) const;
+        Json request(TradePair i_pair, QuantityLimit i_limit = DefaultLimit) const;
     };
 } // namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS

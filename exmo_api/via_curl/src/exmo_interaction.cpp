@@ -35,7 +35,7 @@ namespace TB_NS::Exmo_NS::ViaCurl_NS {
 
     void ExmoInteraction::prepare(QuantityLimit& io_quantityLimits) {
         if (m_commandCode == CommandID::GET_ORDER_BOOK) {
-            static Int min{ 1 }, def{ 100 }, max{ 1000 };
+            static QuantityLimit::ValueType min{ 1 }, def{ 100 }, max{ 1000 };
             if (!io_quantityLimits.isDefault())
                 io_quantityLimits = def;
             else if (const auto& value = io_quantityLimits.getValue(); value < min || value > max) {

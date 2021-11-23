@@ -48,4 +48,13 @@ namespace TB_NS {
         BaseType::append(i_str.data(), i_str.size());
         return *this;
     }
+
+    std::ostream& operator<<(std::ostream& i_stream, Str::CR i_str) {
+        return i_stream << static_cast<const Str::BaseType&>(i_str);
+    }
+
+    std::ifstream& operator>>(std::ifstream& i_stream, Str& i_str) {
+        i_stream >> static_cast<Str::BaseType&>(i_str);
+        return i_stream;
+    }
 } // namespace TB_NS

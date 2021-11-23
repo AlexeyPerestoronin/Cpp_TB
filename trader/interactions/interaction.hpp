@@ -5,7 +5,7 @@
 #include "trade_pair.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS {
-    using QuantityLimit = Limit<Int>;
+    using QuantityLimit = Limit<int>;
 
     class InteractI : Singleton {
         protected:

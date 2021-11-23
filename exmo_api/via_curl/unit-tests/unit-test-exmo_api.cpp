@@ -12,8 +12,7 @@ namespace {
     TEST(ExmoAPI, GetOrderBook) {
         Commands_NS::OrdersBook command{ exchange };
         ASSERT_EQ(CommandID::GET_ORDER_BOOK, command.code());
-        QuantityLimit lim{ TB_NS::DefaultLimit };
-        command.request(BTC_USD, TB_NS::Int{ 100 });
+        command.request(BTC_USD, 100);
     }
 
     TEST(ExmoAPI, Simple2) {
