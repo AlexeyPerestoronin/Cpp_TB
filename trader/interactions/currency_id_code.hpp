@@ -12,6 +12,7 @@ namespace TB_NS::Trader_NS::Interaction_NS {
     // brief: the collections of ID(s) of currencies
     enum class CurrencyID : uint8_t {
         UNSUPPORTED,
+        UNSUPPORTED3,
         // fiat
         USD,
         RUB,

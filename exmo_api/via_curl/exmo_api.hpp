@@ -31,10 +31,6 @@ namespace TB_NS::Exmo_NS::ViaCurl_NS {
         Str::CR method(CommandCode i_commandCode) const;
 
         Json request(CommandCode i_commandCode, Str::CR i_params);
-
-        // TODO: should be removed
-        Json call(Str::CR i_method, Str::CR i_params);
-        static Str build_dd(LStrs::CR i_params);
     };
 
     class ExmoInteraction : public InteractI {

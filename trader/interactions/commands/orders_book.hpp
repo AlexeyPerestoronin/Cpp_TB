@@ -12,9 +12,18 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
         CommandCode code() const noexcept override;
 #pragma endregion
 
-        //struct Responce {
-        //    // TODO: ...
-        //};
+        struct Responce {
+            struct {
+                TradePair pair;
+                QuantityLimit limit;
+            } request;
+
+            /*struct {
+                
+            } response;*/
+
+            Responce(Json::CR i_json);
+        };
 
         Json request(TradePair i_pair, QuantityLimit i_limit = DefaultLimit) const;
     };

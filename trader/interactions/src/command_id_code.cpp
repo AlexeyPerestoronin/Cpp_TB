@@ -9,13 +9,15 @@
 #include "../command_id_code.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS {
-    bool ToCommandIDFromStr(CommandID& i_value, Str::CR i_str) noexcept {
-        static std::map<Str, CommandID> nameToCode{
+    namespace {
+        static std::vector<std::pair<Str, CommandID>> NameToCode{
             { "CommandID::UNSUPPORTED", CommandID::UNSUPPORTED },
             { "CommandID::GET_ORDER_BOOK", CommandID::GET_ORDER_BOOK },
         };
+    } // namespace
 
-        for (const auto& [name, code] : nameToCode)
+    bool ToCommandIDFromStr(CommandID& i_value, Str::CR i_str) noexcept {
+        for (const auto& [name, code] : NameToCode)
             if (name == i_str) {
                 i_value = code;
                 return true;
@@ -25,12 +27,7 @@ namespace TB_NS::Trader_NS::Interaction_NS {
     }
 
     Str ToStrfromCommandID(const CommandID& i_value) noexcept {
-        static std::map<CommandID, Str> codeToName{
-            { CommandID::UNSUPPORTED, "CommandID::UNSUPPORTED" },
-            { CommandID::GET_ORDER_BOOK, "CommandID::GET_ORDER_BOOK" },
-        };
-
-        for (const auto& [code, name] : codeToName)
+        for (const auto& [name, code] : NameToCode)
             if (code == i_value)
                 return name;
         return "CommandID::UNSUPPORTED";

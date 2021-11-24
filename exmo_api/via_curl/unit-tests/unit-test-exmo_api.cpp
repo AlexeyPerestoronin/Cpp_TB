@@ -12,17 +12,6 @@ namespace {
     TEST(ExmoAPI, GetOrderBook) {
         Commands_NS::OrdersBook command{ exchange };
         ASSERT_EQ(CommandID::GET_ORDER_BOOK, command.code());
-        command.request(BTC_USD, 100);
-    }
-
-    TEST(ExmoAPI, Simple2) {
-        TB_NS::Exmo_NS::ViaCurl_NS::ExmoExchange api("your_key", "your_secret");
-        TB_NS::Json response = api.call("user_info", "");
-        std::clog << ">> user_info: " << response.dump(4) << "\n\n";
-
-        response = api.call("order_book", api.build_dd({ "pair=BTC_USD" }));
-        std::clog << ">> order_book: " << response.dump(4) << "\n\n";
-
-        EXPECT_TRUE(true);
+        command.request(BTC_USD, 5);
     }
 } // namespace
