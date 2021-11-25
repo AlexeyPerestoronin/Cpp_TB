@@ -11,10 +11,12 @@
 namespace TB_NS::Trader_NS::Interaction_NS {
     struct TradePair : StrI {
         TB_PRS(TradePair);
-        CurrencyCode _1{};
-        CurrencyCode _2{};
+        CurrencyCode _1{ CurrencyID::UNSUPPORTED };
+        CurrencyCode _2{ CurrencyID::UNSUPPORTED };
 
-        TradePair(CurrencyID i_1, CurrencyID i_2)
+        TradePair() noexcept = default;
+
+        TradePair(CurrencyID i_1, CurrencyID i_2) noexcept
             : _1{ i_1 }
             , _2{ i_2 } {}
 

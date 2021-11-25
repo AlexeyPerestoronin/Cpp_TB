@@ -15,10 +15,13 @@
 #define TB_MAYBE_UNUSED [[maybe_unused]]
 #define TB_NODISCARD [[nodiscard]]
 
-#define TB_CONST_CAST(value)                                                                                                 \
-    const_cast<std::conditional_t<                                                                                           \
-        std::is_pointer_v<decltype(value)>, std::add_pointer_t<std::remove_const_t<std::remove_pointer_t<decltype(value)>>>, \
-        std::remove_const_t<decltype(value)>>>(value)
+// clang-format off
+#define TB_CONST_CAST(value) \
+    const_cast<std::conditional_t< \
+        std::is_pointer_v<decltype(value)>, \
+            std::add_pointer_t<std::remove_const_t<std::remove_pointer_t<decltype(value)>>>, \
+            std::add_lvalue_reference_t<std::remove_const_t<decltype(value)>>>>(value)
+// clang-format on
 
 #include <string>
 using namespace std::string_literals;

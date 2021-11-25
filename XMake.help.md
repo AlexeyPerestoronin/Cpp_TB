@@ -1,7 +1,16 @@
 ## From console
 * Generating VS solution of newest VS-version:  
+create a latest available version VS solution  
 ```bash
 xmake project -k vsxmake
+```
+create a VS2019 solution
+```bash
+xmake project -k vsxmake2019 (see after the `vsxmake2019`-folder)  
+```
+create a VS2022 solution
+```bash
+xmake project -k vsxmake2022 (see after the `vsxmake2022`-folder)  
 ```
 * Observe compiling options related with target library (`boost`, for example)
 ```bash

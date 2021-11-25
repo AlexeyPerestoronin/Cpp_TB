@@ -20,9 +20,9 @@ namespace TB_NS::OpenSslAdapter_NS {
             throw TB_EXEPT["OpenSSL"]["HMAC"]["Update"] << TB_LOCATION;
 
         // Finish HMAC computation and fetch result.
-        std::array<unsigned char, 129> result{};
+        unsigned char result[129]{};
         unsigned int size{};
-        if (HMAC_Final(ctxUPtr.get(), result.data(), &size) == NULL)
+        if (HMAC_Final(ctxUPtr.get(), result, &size) == NULL)
             throw TB_EXEPT["OpenSSL"]["HMAC"]["Final"] << TB_LOCATION;
 
         for (unsigned int i = 0; i < size; i++) {

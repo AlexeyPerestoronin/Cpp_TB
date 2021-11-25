@@ -21,6 +21,7 @@ namespace TB_NS {
         Str& operator=(BaseType&& i_baseType) noexcept;
         Str(const BaseType& i_baseType);
         Str& operator=(const BaseType& i_baseType);
+        virtual ~Str() = default;
 
         TB_MAYBE_UNUSED Str& format(const BaseType& i_key, const BaseType& i_value) noexcept;
         TB_MAYBE_UNUSED Str& format(const std::map<Str, Str>& i_replaceUnits) noexcept;

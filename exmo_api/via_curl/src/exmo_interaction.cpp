@@ -33,9 +33,9 @@ namespace TB_NS::Exmo_NS::ViaCurl_NS {
         m_request += Str{ "&pair={1}_{2}" }.format("{1}", recognize(io_tradePair._1)).format("{2}", recognize(io_tradePair._2));
     }
 
-    void ExmoInteraction::prepare(QuantityLimit& io_quantityLimits) {
+    void ExmoInteraction::prepare(RequestLimit& io_quantityLimits) {
         if (m_commandCode == CommandID::GET_ORDER_BOOK) {
-            static QuantityLimit::ValueType min{ 1 }, def{ 100 }, max{ 1000 };
+            static RequestLimit::ValueType min{ 1 }, def{ 100 }, max{ 1000 };
             if (!io_quantityLimits.isDefault())
                 io_quantityLimits = def;
             else if (const auto& value = io_quantityLimits.getValue(); value < min || value > max) {

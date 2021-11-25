@@ -42,7 +42,7 @@ namespace TB_NS::Exmo_NS::ViaCurl_NS {
 
 #pragma region InteractI
         void prepare(TradePair& io_tradePair) override;
-        void prepare(QuantityLimit& io_quantityLimits) override;
+        void prepare(RequestLimit& io_quantityLimits) override;
         Json interact() override;
 #pragma endregion
     };

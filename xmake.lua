@@ -148,6 +148,9 @@ add_includedirs(".external/cppcoro/include/")
 target("cppcoro")
     set_kind("static")
 
+    -- because, the cppcoro is the external project we aren't responsible for its warnings
+    set_warnings("none")
+
     add_rules("corutine_supporting")
 
     add_files(".external/cppcoro/lib/*.cpp")
@@ -289,8 +292,6 @@ target("UnitTests")
     add_rules("copy_exception_file")
     add_rules("corutine_supporting")
     add_rules("copy_related_DLLs")
-    
-    add_cxxflags("/Wv:18")
 
     add_files("src/UnitTests.cpp")
     add_files("src/UnitTests.exception.json")

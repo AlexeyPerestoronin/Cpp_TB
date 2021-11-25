@@ -5,7 +5,17 @@
 #include "trade_pair.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS {
-    using QuantityLimit = Limit<int>;
+    using Cost = Double;
+    using Price = Double;
+    using Quantity = Double;
+    struct Order {
+        TB_PRS(Order);
+        Cost cost;
+        Price price;
+        Quantity quantity;
+    };
+    
+    using RequestLimit = Limit<int>;
 
     class InteractI : Singleton {
         protected:
@@ -16,7 +26,7 @@ namespace TB_NS::Trader_NS::Interaction_NS {
             : m_commandCode(i_commandCode){};
 
         virtual void prepare(TradePair& io_tradePair) = 0;
-        virtual void prepare(QuantityLimit& io_quantityLimits) = 0;
+        virtual void prepare(RequestLimit& io_quantityLimits) = 0;
         virtual Json interact() = 0;
     };
 

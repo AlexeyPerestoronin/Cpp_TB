@@ -108,6 +108,7 @@
           "key": "call of curl_easy_perform",
           "values": {
             "description": "bad result call of the 'curl_easy_perform'-function",
+            "error code": "{:error_code}",
             "web site": "https://curl.se/libcurl/c/curl_easy_perform.html"
           }
         }

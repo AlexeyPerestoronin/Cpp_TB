@@ -43,6 +43,8 @@ namespace TB_NS {
         std::optional<Type> m_valueOpt{ std::nullopt };
 
         public:
+        Limit() noexcept = default;
+
         Limit(Type i_value) noexcept
             : m_valueOpt(std::move(i_value)) {}
 
@@ -60,6 +62,11 @@ namespace TB_NS {
 
         Limit(Limit&& i_limit)
             : m_valueOpt(std::move(i_limit.m_valueOpt)) {}
+        
+        Limit& operator=(Limit&& i_limit) noexcept {
+            m_valueOpt = std::move(i_limit.m_valueOpt);
+            return *this;
+        }
 
 #pragma region StrI
         bool from(Str::CR i_str) noexcept override {

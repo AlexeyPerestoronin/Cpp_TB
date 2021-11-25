@@ -14,17 +14,29 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
 
         struct Responce {
             struct {
-                TradePair pair;
-                QuantityLimit limit;
-            } request;
+                const TradePair pair{};
+                const RequestLimit limit{};
+            } request{};
+            
 
-            /*struct {
-                
-            } response;*/
+            struct {
+                struct {
+                    Quantity quantity{};
+                    Cost cost{};
+                    Order::L orders{};
+                } sell{};
 
-            Responce(Json::CR i_json);
+                struct {
+                    Quantity quantity{};
+                    Cost cost{};
+                    Order::L orders{};
+                } buy{};
+            } response{};
+
+            private:
+            Responce(TradePair i_pair, RequestLimit i_limit, ExchangeCode i_code, Json::CR i_json);
         };
 
-        Json request(TradePair i_pair, QuantityLimit i_limit = DefaultLimit) const;
+        Json request(TradePair i_pair, RequestLimit i_limit = DefaultLimit) const;
     };
 } // namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS

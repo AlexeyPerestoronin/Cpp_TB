@@ -5,7 +5,7 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
         return CommandID::GET_ORDER_BOOK;
     }
 
-    Json OrdersBook::request(TradePair i_pair, QuantityLimit i_limit) const {
+    Json OrdersBook::request(TradePair i_pair, RequestLimit i_limit) const {
         auto interaction = m_exchange->createIteractions(code());
         interaction->prepare(i_pair);
         interaction->prepare(i_limit);
