@@ -46,7 +46,7 @@ namespace {
 
     TEST(Testing_AliasFor, IntFromToJson_3) {
         Json json = "{\"value\":\"123\"}"_json;
-        Int::O i = FromJson<Int>(json);
+        Int::O i = FromJson<Int>(json["value"]);
         ASSERT_TRUE(i.has_value());
         ASSERT_EQ(123, static_cast<int>(i.value()));
     }
@@ -129,6 +129,13 @@ namespace {
         i = +345.543;
         json["value"] = i.toJson();
         ASSERT_STREQ(json.dump().c_str(), "{\"value\":345.543}");
+    }
+
+    TEST(Testing_AliasFor, DoubleFromToJson_3) {
+        Json json = "{\"value\":\"123.123\"}"_json;
+        Double::O i = FromJson<Double>(json["value"]);
+        ASSERT_TRUE(i.has_value());
+        ASSERT_EQ(123.123, static_cast<double>(i.value()));
     }
 
     TEST(Testing_AliasFor, For_Map) {

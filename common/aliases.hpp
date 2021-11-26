@@ -247,7 +247,10 @@ namespace TB_NS {
         template<typename InnerType>
         bool ToInnerTypeFromJson(InnerType& i_value, Json::CR i_json) noexcept {
             try {
-                i_value = static_cast<InnerType>(i_json);
+                if (i_json.is_string())
+                    return ToInnerTypeFromStr<InnerType>(i_value, i_json);
+                if (i_json.is_number_integer() || i_json.is_number_float())
+                    i_value = static_cast<InnerType>(i_json);
                 return true;
             } catch (...) {
                 return false;
