@@ -40,7 +40,6 @@ namespace TB_NS {
     std::ifstream& operator>>(std::ifstream& i_stream, Str& i_str);
 
     struct StrI {
-        TB_PRS(StrI);
         // NOTE: since this interface could be used with exception(s) the both of its functions should be marked as noexcept.
 
         // brief: creates Object of a inherited-Type from the string
@@ -50,7 +49,7 @@ namespace TB_NS {
 
         // brief: converts Object of a inherited-Type to a string
         // return: string presents the Object
-        // note1: if it is impossible to convert the Object in a Str-object the returned Str-object will be marked as mangled
+        // note1: if it is impossible to convert the Object in a Str-object the returned str-object will be marked as mangled
         virtual Str toStr() const noexcept = 0;
     };
 

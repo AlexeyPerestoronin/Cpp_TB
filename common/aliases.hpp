@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <common/str.hpp>
+#include <common/json.hpp>
 
 namespace TB_NS {
     namespace {
@@ -152,9 +152,20 @@ namespace TB_NS {
     // param-t: Type - target type for which the alias should be built
     // param-t: FromStr - pointer to a function converts a value of Str-type to the Type
     // param-t: ToStr - pointer to a function converts a value of the Type to Str-type
-    template<typename Type, bool (*FromStr)(Type&, Str::CR) noexcept = nullptr, Str (*ToStr)(const Type&) noexcept = nullptr>
+    // param-t: FromJson - pointer to a function converts a value of json-object to the Type
+    // param-t: ToJson - pointer to a function converts a value of the Type to json-object
+    // clang-format off
+    template<
+        typename Type,
+        bool (*FromStr)(Type&, Str::CR) noexcept = nullptr,
+        Str (*ToStr)(const Type&) noexcept = nullptr,
+        bool (*FromJson)(Type&, Json::CR) noexcept = nullptr,
+        Json (*ToJson)(const Type&) noexcept = nullptr
+    >
+    // clang-format on
     struct AliasFor
         : StrI
+        , JsonI
         , std::conditional_t<std::is_trivial_v<Type>, BuiltInType<Type>, Type> {
         static constexpr bool IsTrivialType = std::is_trivial_v<Type>;
         using BaseType = std::conditional_t<IsTrivialType, BuiltInType<Type>, Type>;
@@ -200,14 +211,40 @@ namespace TB_NS {
                 return (*ToStr)(*this);
         }
 #pragma endregion
+
+#pragma region JsonI
+        bool fromJson(Json::CR i_json) noexcept override final {
+            if (!FromJson)
+                return false;
+
+            if constexpr (IsTrivialType)
+                return (*FromJson)(BaseType::value(), i_json);
+            else
+                return (*FromJson)(*this, i_json);
+        }
+
+        Json toJson() const noexcept override final {
+            if (!ToJson)
+                return Json{ States_NS::States::MANGLED };
+
+            if constexpr (IsTrivialType)
+                return (*ToJson)(BaseType::value());
+            else
+                return (*ToJson)(*this);
+        }
+#pragma endregion
     };
 
 #pragma region Aliases for buit - in types
     namespace {
         template<typename InnerType>
         bool ToInnerTypeFromStr(InnerType& i_value, Str::CR i_str) noexcept {
-            (std::stringstream{} << i_str) >> i_value;
-            return true;
+            try {
+                (std::stringstream{} << i_str) >> i_value;
+                return true;
+            } catch (...) {
+                return false;
+            }
         }
 
         template<typename InnerType>
@@ -216,7 +253,27 @@ namespace TB_NS {
         }
 
         template<typename InnerType>
-        using AliasForBuitInType = AliasFor<InnerType, &ToInnerTypeFromStr<InnerType>, &ToStrFromInnerType<InnerType>>;
+        bool ToInnerTypeFromJson(InnerType& i_value, Json::CR i_json) noexcept {
+            try {
+                i_value = static_cast<InnerType>(i_json);
+                return true;
+            } catch (...) {
+                return false;
+            }
+        }
+
+        template<typename InnerType>
+        Json ToJsonFromInnerType(const InnerType& i_value) noexcept {
+            return Json{ i_value }[0];
+        }
+
+        template<typename InnerType>
+        using AliasForBuitInType = AliasFor<
+            InnerType,
+            &ToInnerTypeFromStr<InnerType>,
+            &ToStrFromInnerType<InnerType>,
+            &ToInnerTypeFromJson<InnerType>,
+            &ToJsonFromInnerType<InnerType>>;
     } // namespace
 
     // NOTE: please add here aliases for built-in types when they will be needed
