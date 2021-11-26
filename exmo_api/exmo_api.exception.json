@@ -24,7 +24,7 @@
               },
               "exceptions": [
                 {
-                  "id": "violation",
+                  "id": "Violation",
                   "key": "API's violations'",
                   "exceptions": [
                     {
@@ -41,27 +41,46 @@
                   ]
                 },
                 {
-                  "id": "unregistered",
-                  "key": "unregistered request",
+                  "id": "Unregistered Request",
+                  "key": "Request cannot be sent",
                   "values": {
                     "description": "the request is unregistered",
                     "command id": "{id:}"
                   }
+                },
+                {
+                  "id": "Mangled Response",
+                  "key": "Mangled Response",
+                  "values": {
+                    "description": "the response has some problems",
+                    "respose params": "{params:}",
+                    "command id": "{id:}"
+                  },
+                  "exceptions": [
+                    {
+                      "id": "Bad Json",
+                      "key": "Response cannot be parsed from json",
+                      "values": {
+                        "target json": "{json:}",
+                        "parsing error": "{error:}"
+                      }
+                    }
+                  ]
                 }
               ]
             }
           ]
         },
         {
-          "id": "checks",
-          "key": "common checks",
+          "id": "Checks",
+          "key": "Common Checks",
           "values": {
             "description": "common exception for collection of checks related exceptions"
           },
           "exceptions": [
             {
-              "id": "unrecognized",
-              "key": "unrecognized checks",
+              "id": "Unrecognized",
+              "key": "Unrecognized Checks",
               "values": {
                 "description": "there was an attempt to perform an unrecognized checking"
               }
@@ -69,22 +88,22 @@
           ]
         },
         {
-          "id": "builds",
-          "key": "common builds",
+          "id": "Builds",
+          "key": "Common Builds",
           "values": {
             "description": "building time-line exception"
           },
           "exceptions": [
             {
-              "id": "usupported_type",
+              "id": "Unsupported Type",
               "key": "unsupported type of request's parameter'",
               "values": {
                 "description": "there was an attempt to build an unsupported request's parameter"
               }
             },
             {
-              "id": "unsupported_currency",
-              "key": "unsupported type of currency",
+              "id": "Unsupported Currency",
+              "key": "Unsupported type of currency",
               "values": {
                 "description": "there was an attempt build request with the unsupported currency type",
                 "type of unsupported currency": "{type:}"

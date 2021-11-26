@@ -29,6 +29,14 @@
                     "description": "the requested Exchange platform is unsupported",
                     "requested platform": "{platform:}"
                   }
+                },
+                {
+                  "id": "Parsing Error",
+                  "key": "Json-data response parsing error",
+                  "values": {
+                    "description": "the revived json-data cannot be parsed correctly",
+                    "revived json-data": "{json:}"
+                  }
                 }
               ]
             }

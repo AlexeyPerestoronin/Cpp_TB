@@ -1,3 +1,9 @@
+// ************************************ //
+// **************** TB **************** //
+// *** Alexey Perestoronin's project ** //
+// *** Alexey.Perestoronin@yandex.ru ** //
+// ************************************ //
+
 #include "../orders_book.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {

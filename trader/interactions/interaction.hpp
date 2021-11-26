@@ -1,3 +1,9 @@
+// ************************************ //
+// **************** TB **************** //
+// *** Alexey Perestoronin's project ** //
+// *** Alexey.Perestoronin@yandex.ru ** //
+// ************************************ //
+
 #pragma once
 
 #include "command_id_code.hpp"
@@ -17,6 +23,7 @@ namespace TB_NS::Trader_NS::Interaction_NS {
     
     using RequestLimit = Limit<int>;
 
+    // brief: common interface for interacting with a Exchange platform
     class InteractI : Singleton {
         protected:
         CommandCode m_commandCode;
@@ -30,12 +37,14 @@ namespace TB_NS::Trader_NS::Interaction_NS {
         virtual Json interact() = 0;
     };
 
+    // brief: common interface for presenting all Exchange platforms
     struct ExchangeI : Singleton {
         TB_PRS(ExchangeI);
         virtual ExchangeCode code() const noexcept = 0;
         virtual InteractI::SP createIteractions(CommandCode i_commandCode) = 0;
     };
 
+    // brief: common interface for presenting all commands that are requested some data from an Exchange platform
     class CommandI {
         TB_PUBLIC_PRS(CommandI);
 

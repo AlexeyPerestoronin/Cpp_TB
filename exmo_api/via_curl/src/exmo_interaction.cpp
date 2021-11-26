@@ -27,7 +27,7 @@ namespace TB_NS::Exmo_NS::ViaCurl_NS {
                 if (i_currency == id)
                     return value;
 
-            throw TB_EXEPT["EXMO"]["builds"]["unsupported_currency"]("{type:}", ToStr(i_currency)) << TB_LOCATION;
+            throw TB_EXEPT["EXMO"]["Builds"]["Unsupported Currency"]("{type:}", ToStr(i_currency)) << TB_LOCATION;
         };
 
         m_request += Str{ "&pair={1}_{2}" }.format("{1}", recognize(io_tradePair._1)).format("{2}", recognize(io_tradePair._2));
@@ -45,10 +45,10 @@ namespace TB_NS::Exmo_NS::ViaCurl_NS {
                     { "{requested:}", ToStr(value) },
                     { "{id:}", ToStr(m_commandCode) },
                 };
-                throw TB_EXEPT["EXMO"]["API"]["REST"]["violation"]["limit"](std::move(ru)) << TB_LOCATION;
+                throw TB_EXEPT["EXMO"]["API"]["REST"]["Violation"]["Limit"](std::move(ru)) << TB_LOCATION;
             }
         } else
-            throw TB_EXEPT["EXMO"]["API"]["REST"]["unregistered"]("{id:}", ToStr(m_commandCode)) << TB_LOCATION;
+            throw TB_EXEPT["EXMO"]["API"]["REST"]["Unregistered"]("{id:}", ToStr(m_commandCode)) << TB_LOCATION;
 
         m_request += Str{ "&limit={1}" }.format("{1}", ToStr(io_quantityLimits));
     }
