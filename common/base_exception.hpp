@@ -75,7 +75,7 @@ namespace TB_NS::Error_NS {
 
         TB_NODISCARD Exception& operator()(ReplaceUnits i_replaceUnits) noexcept;
         TB_NODISCARD Exception& operator()(ReplaceUnits::value_type i_replaceUnit) noexcept;
-        TB_NODISCARD Exception& operator()(Str i_key, Str i_value) noexcept;
+        TB_NODISCARD Exception& operator()(Str i_key, Str::O i_value) noexcept;
         TB_NODISCARD Exception operator[](Str::CR i_IdOrKey) noexcept;
     };
 

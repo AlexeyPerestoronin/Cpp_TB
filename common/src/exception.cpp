@@ -92,8 +92,8 @@ namespace TB_NS::Error_NS {
         return *this;
     }
 
-    TB_NODISCARD Exception& Exception::operator()(Str i_key, Str i_value) noexcept {
-        m_replaceUnits.emplace(std::move(i_key), std::move(i_value));
+    TB_NODISCARD Exception& Exception::operator()(Str i_key, Str::O i_value) noexcept {
+        m_replaceUnits.emplace(std::move(i_key), std::move(i_value.value_or("<unavailable>")));
         return *this;
     }
 

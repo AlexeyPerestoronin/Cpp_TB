@@ -31,6 +31,14 @@ namespace TB_NS {
                     static_assert(std::false_type::value, "unsupported conversion");
             }
 
+            Type& value() noexcept {
+                return m_value;
+            }
+
+            const Type& value() const noexcept {
+                return m_value;
+            }
+
 #pragma region operator(s)
             BuiltInType& operator=(const BuiltInType&) noexcept = default;
 
@@ -175,22 +183,20 @@ namespace TB_NS {
         bool from(Str::CR i_str) noexcept override final {
             if (!FromStr)
                 return false;
-            if constexpr (IsTrivialType) {
-                Type value = static_cast<const BaseType&>(*this);
-                (*FromStr)(value, i_str);
-                *this = value;
-            } else
-                (*FromStr)(*this, i_str);
-            return true;
+
+            if constexpr (IsTrivialType)
+                return (*FromStr)(BaseType::value(), i_str);
+            else
+                return (*FromStr)(*this, i_str);
         }
 
         Str to() const noexcept override final {
             if (!ToStr)
                 return Str{};
-            if constexpr (IsTrivialType) {
-                Type value = static_cast<const BaseType&>(*this);
-                return (*ToStr)(value);
-            } else
+
+            if constexpr (IsTrivialType)
+                return (*ToStr)(BaseType::value());
+            else
                 return (*ToStr)(*this);
         }
 #pragma endregion
