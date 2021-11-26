@@ -21,8 +21,8 @@ namespace TB_NS::Trader_NS::Interaction_NS {
             , _2{ i_2 } {}
 
 #pragma region StrI
-        bool from(Str::CR i_str) noexcept override final;
-        Str to() const noexcept override final;
+        bool fromStr(Str::CR i_str) noexcept override final;
+        Str toStr() const noexcept override final;
 #pragma endregion
     };
 } // namespace TB_NS::Trader_NS::Interaction_NS

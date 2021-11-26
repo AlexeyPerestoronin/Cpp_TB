@@ -180,7 +180,7 @@ namespace TB_NS {
         }
 
 #pragma region StrI
-        bool from(Str::CR i_str) noexcept override final {
+        bool fromStr(Str::CR i_str) noexcept override final {
             if (!FromStr)
                 return false;
 
@@ -190,7 +190,7 @@ namespace TB_NS {
                 return (*FromStr)(*this, i_str);
         }
 
-        Str to() const noexcept override final {
+        Str toStr() const noexcept override final {
             if (!ToStr)
                 return Str{};
 

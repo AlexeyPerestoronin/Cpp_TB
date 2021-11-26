@@ -12,13 +12,13 @@ namespace TB_NS {
     namespace {
         struct Default : StrI {
 #pragma region StrI
-            bool from(Str::CR i_str) noexcept override {
+            bool fromStr(Str::CR i_str) noexcept override {
                 if (i_str == "DefaultLimit")
                     return true;
                 return false;
             }
 
-            Str to() const noexcept override {
+            Str toStr() const noexcept override {
                 return "DefaultLimit";
             }
 #pragma endregion
@@ -34,7 +34,7 @@ namespace TB_NS {
     class Limit : public StrI {
         static_assert(
             std::is_convertible_v<const Type&, const StrI&> || std::is_same_v<Type, Str> || std::is_trivial_v<Type>,
-            "here is possible to preserve only StrI-inherited types");
+            "here is possible toStr preserve only StrI-inherited types");
 
         TB_PUBLIC_PRS(Limit<Type>);
         using ValueType = Type;
@@ -69,14 +69,14 @@ namespace TB_NS {
         }
 
 #pragma region StrI
-        bool from(Str::CR i_str) noexcept override {
+        bool fromStr(Str::CR i_str) noexcept override {
             if (FromStr(const_cast<Default&>(DefaultLimit), i_str))
                 return true;
             m_valueOpt = FromStr<Type>(i_str);
             return m_valueOpt.has_value();
         }
 
-        Str to() const noexcept override {
+        Str toStr() const noexcept override {
             if (!m_valueOpt.has_value())
                 return ToStr(DefaultLimit);
             return ToStr(m_valueOpt.value());
