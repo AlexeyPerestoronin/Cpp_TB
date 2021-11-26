@@ -12,7 +12,7 @@ namespace TB_NS {
     // brief: the class extending base functional of standard strings
     class Str;
 
-    class Str : public std::string {
+    class Str final : public std::string {
         TB_PUBLIC_PRS(Str);
         using BaseType = std::string;
 
@@ -21,7 +21,6 @@ namespace TB_NS {
         Str& operator=(BaseType&& i_baseType) noexcept;
         Str(const BaseType& i_baseType);
         Str& operator=(const BaseType& i_baseType);
-        virtual ~Str() = default;
 
         TB_MAYBE_UNUSED Str& format(const BaseType& i_key, const BaseType& i_value) noexcept;
         TB_MAYBE_UNUSED Str& format(const std::map<Str, Str>& i_replaceUnits) noexcept;

@@ -12,7 +12,7 @@
 
 namespace TB_NS {
     // brief: this class is the small overbuild for nlohmann::json
-    class Json : public nlohmann::json {
+    class Json final : public nlohmann::json {
         TB_PUBLIC_PRS(Json);
         using BaseType = nlohmann::json;
 

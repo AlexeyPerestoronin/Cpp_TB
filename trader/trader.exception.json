@@ -1,4 +1,40 @@
 {
   "reductions": [],
-  "exceptions": []
+  "exceptions": [
+    {
+      "id": "CommandI",
+      "key": "class TB_NS::Trader_NS::Interaction_NS::CommandI",
+      "values": {
+        "description": "common exception for all an Exchange interaction commands"
+      },
+      "exceptions": [
+        {
+          "id": "OrdersBook",
+          "key": "struct TB_NS::Trader_NS::Interaction_NS::Commands_NS::OrdersBook",
+          "values": {
+            "description": "the exception of an execution time of the orders-book command"
+          },
+          "exceptions": [
+            {
+              "id": "Response",
+              "key": "struct TB_NS::Trader_NS::Interaction_NS::Commands_NS::OrdersBook::Response",
+              "values": {
+                "description": "the exception of an execution time of the orders-book-response creating"
+              },
+              "exceptions": [
+                {
+                  "id": "Unsupported Exchange",
+                  "key": "Exchange Platform is unsupported",
+                  "values": {
+                    "description": "the requested Exchange platform is unsupported",
+                    "requested platform": "{platform:}"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

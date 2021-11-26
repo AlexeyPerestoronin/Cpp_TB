@@ -108,5 +108,6 @@ namespace TB_NS::Error_NS {
     };
 
 #define TB_LOCATION TB_NS::Error_NS::Location(BOOST_CURRENT_LOCATION)
+#define TB_SUBERROR(suberror) TB_NS::Error_NS::Suberror(suberror)
 #define TB_EXEPT TB_NS::Error_NS::Exceptions::GetIns()
 } // namespace TB_NS::Error_NS

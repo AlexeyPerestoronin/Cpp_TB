@@ -3,7 +3,7 @@
 #include "../interaction.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
-    struct OrdersBook : CommandI {
+    struct OrdersBook final : CommandI {
         TB_PRS(OrdersBook);
 
         using CommandI::CommandI;
@@ -12,14 +12,15 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
         CommandCode code() const noexcept override;
 #pragma endregion
 
-        struct Responce {
-            struct {
-                const TradePair pair{};
-                const RequestLimit limit{};
-            } request{};
-            
+        struct Response {
+            friend struct OrdersBook;
 
-            struct {
+            struct RequestedData {
+                TradePair pair{};
+                RequestLimit limit{};
+            } const request{};
+            
+            struct ReceivedData {
                 struct {
                     Quantity quantity{};
                     Cost cost{};
@@ -31,12 +32,12 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
                     Cost cost{};
                     Order::L orders{};
                 } buy{};
-            } response{};
+            } const response{};
 
             private:
-            Responce(TradePair i_pair, RequestLimit i_limit, ExchangeCode i_code, Json::CR i_json);
+            Response(TradePair i_pair, RequestLimit i_limit, ExchangeCode i_code, Json::CR i_json);
         };
 
-        Json request(TradePair i_pair, RequestLimit i_limit = DefaultLimit) const;
+        TB_NODISCARD Response request(TradePair i_pair, RequestLimit i_limit = DefaultLimit) const;
     };
 } // namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS

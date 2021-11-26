@@ -12,6 +12,6 @@ namespace {
     TEST(ExmoAPI, GetOrderBook) {
         Commands_NS::OrdersBook command{ exchange };
         ASSERT_EQ(CommandID::GET_ORDER_BOOK, command.code());
-        command.request(BTC_USD, 5);
+        //command.request(BTC_USD, 5);
     }
 } // namespace
