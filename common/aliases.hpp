@@ -192,7 +192,7 @@ namespace TB_NS {
 
         Str toStr() const noexcept override final {
             if (!ToStr)
-                return Str{};
+                return Str{ States_NS::States::MANGLED };
 
             if constexpr (IsTrivialType)
                 return (*ToStr)(BaseType::value());

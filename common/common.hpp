@@ -1,6 +1,7 @@
 #pragma once
 
 #include <common/stdafx.hpp>
+#include <common/states.hpp>
 #include <common/singlton.hpp>
 #include <common/aliases.hpp>
 #include <common/str.hpp>

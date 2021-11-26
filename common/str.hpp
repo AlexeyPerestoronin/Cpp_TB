@@ -7,16 +7,21 @@
 #pragma once
 
 #include <common/stdafx.hpp>
+#include <common/states.hpp>
 
 namespace TB_NS {
     // brief: the class extending base functional of standard strings
     class Str;
 
-    class Str final : public std::string {
+    class Str final
+        : public std::string
+        , public States_NS::MangledState {
         TB_PUBLIC_PRS(Str);
         using BaseType = std::string;
 
         using BaseType::BaseType;
+        using States_NS::MangledState::MangledState;
+        Str() noexcept = default;
         Str(BaseType&& i_baseType) noexcept;
         Str& operator=(BaseType&& i_baseType) noexcept;
         Str(const BaseType& i_baseType);
@@ -31,7 +36,7 @@ namespace TB_NS {
     };
 
     std::ostream& operator<<(std::ostream& i_stream, Str::CR i_str);
-    
+
     std::ifstream& operator>>(std::ifstream& i_stream, Str& i_str);
 
     struct StrI {
@@ -45,6 +50,7 @@ namespace TB_NS {
 
         // brief: converts Object of a inherited-Type to a string
         // return: string presents the Object
+        // note1: if it is impossible to convert the Object in a Str-object the returned Str-object will be marked as mangled
         virtual Str toStr() const noexcept = 0;
     };
 
