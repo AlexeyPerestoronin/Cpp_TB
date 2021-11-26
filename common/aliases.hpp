@@ -12,24 +12,31 @@
 
 namespace TB_NS {
     namespace {
+        // brief: auxiliary template-type for build the AliasFor<,,,>-type(s) for built-in types (like: int, double and e.t.)
         template<typename Type>
         class BuiltInType {
             Type m_value{};
 
             public:
+#pragma region constuctor(s)
             BuiltInType() noexcept = default;
 
-            template<typename FromType>
-            BuiltInType(FromType i_value) noexcept {
-                if constexpr (std::is_same_v<FromType, BuiltInType>)
-                    m_value = i_value.m_value;
-                else if constexpr (std::is_same_v<FromType, Type>)
-                    m_value = i_value;
-                else if constexpr ((std::is_enum_v<FromType> && std::is_integral_v<Type>) || std::is_convertible_v<FromType, Type>)
-                    m_value = static_cast<Type>(i_value);
-                else
-                    static_assert(std::false_type::value, "unsupported conversion");
+            BuiltInType(Type i_value) noexcept
+                : m_value{ i_value } {}
+
+            BuiltInType& operator=(Type i_value) noexcept {
+                m_value = i_value;
+                return *this;
             }
+
+            BuiltInType(const BuiltInType& i_value) noexcept
+                : m_value{ i_value.m_value } {}
+
+            BuiltInType& operator=(const BuiltInType& i_value) noexcept {
+                m_value = i_value.m_value;
+                return *this;
+            }
+#pragma endregion
 
             Type& value() noexcept {
                 return m_value;
@@ -40,27 +47,8 @@ namespace TB_NS {
             }
 
 #pragma region operator(s)
-            BuiltInType& operator=(const BuiltInType&) noexcept = default;
-
-            template<typename FromType>
-            BuiltInType& operator=(FromType i_value) noexcept {
-                if constexpr (std::is_same_v<FromType, Type>)
-                    m_value = i_value;
-                else if constexpr (std::is_enum_v<FromType> && std::is_integral_v<Type>)
-                    m_value = static_cast<Type>(i_value);
-                else
-                    static_assert(std::false_type::value, "unsupported conversion");
-                return *this;
-            }
-
-            template<typename ToType>
-            operator ToType() const noexcept {
-                if constexpr (std::is_same_v<ToType, Type>)
-                    return m_value;
-                else if constexpr (std::is_enum_v<Type> && std::is_integral_v<ToType>)
-                    return static_cast<ToType>(m_value);
-                else
-                    static_assert(std::false_type::value, "unsupported conversion");
+            operator Type() const noexcept {
+                return m_value;
             }
 
             BuiltInType& operator++() noexcept {
@@ -168,9 +156,12 @@ namespace TB_NS {
         , JsonI
         , std::conditional_t<std::is_trivial_v<Type>, BuiltInType<Type>, Type> {
         static constexpr bool IsTrivialType = std::is_trivial_v<Type>;
-        using BaseType = std::conditional_t<IsTrivialType, BuiltInType<Type>, Type>;
-        TB_PRS(AliasFor<BaseType>);
 
+        using BaseType = std::conditional_t<IsTrivialType, BuiltInType<Type>, Type>;
+
+        TB_PRS(AliasFor<Type, FromStr, ToStr, FromJson, ToJson>);
+
+#pragma region constuctor(s)
         using BaseType::BaseType;
         using BaseType::operator=;
 
@@ -189,6 +180,7 @@ namespace TB_NS {
             static_cast<BaseType&>(*this) = i_base;
             return *this;
         }
+#pragma endregion
 
 #pragma region StrI
         bool fromStr(Str::CR i_str) noexcept override final {

@@ -63,7 +63,7 @@ namespace TB_NS {
         else if constexpr (std::is_trivial_v<Type>)
             return std::to_string(i_value);
         else
-            static_assert(std::false_type::value, "target Type cannot be convert toStr Str");
+            static_assert(std::false_type::value, "target Type cannot be convert to Str");
     }
 
     // brief: converts target string to any data
@@ -84,7 +84,7 @@ namespace TB_NS {
                 return false;
             }
         } else
-            static_assert(std::false_type::value, "target Type cannot be convert toStr Str");
+            static_assert(std::false_type::value, "target Type cannot be convert from Str");
     }
 
     // brief: converts target string to any data
@@ -107,6 +107,6 @@ namespace TB_NS {
                 return std::nullopt;
             }
         } else
-            static_assert(std::false_type::value, "target Type cannot be convert toStr Str");
+            static_assert(std::false_type::value, "target Type cannot be convert from Str");
     }
 } // namespace TB_NS

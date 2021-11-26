@@ -46,4 +46,42 @@ namespace TB_NS {
         // note1: if it is impossible to convert the Object in a Json-object the returned json-object will be marked as mangled
         virtual Json toJson() const noexcept = 0;
     };
+
+    // brief: converts target json-object to any data
+    template<class Type>
+    TB_MAYBE_UNUSED bool FromJson(Type& io_value, Json::CR i_json) noexcept {
+        if constexpr (std::is_convertible_v<const Type&, const JsonI&>)
+            return io_value.fromJson(i_json);
+        else if constexpr (std::is_same_v<Type, Json>) {
+            io_value = i_json;
+            return true;
+        } else if constexpr (std::is_trivial_v<Type>) {
+            try {
+                io_value = static_cast<Type>(i_json);
+                return true;
+            } catch (...) {
+                return false;
+            }
+        } else
+            static_assert(std::false_type::value, "target Type cannot be convert from Json");
+    }
+
+    // brief: converts target json-object to any data
+    template<class Type>
+    TB_NODISCARD std::optional<Type> FromJson(Str::CR i_json) noexcept {
+        if constexpr (std::is_convertible_v<const Type&, const JsonI&>) {
+            if (Type value; value.fromJson(i_json))
+                return value;
+            return std::nullopt;
+        } else if constexpr (std::is_same_v<Type, Json>) {
+            return i_json;
+        } else if constexpr (std::is_trivial_v<Type>) {
+            try {
+                return static_cast<Type>(i_json);
+            } catch (...) {
+                return std::nullopt;
+            }
+        } else
+            static_assert(std::false_type::value, "target Type cannot be convert from Json");
+    }
 } // namespace TB_NS

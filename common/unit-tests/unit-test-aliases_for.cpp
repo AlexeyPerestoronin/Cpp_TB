@@ -4,7 +4,7 @@
 
 namespace {
     using namespace TB_NS;
-    TEST(Testing_AliasFor, For_Int_StrI) {
+    TEST(Testing_AliasFor, IntFromToStr) {
         Int i{};
         ASSERT_STREQ(i.toStr().c_str(), "0");
         ASSERT_EQ(0, static_cast<int>(i));
@@ -26,26 +26,32 @@ namespace {
         ASSERT_EQ(543, static_cast<int>(i));
     }
 
-    TEST(Testing_AliasFor, For_Int_JsonI) {
-        {
-            Int i{};
-            Json json{ i.toJson() };
-            ASSERT_STREQ(json.dump().c_str(), "0");
-            ASSERT_TRUE(i.fromJson(json));
-            ASSERT_EQ(0, static_cast<int>(i));
-        }
-        {
-            Int i{ 111 };
-            Json json = "{\"value\":0}"_json;
-            json["value"] = i.toJson();
-            ASSERT_STREQ(json.dump().c_str(), "{\"value\":111}");
-            json["value"] = -123;
-            ASSERT_TRUE(i.fromJson(json["value"]));
-            ASSERT_EQ(-123, static_cast<int>(i));
-        }
+    TEST(Testing_AliasFor, IntFromToJson_1) {
+        Int i{};
+        Json json{ i.toJson() };
+        ASSERT_STREQ(json.dump().c_str(), "0");
+        ASSERT_TRUE(i.fromJson(json));
+        ASSERT_EQ(0, static_cast<int>(i));
     }
 
-    TEST(Testing_AliasFor, For_Double_StrI) {
+    TEST(Testing_AliasFor, IntFromToJson_2) {
+        Int i{ 111 };
+        Json json = "{\"value\":0}"_json;
+        json["value"] = i.toJson();
+        ASSERT_STREQ(json.dump().c_str(), "{\"value\":111}");
+        json["value"] = -123;
+        ASSERT_TRUE(i.fromJson(json["value"]));
+        ASSERT_EQ(-123, static_cast<int>(i));
+    }
+
+    TEST(Testing_AliasFor, IntFromToJson_3) {
+        Json json = "{\"value\":\"123\"}"_json;
+        Int::O i = FromJson<Int>(json);
+        ASSERT_TRUE(i.has_value());
+        ASSERT_EQ(123, static_cast<int>(i.value()));
+    }
+
+    TEST(Testing_AliasFor, DoubleFromToStr) {
         Double i{};
         ASSERT_STREQ(i.toStr().c_str(), "0");
         ASSERT_EQ(0., static_cast<double>(i));
@@ -104,26 +110,25 @@ namespace {
         ASSERT_EQ(48., static_cast<double>(--i));
     }
 
-    TEST(Testing_AliasFor, For_Double_JsonI) {
-        {
-            Double i{};
-            Json json{ i.toJson() };
-            ASSERT_STREQ(json.dump().c_str(), "0.0");
-            ASSERT_TRUE(i.fromJson(json));
-            ASSERT_EQ(0., static_cast<double>(i));
-        }
-        {
-            Double i{ 111. };
-            Json json = "{\"value\":0.0}"_json;
-            json["value"] = i.toJson();
-            ASSERT_STREQ(json.dump().c_str(), "{\"value\":111.0}");
-            json["value"] = -123.;
-            ASSERT_TRUE(i.fromJson(json["value"]));
-            ASSERT_EQ(-123., static_cast<double>(i));
-            i = +345.543;
-            json["value"] = i.toJson();
-            ASSERT_STREQ(json.dump().c_str(), "{\"value\":345.543}");
-        }
+    TEST(Testing_AliasFor, DoubleFromToJson_1) {
+        Double i{};
+        Json json{ i.toJson() };
+        ASSERT_STREQ(json.dump().c_str(), "0.0");
+        ASSERT_TRUE(i.fromJson(json));
+        ASSERT_EQ(0., static_cast<double>(i));
+    }
+
+    TEST(Testing_AliasFor, DoubleFromToJson_2) {
+        Double i{ 111. };
+        Json json = "{\"value\":0.0}"_json;
+        json["value"] = i.toJson();
+        ASSERT_STREQ(json.dump().c_str(), "{\"value\":111.0}");
+        json["value"] = -123.;
+        ASSERT_TRUE(i.fromJson(json["value"]));
+        ASSERT_EQ(-123., static_cast<double>(i));
+        i = +345.543;
+        json["value"] = i.toJson();
+        ASSERT_STREQ(json.dump().c_str(), "{\"value\":345.543}");
     }
 
     TEST(Testing_AliasFor, For_Map) {
