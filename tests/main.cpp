@@ -1,3 +1,9 @@
+// ************************************ //
+// **************** TB **************** //
+// *** Alexey Perestoronin's project ** //
+// *** Alexey.Perestoronin@yandex.ru ** //
+// ************************************ //
+
 #include <gtest/gtest.h>
 #include <common/base_exception.hpp>
 #include <common/initializer.hpp>

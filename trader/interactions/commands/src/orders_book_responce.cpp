@@ -7,6 +7,7 @@
 #include "../orders_book.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
+#define OB_RESPONSE TB_EXEPT["CommandI"]["OrdersBook"]["Response"]
     namespace {
         void ParseExmoResponse(OrdersBook::Response::ReceivedData& io_response, Json::CR i_json) {
             bool isSuccess{ true };
@@ -39,7 +40,7 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
             }
 
             if (!isSuccess)
-                throw TB_EXEPT["CommandI"]["OrdersBook"]["Response"]["Parsing Error"]("{json:}", i_json.dump()) << TB_LOCATION;
+                throw OB_RESPONSE["Parsing Error"]("{json:}", i_json.dump()) << TB_LOCATION;
         }
     } // namespace
 
@@ -51,10 +52,11 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
             if (i_code == ExchangeID::EXMO) {
                 ParseExmoResponse(TB_CONST_CAST(response), i_json);
             } else {
-                throw TB_EXEPT["CommandI"]["OrdersBook"]["Response"]["Unsupported Exchange"]("{platform:}", ToStr(i_code)) << TB_LOCATION;
+                throw OB_RESPONSE["Unsupported Exchange"]("{platform:}", ToStr(i_code)) << TB_LOCATION;
             }
         } catch (TB_NS::Error_NS::Exception& error) {
-            throw TB_EXEPT["CommandI"]["OrdersBook"]["Response"] << TB_SUBERROR(error) << TB_LOCATION;
+            throw OB_RESPONSE<< TB_SUBERROR(error) << TB_LOCATION;
         }
     }
+#undef OB_RESPONSE
 } // namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS

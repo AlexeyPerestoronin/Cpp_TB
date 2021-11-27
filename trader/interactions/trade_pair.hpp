@@ -9,6 +9,7 @@
 #include "currency_id_code.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS {
+    // brief: presents one trade-pair for an Exchange platform
     struct TradePair : StrI {
         TB_PRS(TradePair);
         CurrencyCode _1{ CurrencyID::UNSUPPORTED };

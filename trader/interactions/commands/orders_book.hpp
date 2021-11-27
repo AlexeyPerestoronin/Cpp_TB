@@ -9,6 +9,7 @@
 #include "../interaction.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
+    // brief: the command to obtain information about orders-book from an Exchange platform
     struct OrdersBook final : CommandI {
         TB_PRS(OrdersBook);
 
@@ -18,6 +19,7 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
         CommandCode code() const noexcept override;
 #pragma endregion
 
+        // brief: presents received data of a response
         struct Response {
             friend struct OrdersBook;
 
@@ -25,7 +27,7 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
                 TradePair pair{};
                 RequestLimit limit{};
             } const request{};
-            
+
             struct ReceivedData {
                 struct {
                     Quantity quantity{};

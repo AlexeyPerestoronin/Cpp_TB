@@ -170,11 +170,12 @@ target("common")
     add_rules("corutine_supporting")
 
     add_files("common/src/*.cpp")
+    add_files("common/**/src/*.cpp")
     add_files("common/**exception.json")
 
     add_headerfiles("common/unit-tests/*.cpp")
-    add_headerfiles("common/*.hpp")
-    add_headerfiles("common/*.md")
+    add_headerfiles("common/**.hpp")
+    add_headerfiles("common/**.md")
     add_headerfiles("common/**.json")
 
     add_packages("libcurl", "boost", "nlohmann_json")
@@ -275,8 +276,7 @@ target("TB")
     add_rules("corutine_supporting")
     add_rules("copy_related_DLLs")
 
-    add_files("src/TB.cpp")
-    add_files("src/TB.exception.json")
+    add_files("tb/main.cpp")
 
     add_packages("libcurl", "openssl", "boost", "nlohmann_json")
     
@@ -293,9 +293,11 @@ target("UnitTests")
     add_rules("corutine_supporting")
     add_rules("copy_related_DLLs")
 
-    add_files("src/UnitTests.cpp")
-    add_files("src/UnitTests.exception.json")
+    add_files("tests/main.cpp")
+    add_files("tests/src/*.cpp")
     add_files("**/unit-tests/*.cpp")
+    
+    add_headerfiles("tests/**.hpp")
 
     add_packages("libcurl", "openssl", "boost", "gtest", "nlohmann_json")
 
