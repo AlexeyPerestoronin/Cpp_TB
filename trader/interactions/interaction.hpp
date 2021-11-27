@@ -11,19 +11,23 @@
 #include "trade_pair.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS {
+    // brief: data type for the cost of an order
     using Cost = Double;
+    // brief: data type for the price of an order
     using Price = Double;
+    // brief: data type for the quantity of a currency of an order
     using Quantity = Double;
+    // brief: one order presentation object
     struct Order {
         TB_PRS(Order);
         Cost cost;
         Price price;
         Quantity quantity;
     };
-    
+    // brief: data type that is presenting a limit in an Exchange platform request
     using RequestLimit = Limit<int>;
 
-    // brief: common interface for interacting with a Exchange platform
+    // brief: common interface for interacting with an Exchange platform
     class InteractI : Singleton {
         protected:
         CommandCode m_commandCode;

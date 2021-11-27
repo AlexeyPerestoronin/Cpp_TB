@@ -1,16 +1,19 @@
 # TB
 Trade Bot
 
-## Table of contents
-* [Code Style](##Code-Style)  
-    - [Modules](###Modules)
-    - [Functions](###Functions)
-    - [Namespaces](###Namespaces)
-    - [Classes](###Classes)
-* [How to build](##How-to-build)  
+# Table of contents
+* [Code Style](#Code-Style)  
+    - [Modules](##Modules)
+    - [Functions](##Functions)
+    - [Namespaces](##Namespaces)
+    - [Classes](##Classes)
+* [How to build](#How-to-build)  
+    * [Step By Step](##Step-By-Step)  
 
-## Code Style
-### Modules
+# Code Style
+[_go back_](#Table-of-contents)  
+## Modules
+[_go back_](#Table-of-contents)  
 Each module is a separate compilation unit - *.lib  
 1. All modules are located in the root directory and must be named by lower register symbols with sharps, for example: `exmo_api, common`.  
 2. Each module must contain a README.md file.  
@@ -53,7 +56,8 @@ Example of **module tree directory**:
 ...
 |  module_N\
 ```
-### Functions
+## Functions
+[_go back_](#Table-of-contents)  
 Soft recommendations
 ```cpp
 ReturnType SomeActions(const Type1& i_onlyInputVar, Type2& io_inputOutputVar, Type& o_onlyOutputVar)
@@ -63,7 +67,8 @@ ReturnType SomeActions(const Type1& i_onlyInputVar, Type2& io_inputOutputVar, Ty
     return r_result;
 }
 ```
-### Namespaces
+## Namespaces
+[_go back_](#Table-of-contents)  
 Strictly recommendations  
 ```cpp
 namespace TB_NS {
@@ -73,7 +78,8 @@ namespace TB_NS {
     } // namespace InnerSpace_NS
 } // namespace TB_NS
 ```
-### Classes
+## Classes
+[_go back_](#Table-of-contents)  
 Soft recommendations  
 ```cpp
 class Creator
@@ -130,8 +136,25 @@ class Creator
 #pragma endregion methods
 };
 ```
-## How to build
-TB building by [XMake](https://xmake.io/#/) and so most 3th-party-libraries are downloaded and compiled automatically, but next listed libraries must be using by another way:
-1. [**cppcoro**](https://github.com/lewissbaker/cppcoro#generatort)  
+# How to build
+[_go back_](#Table-of-contents)  
+TB building by [XMake] and so most 3th-party-libraries are downloaded and compiled automatically, but next listed libraries must be using by another way:
+1. [cppcoro]  
 This library usages for using corutines that are possible with 20th C++ standard.  
 This library implemented in TB as git-submodule, automatically compiling from source files and no needed any additional actions for its using.
+## Step By Step
+1. Download and install [Visual Studio]
+2. Download and install [XMake]
+3. Create project directory and clone the repository
+4. Run from console:
+```
+xmake build
+```
+```
+xmake project -k vsxmake2022
+```
+5. For more convenient build use VSCode with the [XMake extension](https://marketplace.visualstudio.com/items?itemName=tboox.xmake-vscode)
+
+[XMake]: https://xmake.io/#/
+[cppcoro]: https://github.com/lewissbaker/cppcoro#generatort
+[Visual Studio]: https://visualstudio.microsoft.com/vs/

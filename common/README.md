@@ -46,7 +46,7 @@ It is the module are encapsulated common program logic for TB.
 [_go back_](#Table-of-contents)  
 Is the part of the common-module is containing the classes for using exceptions in the TB.
 ***
-## Idea-description
+## Idea description
 [_go back_](#Table-of-contents)  
 The general idea are basing on using a some separate files with the exceptions presented in the json-format.
 The main targets of its approach is:

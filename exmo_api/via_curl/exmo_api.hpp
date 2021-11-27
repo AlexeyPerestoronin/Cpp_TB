@@ -13,6 +13,7 @@
 namespace TB_NS::Exmo_NS::ViaCurl_NS {
     using namespace Trader_NS::Interaction_NS;
 
+    // brief: the implementation of the ExchangeI-interface for the EXMO-Exchange via CURL-lib
     class ExmoExchange : public ExchangeI {
         Str m_publicKey;
         Str m_secretKey;
@@ -33,6 +34,7 @@ namespace TB_NS::Exmo_NS::ViaCurl_NS {
         Json request(CommandCode i_commandCode, Str::CR i_params);
     };
 
+    // brief: the implementation of the InteractI-interface for the EXMO-Exchange via CURL-lib
     class ExmoInteraction : public InteractI {
         Str m_request{ "nonce=" };
         ExmoExchange& m_exmoEchange;
