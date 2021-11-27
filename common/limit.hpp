@@ -28,7 +28,8 @@ namespace TB_NS {
     // brief: the default value for constructing an instance of Limit-class
     const Default DefaultLimit{};
 
-    // brief: presents/holds the value or signals that the value is default
+    // brief: presents/holds the value or signals that could be in default state
+    // note1: if the object is in the default state that means that the target value should be recognized on a fly
     // param-t: Type - the type of the presenting/holding value
     template<class Type>
     class Limit : public StrI {

@@ -1,37 +1,53 @@
 # **common**
 It is the module are encapsulated common program logic for TB.
 ***
-## Table of contents
+# Table of contents
 * [Main hierarchy](#Main-hierarchy)
 * [Exceptions](#Exceptions)
     - [Idea description](##Idea-description)
     - [Usage explanation in examples](##Usage-explanation-in-examples)
 
 # Main hierarchy
+[_go back_](#Table-of-contents)  
 * namespace TB_NS  
-    * class Str - the class extending base functional of standard strings
-    * template<class FromType> Str ToStr(FromType&& i_value) - converts the data of any type to string (Str)
+    * `struct Singleton` - the Singleton-pattern implementation
+    * namespace States_NS
+        * `enum States` - the states collection in which objects-type derived from Status<>-class could be
+        * `template<States state> class Status` - presents target state in which a derived object could be
+        * | `using DefaultState = Status<States::DEFAULT>`
+        * | `using MangledState = Status<States::MANGLED>`
+    * `template<class Type> class Limit` - presents/holds the value or signals that could be in default state
+    * `class Str` - the class extending base functional of standard strings
+    * `struct StrI` - interface to/from string conversion
+    * | `template<class FromType> Str ToStr(FromType&& i_value)` - converts the data of any type to string (Str)
+    * | `template<class Type> bool FromStr(Type& io_value, Str::CR i_str)` - converts target string to any data
+    * | `template<class Type> std::optional<Type> FromStr(Str::CR i_str)` - converts target string to any data
+    * `class Json` - this class is the small overbuild for nlohmann::json  
+    * `struct JsonI` - interface to/from json-object conversion
+    * | `template<class Type> bool FromJson(Type& io_value, Json::CR i_json)` - converts target json-object to any data
+    * | `template<class Type> std::optional<Type> FromJson(Str::CR i_json)` - converts target json-object to any data
     * template<,,,> struct AliasFor - creates the usage-friendly alias for the target type
-    * using Int = AliasForBuitInType<int>
-    * using Double = AliasForBuitInType<double>
-    * using Path = AliasFor<fs::path>
-    * using VStrs = AliasFor<std::vector<Str>>
-    * using LStrs = AliasFor<std::list<Str>>
-    * using StrToStr = AliasFor<std::map<Str, Str>>
-    * using StrToInt = AliasFor<std::map<Str, int>>
-    * using IntToStr = AliasFor<std::map<int, Str>>
-    * class Json - this class is the small overbuild for nlohmann::json  
-    * template<,> class RAI - template-class for constructing a RAI-wrapper around a some data of the target type
-    * template<ContainerType Container> cppcoro::generator<index_value<Container>> enumerator(Container& i_container) - enumerates the all elements of the target container in like-python style
-    * template<ContainerType Container> cppcoro::generator<cindex_value<Container>> cenumerator(const Container& i_container) - enumerates the all elements of the target container in like-python style (const version)
+    * | `using Int = AliasForBuitInType<int>`
+    * | `using Double = AliasForBuitInType<double>`
+    * | `using Path = AliasFor<fs::path>`
+    * | `using VStrs = AliasFor<std::vector<Str>>`
+    * | `using LStrs = AliasFor<std::list<Str>>`
+    * | `using StrToStr = AliasFor<std::map<Str, Str>>`
+    * | `using StrToInt = AliasFor<std::map<Str, int>>`
+    * | `using IntToStr = AliasFor<std::map<int, Str>>`
+    * `template<,> class RAI` - template-class for constructing a RAI-wrapper around a some data of the target type
+    * `auto... enumerator(Container& i_container)` - enumerates the all elements of the target container in like-python style
+    * `auto... cenumerator(const Container& i_container)` - enumerates the all elements of the target container in like-python style (const version)
     * namespace Error_NS
-        * struct Error - class presents one error that is a base for runtime-exception creation process
-        * class Exception - class presents one runtime-exception
-        * class Exceptions - class manages the all runtime-exceptions
+        * `struct Error` - class presents one error that is a base for runtime-exception creation process
+        * `class Exception` - class presents one runtime-exception
+        * `class Exceptions` - class manages the all runtime-exceptions
 # Exceptions
+[_go back_](#Table-of-contents)  
 Is the part of the common-module is containing the classes for using exceptions in the TB.
 ***
 ## Idea-description
+[_go back_](#Table-of-contents)  
 The general idea are basing on using a some separate files with the exceptions presented in the json-format.
 The main targets of its approach is:
 1. No exceptions presented in the C++-code
@@ -40,6 +56,7 @@ The main targets of its approach is:
 4. Make all the exceptions as flexible to specific adjusting as it is needed
 
 ## Usage explanation in examples
+[_go back_](#Table-of-contents)  
 1. At first there is need to have the file is describing each exceptions in one module, `common-exceptions.json`:
      - quantity of that settings-files is unlimited, and they could be placed in each module where need;
      - the structure of the settings-file with the errors is unlimited in nesting;

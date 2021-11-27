@@ -33,6 +33,7 @@ namespace TB_NS {
         operator Str() const noexcept;
     };
 
+    // brief: interface to/from json-object conversion
     struct JsonI {
         // NOTE: since this interface could be used with exception(s) the both of its functions should be marked as noexcept.
 

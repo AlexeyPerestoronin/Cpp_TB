@@ -39,6 +39,7 @@ namespace TB_NS {
 
     std::ifstream& operator>>(std::ifstream& i_stream, Str& i_str);
 
+    // brief: interface to/from string conversion
     struct StrI {
         // NOTE: since this interface could be used with exception(s) the both of its functions should be marked as noexcept.
 

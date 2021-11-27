@@ -13,6 +13,7 @@ namespace TB_NS::States_NS {
         DEFAULT,
     };
 
+    // brief: presents target state in which a derived object could be
     template<States state>
     class Status {
         bool m_isInStatus{ false };

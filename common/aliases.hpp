@@ -137,6 +137,7 @@ namespace TB_NS {
     } // namespace
 
     // brief: creates the usage-friendly alias for the target type
+    // note1: all directly derived types are supported from/to Str/Json conversions
     // param-t: Type - target type for which the alias should be built
     // param-t: FromStr - pointer to a function converts a value of Str-type to the Type
     // param-t: ToStr - pointer to a function converts a value of the Type to Str-type
