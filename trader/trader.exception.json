@@ -31,6 +31,14 @@
                   }
                 },
                 {
+                  "id": "Mangled TradePair",
+                  "key": "TradePair has mangled view",
+                  "values": {
+                    "description": "the revived json-data cannot be parsed correctly",
+                    "trade-pair view": "{view:}"
+                  }
+                },
+                {
                   "id": "Parsing Error",
                   "key": "Json-data response parsing error",
                   "values": {
