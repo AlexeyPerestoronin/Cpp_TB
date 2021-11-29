@@ -20,10 +20,11 @@ namespace TB_NS::UnitTests_NS {
 
         Commands_NS::OrdersBook command{ exchange };
         ASSERT_EQ(CommandID::GET_ORDER_BOOK, command.code());
-        Commands_NS::OrdersBook::Response response = command.request(BTC_USD, 5);
+        const int ordersQuantity{ 5 };
+        Commands_NS::OrdersBook::Response response = command.request(BTC_USD, ordersQuantity);
         EXPECT_EQ(response.request.pair._1, CurrencyID::BTC);
         EXPECT_EQ(response.request.pair._2, CurrencyID::USD);
-        EXPECT_TRUE(CheckOrders(response.response.sell.orders, 5));
-        EXPECT_TRUE(CheckOrders(response.response.buy.orders, 5));
+        EXPECT_TRUE(CheckOrders(response.response.sell.orders, ordersQuantity));
+        EXPECT_TRUE(CheckOrders(response.response.buy.orders, ordersQuantity));
     }
 } // namespace TB_NS::UnitTests_NS
