@@ -22,6 +22,8 @@ namespace TB_NS::Trader_NS::Interaction_NS {
             : _1{ i_1 }
             , _2{ i_2 } {}
 
+        bool operator==(TradePair::CR i_tradePair) const noexcept;
+
 #pragma region StrI
         bool fromStr(Str::CR i_str) noexcept override final;
         Str toStr() const noexcept override final;

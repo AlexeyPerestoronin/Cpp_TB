@@ -1,12 +1,13 @@
 #include <tests/common.hpp>
 #include <exmo_api/via_curl/exmo_api.hpp>
 #include <trader/interactions/interaction.hpp>
-#include <trader/interactions/commands/orders_book.hpp>
+#include <trader/interactions/commands/all.hpp>
 
 namespace TB_NS::UnitTests_NS {
+    using namespace TB_NS::Exmo_NS::ViaCurl_NS;
     using namespace TB_NS::Trader_NS::Interaction_NS;
 
-    ExchangeI::SP exchange = std::make_shared<TB_NS::Exmo_NS::ViaCurl_NS::ExmoExchange>("your_key", "your_secret");
+    ExchangeI::SP exchange = ExmoExchange::NewSP("your_key", "your_secret");
     TradePair BTC_USD{ CurrencyID::BTC, CurrencyID::USD };
 
     TEST(ExmoAPI, GetOrderBook) {
@@ -26,5 +27,16 @@ namespace TB_NS::UnitTests_NS {
         EXPECT_EQ(response.request.pair._2, CurrencyID::USD);
         EXPECT_TRUE(CheckOrders(response.response.sell.orders, ordersQuantity));
         EXPECT_TRUE(CheckOrders(response.response.buy.orders, ordersQuantity));
+    }
+
+    TEST(ExmoAPI, GetPairSettings) {
+        Commands_NS::PairSettigs command{ exchange };
+        ASSERT_EQ(CommandID::GET_PAIR_SETTINGS, command.code());
+        Commands_NS::PairSettigs::Response response = command.request(BTC_USD);
+        EXPECT_EQ(response.request.pair._1, CurrencyID::BTC);
+        EXPECT_EQ(response.request.pair._2, CurrencyID::USD);
+        EXPECT_LT(response.response.quantity.min, response.response.quantity.max);
+        EXPECT_LT(response.response.price.min, response.response.price.max);
+        EXPECT_LT(response.response.cost.min, response.response.cost.max);
     }
 } // namespace TB_NS::UnitTests_NS

@@ -38,11 +38,11 @@ namespace TB_NS {
             }
 #pragma endregion
 
-            Type& value() noexcept {
+            constexpr Type& value() noexcept {
                 return m_value;
             }
 
-            const Type& value() const noexcept {
+            constexpr const Type& value() const noexcept {
                 return m_value;
             }
 

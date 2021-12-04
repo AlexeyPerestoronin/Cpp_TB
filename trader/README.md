@@ -28,7 +28,9 @@ The library contains common logic that is described how to interact with an Exch
             * `class CommandI` - common interface for presenting all commands that are requested some data from an Exchange platform
             * namespace Commands_NS
                 * `struct OrdersBook` - the command to obtain information about orders-book from an Exchange platform
-                    * `struct OrdersBook::Response` - presents received data of a response
+                    * `struct OrdersBook::Response` - presents received data of orders-book response
+                * `struct PairSettigs` - the command to obtain information about pair-settings from an Exchange platform
+                    * `struct PairSettigs::Response` - presents received data of pair-settings response
 
 # Propositions
 [_go back_](#Table-of-contents)  

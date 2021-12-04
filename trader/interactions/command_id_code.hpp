@@ -13,6 +13,7 @@ namespace TB_NS::Trader_NS::Interaction_NS {
     enum class CommandID : uint8_t {
         UNSUPPORTED,
         GET_ORDER_BOOK,
+        GET_PAIR_SETTINGS,
     };
 
     // brief: converts a string to a command's ID

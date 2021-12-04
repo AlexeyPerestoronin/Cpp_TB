@@ -49,6 +49,47 @@
               ]
             }
           ]
+        },
+        {
+          "id": "PairSettigs",
+          "key": "struct TB_NS::Trader_NS::Interaction_NS::Commands_NS::PairSettigs",
+          "values": {
+            "description": "common exception"
+          },
+          "exceptions": [
+            {
+              "id": "Response",
+              "key": "struct TB_NS::Trader_NS::Interaction_NS::Commands_NS::PairSettigs::Response",
+              "values": {
+                "description": "common exception"
+              },
+              "exceptions": [
+                {
+                  "id": "Unsupported Exchange",
+                  "key": "Exchange Platform is unsupported",
+                  "values": {
+                    "description": "the requested Exchange platform is unsupported",
+                    "requested platform": "{platform:}"
+                  }
+                },
+                {
+                  "id": "Mangled TradePair",
+                  "key": "TradePair has mangled view",
+                  "values": {
+                    "trade-pair view": "{view:}"
+                  }
+                },
+                {
+                  "id": "Parsing Error",
+                  "key": "Json-data response parsing error",
+                  "values": {
+                    "description": "the revived json-data cannot be parsed correctly",
+                    "revived json-data": "{json:}"
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     }

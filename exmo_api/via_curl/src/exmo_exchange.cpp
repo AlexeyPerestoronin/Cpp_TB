@@ -29,6 +29,9 @@ namespace TB_NS::Exmo_NS::ViaCurl_NS {
         if (i_commandCode == CommandID::GET_ORDER_BOOK) {
             static Str getOrderBook = m_url + "order_book";
             return getOrderBook;
+        } else if (i_commandCode == CommandID::GET_PAIR_SETTINGS) {
+            static Str getPairSettings = m_url + "pair_settings";
+            return getPairSettings;
         } else
             throw TB_EXEPT["EXMO"]["API"]["REST"]["Unregistered Request"]("{id:}", ToStr(i_commandCode)) << TB_LOCATION;
     }
