@@ -9,6 +9,10 @@
 #include "../trade_pair.hpp"
 
 namespace TB_NS::Trader_NS::Interaction_NS {
+    bool TradePair::operator==(TradePair::CR i_tradePair) const noexcept {
+        return _1.value() == i_tradePair._1.value() && _2.value() == i_tradePair._2.value();
+    }
+
     bool TradePair::fromStr(Str::CR i_str) noexcept {
         auto [before, after] = i_str.splite(",");
         bool r_result{ true };

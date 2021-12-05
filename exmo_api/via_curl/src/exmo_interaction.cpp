@@ -29,8 +29,8 @@ namespace TB_NS::Exmo_NS::ViaCurl_NS {
 
             throw TB_EXEPT["EXMO"]["Builds"]["Unsupported Currency"]("{type:}", ToStr(i_currency)) << TB_LOCATION;
         };
-
-        m_request += Str{ "&pair={1}_{2}" }.format("{1}", recognize(io_tradePair._1)).format("{2}", recognize(io_tradePair._2));
+        io_tradePair.view = recognize(io_tradePair._1) + "_" + recognize(io_tradePair._2);
+        m_request += Str{ "&pair={1}" }.format("{1}", io_tradePair.view);
     }
 
     void ExmoInteraction::prepare(RequestLimit& io_quantityLimits) {

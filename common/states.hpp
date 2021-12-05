@@ -25,6 +25,10 @@ namespace TB_NS::States_NS {
                 m_isInStatus = true;
         }
 
+        void reset() {
+            m_isInStatus = false;
+        }
+
         bool status() const {
             return m_isInStatus;
         }

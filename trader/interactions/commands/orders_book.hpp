@@ -19,7 +19,7 @@ namespace TB_NS::Trader_NS::Interaction_NS::Commands_NS {
         CommandCode code() const noexcept override;
 #pragma endregion
 
-        // brief: presents received data of a response
+        // brief: presents received data of orders-book response
         struct Response {
             friend struct OrdersBook;
 

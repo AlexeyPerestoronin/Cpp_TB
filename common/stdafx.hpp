@@ -67,6 +67,27 @@ namespace fs = std::filesystem;
         using UP   = std::unique_ptr<This>; \
         using SP   = std::shared_ptr<This>; \
         using WP   = std::weak_ptr<This>; \
+        template<class... Args> \
+        /* creators */ \
+            static This New(Args&&... args) { \
+                static_assert(std::is_constructible_v<This, Args&&...>, "the " #DataType #__VA_ARGS__"-type cannot be build from Args..."); \
+                return This(std::forward<Args>(args)...); \
+            } \
+            template<class... Args> \
+            static This* NewP(Args&&... args) { \
+                static_assert(std::is_constructible_v<This, Args&&...>, "the pointer to the " #DataType #__VA_ARGS__"-type cannot be build from Args..."); \
+                return new This(std::forward<Args>(args)...); \
+            } \
+            template<class... Args> \
+            static This::SP NewSP(Args&&... args) { \
+                static_assert(std::is_constructible_v<This, Args&&...>, "the shared-ptr to the " #DataType #__VA_ARGS__"-type cannot be build from Args..."); \
+                return std::make_shared<This>(std::forward<Args>(args)...); \
+            } \
+            template<class... Args> \
+            static This::UP NewUP(Args&&... args) { \
+                static_assert(std::is_constructible_v<This, Args&&...>, "the unique-ptr to the " #DataType #__VA_ARGS__"-type cannot be build from Args..."); \
+                return std::make_unique<This>(std::forward<Args>(args)...); \
+            } \
     /* optional */ \
         using O    = std::optional<This>; \
         using RO   = std::optional<This>&; \

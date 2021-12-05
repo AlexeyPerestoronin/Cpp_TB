@@ -11,6 +11,7 @@ namespace TB_NS {
         : BaseType(std::move(i_baseType)) {}
 
     Str& Str::operator=(BaseType&& i_baseType) noexcept {
+        reset();
         BaseType::operator=(std::move(i_baseType));
         return *this;
     }
@@ -19,6 +20,7 @@ namespace TB_NS {
         : BaseType(i_baseType) {}
 
     Str& Str::operator=(const BaseType& i_baseType) {
+        reset();
         BaseType::operator=(i_baseType);
         return *this;
     }

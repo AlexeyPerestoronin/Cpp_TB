@@ -13,6 +13,7 @@ namespace TB_NS::Trader_NS::Interaction_NS {
         static std::vector<std::pair<Str, CommandID>> NameToCode{
             { "CommandID::UNSUPPORTED", CommandID::UNSUPPORTED },
             { "CommandID::GET_ORDER_BOOK", CommandID::GET_ORDER_BOOK },
+            { "CommandID::GET_PAIR_SETTINGS", CommandID::GET_PAIR_SETTINGS },
         };
     } // namespace
 

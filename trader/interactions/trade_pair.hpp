@@ -12,14 +12,17 @@ namespace TB_NS::Trader_NS::Interaction_NS {
     // brief: presents one trade-pair for an Exchange platform
     struct TradePair : StrI {
         TB_PRS(TradePair);
-        CurrencyCode _1{ CurrencyID::UNSUPPORTED };
-        CurrencyCode _2{ CurrencyID::UNSUPPORTED };
+        CurrencyCode _1{ CurrencyID::UNSUPPORTED }; // the code of from-currency
+        CurrencyCode _2{ CurrencyID::UNSUPPORTED }; // the code of to-currency
+        Str view{ States_NS::States::MANGLED };     // the string shows how the target currency pair is presented in Exchange platform
 
         TradePair() noexcept = default;
 
         TradePair(CurrencyID i_1, CurrencyID i_2) noexcept
             : _1{ i_1 }
             , _2{ i_2 } {}
+
+        bool operator==(TradePair::CR i_tradePair) const noexcept;
 
 #pragma region StrI
         bool fromStr(Str::CR i_str) noexcept override final;
